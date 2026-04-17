@@ -1,0 +1,108 @@
+-- Sundee Fundee — seed exercise catalog.
+-- Source: SundeeFundee/Sources/SundeeFundeeKit/DomainLayer/Exercise/ExerciseCatalog.swift
+-- Run with: supabase db execute --file supabase/seed/exercises.sql
+-- Idempotent — safe to re-run.
+
+insert into public.exercises (name, kind, weightlifting_category, is_seeded) values
+  -- Squat
+  ('Back Squat',                       'weightlifting', 'squat', true),
+  ('Front Squat',                      'weightlifting', 'squat', true),
+  ('Safety Bar Squat',                 'weightlifting', 'squat', true),
+  ('Box Squat',                        'weightlifting', 'squat', true),
+  ('Pause Squat',                      'weightlifting', 'squat', true),
+  ('Goblet Squat',                     'weightlifting', 'squat', true),
+  ('Leg Press',                        'weightlifting', 'squat', true),
+  ('Hack Squat',                       'weightlifting', 'squat', true),
+  ('Leg Extension',                    'weightlifting', 'squat', true),
+  -- Hip Hinge
+  ('Conventional Deadlift (No Straps)',   'weightlifting', 'hip_hinge', true),
+  ('Conventional Deadlift (With Straps)', 'weightlifting', 'hip_hinge', true),
+  ('Romanian Deadlift (No Straps)',       'weightlifting', 'hip_hinge', true),
+  ('Romanian Deadlift (With Straps)',     'weightlifting', 'hip_hinge', true),
+  ('Sumo Deadlift (No Straps)',           'weightlifting', 'hip_hinge', true),
+  ('Sumo Deadlift (With Straps)',         'weightlifting', 'hip_hinge', true),
+  ('Trap Bar Deadlift (No Straps)',       'weightlifting', 'hip_hinge', true),
+  ('Trap Bar Deadlift (With Straps)',     'weightlifting', 'hip_hinge', true),
+  ('Good Morning',                        'weightlifting', 'hip_hinge', true),
+  ('Hip Thrust',                          'weightlifting', 'hip_hinge', true),
+  ('Leg Curl (Lying)',                    'weightlifting', 'hip_hinge', true),
+  ('Leg Curl (Seated)',                   'weightlifting', 'hip_hinge', true),
+  ('Glute Ham Raise',                     'weightlifting', 'hip_hinge', true),
+  -- Press
+  ('Flat Barbell Bench Press',     'weightlifting', 'press', true),
+  ('Incline Barbell Bench Press',  'weightlifting', 'press', true),
+  ('Decline Barbell Bench Press',  'weightlifting', 'press', true),
+  ('Strict Press',                 'weightlifting', 'press', true),
+  ('Push Press',                   'weightlifting', 'press', true),
+  ('Dumbbell Bench Press',         'weightlifting', 'press', true),
+  ('Dumbbell Incline Press',       'weightlifting', 'press', true),
+  ('Dumbbell Overhead Press',      'weightlifting', 'press', true),
+  ('Dips (Weighted)',              'weightlifting', 'press', true),
+  ('Close Grip Bench Press',       'weightlifting', 'press', true),
+  -- Pull
+  ('Barbell Row',          'weightlifting', 'pull', true),
+  ('Pendlay Row',          'weightlifting', 'pull', true),
+  ('Pull-Up',              'weightlifting', 'pull', true),
+  ('Weighted Pull-Up',     'weightlifting', 'pull', true),
+  ('Lat Pulldown',         'weightlifting', 'pull', true),
+  ('Cable Row',            'weightlifting', 'pull', true),
+  ('Dumbbell Row',         'weightlifting', 'pull', true),
+  ('Face Pull',            'weightlifting', 'pull', true),
+  ('Bicep Curl (Barbell)', 'weightlifting', 'pull', true),
+  ('Bicep Curl (Dumbbell)','weightlifting', 'pull', true),
+  ('Hammer Curl',          'weightlifting', 'pull', true),
+  ('Upright Row',          'weightlifting', 'pull', true),
+  -- Carry
+  ('Farmers Carry',  'weightlifting', 'carry', true),
+  ('Suitcase Carry', 'weightlifting', 'carry', true),
+  ('Zercher Carry',  'weightlifting', 'carry', true),
+  ('Yoke Walk',      'weightlifting', 'carry', true),
+  -- Olympic Weightlifting
+  ('Squat Snatch',    'weightlifting', 'olympic_weightlifting', true),
+  ('Squat Clean',     'weightlifting', 'olympic_weightlifting', true),
+  ('Power Clean',     'weightlifting', 'olympic_weightlifting', true),
+  ('Power Snatch',    'weightlifting', 'olympic_weightlifting', true),
+  ('Hang Clean',      'weightlifting', 'olympic_weightlifting', true),
+  ('Hang Snatch',     'weightlifting', 'olympic_weightlifting', true),
+  ('Split Jerk',      'weightlifting', 'olympic_weightlifting', true),
+  ('Push Jerk',       'weightlifting', 'olympic_weightlifting', true),
+  ('Clean and Jerk',  'weightlifting', 'olympic_weightlifting', true),
+  ('Muscle Snatch',   'weightlifting', 'olympic_weightlifting', true),
+  ('Muscle Clean',    'weightlifting', 'olympic_weightlifting', true)
+on conflict (name, owner_id) do nothing;
+
+insert into public.exercises (name, kind, conditioning_scoring, is_seeded) values
+  -- Reps-based conditioning
+  ('Wall Ball',               'conditioning', 'reps', true),
+  ('Box Jump',                'conditioning', 'reps', true),
+  ('Burpee',                  'conditioning', 'reps', true),
+  ('Kettlebell Swing',        'conditioning', 'reps', true),
+  ('Double Under',            'conditioning', 'reps', true),
+  ('Pull-Up (Kipping)',       'conditioning', 'reps', true),
+  ('Toes-to-Bar',             'conditioning', 'reps', true),
+  ('Muscle-Up',               'conditioning', 'reps', true),
+  ('Push-Up',                 'conditioning', 'reps', true),
+  ('Sit-Up',                  'conditioning', 'reps', true),
+  ('Air Squat',               'conditioning', 'reps', true),
+  ('Thruster',                'conditioning', 'reps', true),
+  ('Rowing (Calories)',       'conditioning', 'reps', true),
+  ('Assault Bike (Calories)', 'conditioning', 'reps', true),
+  ('SkiErg (Calories)',       'conditioning', 'reps', true),
+  ('Box Step-up',             'conditioning', 'reps', true),
+  ('Lunges (Alternating)',    'conditioning', 'reps', true),
+  ('Wall Walk',               'conditioning', 'reps', true),
+  ('Handstand Push-up',       'conditioning', 'reps', true),
+  ('GHD Sit-up',              'conditioning', 'reps', true),
+  ('V-up',                    'conditioning', 'reps', true),
+  -- Time-based conditioning
+  ('400m Run',        'conditioning', 'time', true),
+  ('800m Run',        'conditioning', 'time', true),
+  ('1-Mile Run',      'conditioning', 'time', true),
+  ('5K Run',          'conditioning', 'time', true),
+  ('500m Row',        'conditioning', 'time', true),
+  ('2K Row',          'conditioning', 'time', true),
+  ('1K Assault Bike', 'conditioning', 'time', true),
+  ('2K SkiErg',       'conditioning', 'time', true),
+  ('Plank Hold',      'conditioning', 'time', true),
+  ('L-Sit Hold',      'conditioning', 'time', true)
+on conflict (name, owner_id) do nothing;

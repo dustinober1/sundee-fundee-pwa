@@ -10,6 +10,14 @@ function isPublic(pathname: string) {
 }
 
 export default async function proxy(request: NextRequest) {
+  // Allow boot without a Supabase project configured (CI, fresh clones).
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    return NextResponse.next({ request });
+  }
+
   const { response, user } = await updateSupabaseSession(request);
   const { pathname } = request.nextUrl;
 

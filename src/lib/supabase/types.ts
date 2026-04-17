@@ -1,8 +1,10 @@
-// Placeholder Supabase types. Regenerate with the Supabase CLI once a project
-// exists:
-//   npx supabase gen types typescript --project-id <id> > src/lib/supabase/types.ts
+// Domain enums shared across the app. The full Supabase `Database` type should
+// be regenerated from the live project once it exists:
 //
-// Until then, expose a minimal shape so the typed client compiles.
+//   npx supabase gen types typescript --project-id <id> > src/lib/supabase/database.gen.ts
+//
+// Until then, queries return loosely-typed rows; we narrow at the DAL layer
+// (see lib/supabase/dal.ts) using these row interfaces.
 
 export type WeightUnit = "lb" | "kg";
 export type ExperienceLevel = "beginner" | "intermediate" | "advanced";
@@ -24,19 +26,4 @@ export interface UserProfileRow {
   onboarded_at: string | null;
   created_at: string;
   updated_at: string;
-}
-
-export interface Database {
-  public: {
-    Tables: {
-      user_profiles: {
-        Row: UserProfileRow;
-        Insert: Partial<UserProfileRow> & { id: string };
-        Update: Partial<UserProfileRow>;
-      };
-    };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
-    Enums: Record<string, never>;
-  };
 }
