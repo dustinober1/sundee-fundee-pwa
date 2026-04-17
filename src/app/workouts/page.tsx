@@ -28,7 +28,7 @@ export default async function WorkoutsPage() {
           <h1 className="font-display text-4xl font-semibold">Workouts</h1>
           <Link
             href="/workouts/new"
-            className="inline-flex h-10 items-center rounded-full bg-navy px-5 text-sm font-medium text-cream hover:opacity-90"
+            className="inline-flex h-10 items-center rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
           >
             New
           </Link>

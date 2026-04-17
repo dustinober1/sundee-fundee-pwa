@@ -145,7 +145,7 @@ export default async function CyclePage() {
             </label>
             <button
               type="submit"
-              className="sm:col-span-2 h-12 rounded-full bg-navy font-medium text-cream hover:opacity-90"
+              className="sm:col-span-2 h-12 rounded-lg bg-orange font-medium text-cream hover:opacity-90"
             >
               Log
             </button>
@@ -215,7 +215,7 @@ export default async function CyclePage() {
             </label>
             <button
               type="submit"
-              className="sm:col-span-3 h-12 rounded-full bg-navy font-medium text-cream hover:opacity-90"
+              className="sm:col-span-3 h-12 rounded-lg bg-orange font-medium text-cream hover:opacity-90"
             >
               Save settings
             </button>

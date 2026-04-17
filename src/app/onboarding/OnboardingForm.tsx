@@ -35,7 +35,7 @@ export function OnboardingForm({ defaults }: { defaults: Defaults }) {
           name="display_name"
           required
           defaultValue={defaults.display_name}
-          className="block w-full h-12 rounded-full border border-border bg-surface px-5 focus:border-navy focus:outline-none"
+          className="block w-full h-12 rounded-lg border border-border bg-surface px-5 focus:border-navy focus:outline-none"
         />
       </Field>
 
@@ -77,7 +77,7 @@ export function OnboardingForm({ defaults }: { defaults: Defaults }) {
       <button
         type="submit"
         disabled={pending}
-        className="flex w-full h-12 items-center justify-center rounded-full bg-navy font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="flex w-full h-12 items-center justify-center rounded-lg bg-orange font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
       >
         {pending ? "Saving…" : "Continue"}
       </button>

@@ -166,7 +166,7 @@ export default async function WorkoutDetailPage({ params }: { params: Params }) 
             </select>
             <button
               type="submit"
-              className="h-12 rounded-full bg-navy px-5 text-sm font-medium text-cream hover:opacity-90"
+              className="h-12 rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
             >
               Add
             </button>
@@ -189,7 +189,7 @@ export default async function WorkoutDetailPage({ params }: { params: Params }) 
               <input type="hidden" name="id" value={workout.id} />
               <button
                 type="submit"
-                className="h-10 rounded-full bg-recovery-good px-5 text-sm font-medium text-cream hover:opacity-90"
+                className="h-10 rounded-lg bg-recovery-good px-5 text-sm font-medium text-cream hover:opacity-90"
               >
                 Mark complete
               </button>

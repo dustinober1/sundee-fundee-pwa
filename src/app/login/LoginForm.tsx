@@ -55,7 +55,7 @@ export function LoginForm({ next }: { next?: string }) {
           type="button"
           disabled={pending}
           onClick={() => signInWith(p.id)}
-          className="flex w-full h-12 items-center justify-center rounded-full border border-border bg-surface px-5 font-medium text-navy transition-colors hover:bg-cream disabled:opacity-50"
+          className="flex w-full h-12 items-center justify-center rounded-lg border border-border bg-surface px-5 font-medium text-navy transition-colors hover:bg-cream disabled:opacity-50"
         >
           {p.label}
         </button>
@@ -79,12 +79,12 @@ export function LoginForm({ next }: { next?: string }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="block w-full h-12 rounded-full border border-border bg-surface px-5 text-navy placeholder:text-muted focus:border-navy focus:outline-none"
+          className="block w-full h-12 rounded-lg border border-border bg-surface px-5 text-navy placeholder:text-muted focus:border-navy focus:outline-none"
         />
         <button
           type="submit"
           disabled={pending || !email}
-          className="flex w-full h-12 items-center justify-center rounded-full bg-navy px-5 font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="flex w-full h-12 items-center justify-center rounded-lg bg-orange px-5 font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {pending ? "Sending…" : "Email me a magic link"}
         </button>

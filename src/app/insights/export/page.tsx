@@ -47,7 +47,7 @@ export default async function ExportPage() {
               <a
                 href={`/api/export?dataset=${d.key}`}
                 download
-                className="inline-flex h-10 items-center rounded-full bg-navy px-4 text-sm font-medium text-cream hover:opacity-90"
+                className="inline-flex h-10 items-center rounded-lg bg-orange px-4 text-sm font-medium text-cream hover:opacity-90"
               >
                 Download
               </a>

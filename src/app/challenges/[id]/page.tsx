@@ -106,7 +106,7 @@ export default async function ChallengeDetailPage({ params }: { params: Params }
               />
               <button
                 type="submit"
-                className="h-12 rounded-full bg-navy px-5 text-sm font-medium text-cream hover:opacity-90"
+                className="h-12 rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
               >
                 Add
               </button>

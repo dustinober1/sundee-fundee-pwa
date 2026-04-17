@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 
-const display = Cormorant_Garamond({
+const display = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["500", "600", "700"],

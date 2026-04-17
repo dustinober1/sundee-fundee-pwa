@@ -56,7 +56,7 @@ export function NewWorkoutForm() {
       <button
         type="submit"
         disabled={pending}
-        className="flex w-full h-12 items-center justify-center rounded-full bg-navy font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
+        className="flex w-full h-12 items-center justify-center rounded-lg bg-orange font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
       >
         {pending ? "Creating…" : "Create workout"}
       </button>

@@ -99,7 +99,7 @@ export default async function InjuriesPage() {
                     </select>
                     <button
                       type="submit"
-                      className="h-10 rounded-full bg-navy px-4 text-sm font-medium text-cream hover:opacity-90"
+                      className="h-10 rounded-lg bg-orange px-4 text-sm font-medium text-cream hover:opacity-90"
                     >
                       Update phase
                     </button>

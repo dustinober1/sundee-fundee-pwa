@@ -46,7 +46,7 @@ export default async function EnrolledProgramPage() {
             />
             <button
               type="submit"
-              className="h-10 rounded-full bg-navy px-5 text-sm font-medium text-cream hover:opacity-90"
+              className="h-10 rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
             >
               Advance to week {active.current_week + 1}
             </button>

@@ -105,7 +105,7 @@ export function LogPainForm({ regions }: { regions: readonly BodyRegion[] }) {
       <button
         type="submit"
         disabled={pending}
-        className="flex w-full h-12 items-center justify-center rounded-full bg-navy font-medium text-cream hover:opacity-90 disabled:opacity-50"
+        className="flex w-full h-12 items-center justify-center rounded-lg bg-orange font-medium text-cream hover:opacity-90 disabled:opacity-50"
       >
         {pending ? "Saving…" : "Log pain"}
       </button>
