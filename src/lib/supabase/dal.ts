@@ -5,7 +5,15 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "./server";
 import type { UserProfileRow } from "./types";
 
+function isSupabaseConfigured() {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  );
+}
+
 export const getSessionUser = cache(async () => {
+  if (!isSupabaseConfigured()) return null;
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -20,6 +28,7 @@ export async function requireUser() {
 }
 
 export const getUserProfile = cache(async (): Promise<UserProfileRow | null> => {
+  if (!isSupabaseConfigured()) return null;
   const user = await getSessionUser();
   if (!user) return null;
   const supabase = await createSupabaseServerClient();
