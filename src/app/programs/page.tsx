@@ -7,7 +7,7 @@ import {
 import { enrollInProgram } from "./actions";
 
 export default async function ProgramsPage() {
-  await requireOnboardedProfile();
+  const { profile } = await requireOnboardedProfile();
   const [templates, active] = await Promise.all([
     listProgramTemplates(),
     getActiveEnrollment(),
@@ -22,6 +22,14 @@ export default async function ProgramsPage() {
         >
           ← Dashboard
         </Link>
+        {profile.is_admin ? (
+          <Link
+            href="/admin/programs/new"
+            className="mt-1 block text-xs text-muted underline-offset-4 hover:underline"
+          >
+            New Template →
+          </Link>
+        ) : null}
         <h1 className="font-display mt-3 text-4xl font-semibold">Programs</h1>
         <p className="mt-2 text-sm text-muted">
           Multi-week training plans. Enroll in one to track progress week by week.
