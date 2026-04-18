@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { OfflineProvider } from "@/components/OfflineProvider";
+import { SyncStatusBadge } from "@/components/SyncStatusBadge";
 
 const display = Playfair_Display({
   variable: "--font-display",
@@ -50,7 +52,10 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-cream text-navy">
-        {children}
+        <OfflineProvider>
+          {children}
+          <SyncStatusBadge />
+        </OfflineProvider>
         <ServiceWorkerRegister />
       </body>
     </html>
