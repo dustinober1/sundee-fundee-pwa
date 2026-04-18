@@ -110,10 +110,12 @@ export async function createProgramTemplate(
     sort_order: 0,
   });
 
-  if (error)
+  if (error) {
+    console.error("Failed to create program template:", error);
     return {
-      message: error.message ?? "Failed to create program. Please try again.",
+      message: "Failed to create program. Please try again.",
     };
+  }
 
   revalidatePath("/programs");
   redirect("/programs"); // throws — no code after this executes
