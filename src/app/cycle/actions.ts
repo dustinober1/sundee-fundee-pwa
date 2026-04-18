@@ -57,6 +57,67 @@ export async function logPeriod(formData: FormData): Promise<void> {
   revalidatePath("/cycle");
 }
 
+function todayISO(): string {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+export async function startPeriod(): Promise<void> {
+  const user = await requireUser();
+  const supabase = await createSupabaseServerClient();
+
+  const { data: open } = await supabase
+    .from("period_logs")
+    .select("id")
+    .eq("user_id", user.id)
+    .is("end_date", null)
+    .limit(1)
+    .maybeSingle();
+  if (open) {
+    revalidatePath("/cycle");
+    return;
+  }
+
+  await supabase.from("period_logs").insert({
+    user_id: user.id,
+    start_date: todayISO(),
+    end_date: null,
+  });
+
+  revalidatePath("/cycle");
+}
+
+export async function endPeriod(): Promise<void> {
+  const user = await requireUser();
+  const supabase = await createSupabaseServerClient();
+
+  const { data: open } = await supabase
+    .from("period_logs")
+    .select("id, start_date")
+    .eq("user_id", user.id)
+    .is("end_date", null)
+    .order("start_date", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!open) {
+    revalidatePath("/cycle");
+    return;
+  }
+
+  const today = todayISO();
+  const endDate = today < open.start_date ? open.start_date : today;
+  await supabase
+    .from("period_logs")
+    .update({ end_date: endDate })
+    .eq("id", open.id)
+    .eq("user_id", user.id);
+
+  revalidatePath("/cycle");
+}
+
 export async function deletePeriod(formData: FormData): Promise<void> {
   const user = await requireUser();
   const id = formData.get("id");

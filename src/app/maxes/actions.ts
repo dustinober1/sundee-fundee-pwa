@@ -62,11 +62,19 @@ export async function addOneRepMax(
     notes: notes ?? null,
     client_id: client_id ?? null,
   };
-  const { error } = client_id
-    ? await supabase
-        .from("one_rep_max_records")
-        .upsert(row, { onConflict: "user_id,client_id", ignoreDuplicates: true })
-    : await supabase.from("one_rep_max_records").insert(row);
+  if (client_id) {
+    const { data: existing } = await supabase
+      .from("one_rep_max_records")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("client_id", client_id)
+      .maybeSingle();
+    if (existing) {
+      revalidatePath("/maxes");
+      return {};
+    }
+  }
+  const { error } = await supabase.from("one_rep_max_records").insert(row);
 
   if (error) return { message: error.message };
 

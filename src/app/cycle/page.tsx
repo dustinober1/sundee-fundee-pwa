@@ -9,7 +9,7 @@ import {
   type CycleSettings,
   type PeriodLog,
 } from "@/lib/domain/cyclePhase";
-import { deletePeriod, logPeriod, saveCycleSettings } from "./actions";
+import { deletePeriod, endPeriod, saveCycleSettings, startPeriod } from "./actions";
 
 type SettingsRow = {
   average_cycle_length_days: number;
@@ -116,40 +116,39 @@ export default async function CyclePage() {
         )}
 
         <section className="mt-10 rounded-2xl border border-border bg-surface p-5">
-          <h2 className="font-display text-lg font-semibold">Log a period start</h2>
-          <form action={logPeriod} className="mt-3 grid gap-3 sm:grid-cols-2">
-            <label className="text-sm">
-              <span className="block font-medium text-navy">Start date</span>
-              <input
-                name="start_date"
-                type="date"
-                required
-                className="mt-1 block w-full h-12 rounded-xl border border-border bg-cream px-3 focus:border-navy focus:outline-none"
-              />
-            </label>
-            <label className="text-sm">
-              <span className="block font-medium text-navy">End date (optional)</span>
-              <input
-                name="end_date"
-                type="date"
-                className="mt-1 block w-full h-12 rounded-xl border border-border bg-cream px-3 focus:border-navy focus:outline-none"
-              />
-            </label>
-            <label className="sm:col-span-2 text-sm">
-              <span className="block font-medium text-navy">Notes</span>
-              <input
-                name="notes"
-                maxLength={280}
-                className="mt-1 block w-full h-12 rounded-xl border border-border bg-cream px-3 focus:border-navy focus:outline-none"
-              />
-            </label>
-            <button
-              type="submit"
-              className="sm:col-span-2 h-12 rounded-lg bg-orange font-medium text-cream hover:opacity-90"
-            >
-              Log
-            </button>
-          </form>
+          <h2 className="font-display text-lg font-semibold">Period</h2>
+          {(() => {
+            const openPeriod = periods.find((p) => !p.end_date);
+            return openPeriod ? (
+              <>
+                <p className="mt-2 text-sm text-muted">
+                  Period started {fmtDate(openPeriod.start_date)}.
+                </p>
+                <form action={endPeriod} className="mt-3">
+                  <button
+                    type="submit"
+                    className="h-12 w-full rounded-lg bg-orange px-6 font-medium text-cream hover:opacity-90"
+                  >
+                    End period today
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <p className="mt-2 text-sm text-muted">
+                  Tap to log that your period started today.
+                </p>
+                <form action={startPeriod} className="mt-3">
+                  <button
+                    type="submit"
+                    className="h-12 w-full rounded-lg bg-orange px-6 font-medium text-cream hover:opacity-90"
+                  >
+                    Start period today
+                  </button>
+                </form>
+              </>
+            );
+          })()}
 
           {periods.length > 0 ? (
             <ul className="mt-6 divide-y divide-border">

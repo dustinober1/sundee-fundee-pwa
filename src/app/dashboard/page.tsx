@@ -105,8 +105,7 @@ export default async function DashboardPage() {
           <Card title="Programs" body="Browse and enroll in a program." href="/programs" />
           <Card title="Benchmarks" body="Re-test fitness over time." href="/benchmarks" />
           <Card title="Challenges" body="Volume goals across tiers." href="/challenges" />
-          <Card title="Pain log" body="Daily pain by body region." href="/pain" />
-          <Card title="Injuries" body="Active injuries + recovery phase." href="/injuries" />
+          <Card title="Pain & Injuries" body="Daily pain and active injuries." href="/pain" />
           <Card title="Analytics" body="90-day volume + balance + pain." href="/analytics" />
           {profile.cycle_tracking_enabled ? (
             <Card title="Cycle" body="Phase, predictions, training focus." href="/cycle" />
