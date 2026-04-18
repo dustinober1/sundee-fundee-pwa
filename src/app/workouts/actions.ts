@@ -157,13 +157,22 @@ export async function completeWorkout(formData: FormData): Promise<void> {
   if (typeof id !== "string") return;
 
   const supabase = await createSupabaseServerClient();
+  const completedAt = new Date().toISOString();
   await supabase
     .from("workouts")
-    .update({ completed_at: new Date().toISOString() })
+    .update({ completed_at: completedAt })
     .eq("id", id)
     .eq("user_id", user.id);
+
+  // If this workout is linked to a program session, mark it complete too.
+  await supabase
+    .from("enrolled_program_sessions")
+    .update({ completed_at: completedAt })
+    .eq("session_workout_id", id);
+
   revalidatePath(`/workouts/${id}`);
   revalidatePath("/workouts");
+  revalidatePath("/programs/enrolled");
 }
 
 export async function deleteWorkout(formData: FormData): Promise<void> {
