@@ -195,8 +195,8 @@ export function AdminProgramForm() {
       ),
     );
     setSearchResults((prev) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [exId]: _, ...rest } = prev;
+      const rest = { ...prev };
+      delete rest[exId];
       return rest;
     });
   }
