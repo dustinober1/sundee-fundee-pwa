@@ -7,7 +7,6 @@ import {
   DEFAULT_CYCLE_SETTINGS,
   getPhaseRecommendation,
   type CycleSettings,
-  type PeriodLog,
 } from "@/lib/domain/cyclePhase";
 import { deletePeriod, logPeriod, saveCycleSettings } from "./actions";
 
@@ -65,7 +64,7 @@ export default async function CyclePage() {
     lutealPhaseLengthDays: settingsRow.luteal_phase_length_days,
   };
 
-  const logs: PeriodLog[] = periods.map((p) => ({
+  const logs = periods.map((p) => ({
     startDate: new Date(p.start_date + "T00:00:00"),
     endDate: p.end_date ? new Date(p.end_date + "T00:00:00") : null,
   }));
