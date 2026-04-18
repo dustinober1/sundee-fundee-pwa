@@ -126,6 +126,7 @@ export async function createProgramTemplate(
 export async function searchExercises(
   query: string,
 ): Promise<{ id: string; name: string }[]> {
+  await requireAdmin();
   if (!query || query.length < 2) return [];
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
