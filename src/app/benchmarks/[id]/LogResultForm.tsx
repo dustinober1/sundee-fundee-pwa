@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import type { BenchmarkScoring } from "@/lib/domain/benchmarks";
-import { logBenchmarkResult, type AddResultState } from "../actions";
+import { logBenchmarkResult } from "../actions";
 
 const SCORE_HINT: Record<BenchmarkScoring, string> = {
   time: "Total time in seconds (e.g., 245 for 4:05)",
@@ -20,7 +20,7 @@ export function LogResultForm({
   benchmarkId: string;
   scoring: BenchmarkScoring;
 }) {
-  const [state, action, pending] = useActionState<AddResultState | undefined, FormData>(
+  const [state, action, pending] = useActionState(
     logBenchmarkResult,
     undefined,
   );
