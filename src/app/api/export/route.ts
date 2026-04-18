@@ -6,7 +6,10 @@ const ALLOWED: Dataset[] = ["workouts", "maxes", "benchmarks", "recovery", "pain
 
 function csvCell(v: unknown): string {
   if (v === null || v === undefined) return "";
-  const s = String(v);
+  let s = String(v);
+  if (s.startsWith("=") || s.startsWith("+") || s.startsWith("-") || s.startsWith("@")) {
+    s = "'" + s;
+  }
   if (s.includes(",") || s.includes('"') || s.includes("\n")) {
     return `"${s.replaceAll('"', '""')}"`;
   }
