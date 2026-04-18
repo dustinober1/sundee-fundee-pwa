@@ -16,6 +16,7 @@ const Schema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date")
     .optional(),
   notes: z.string().trim().max(280).optional(),
+  client_id: z.uuid().optional(),
 });
 
 export type AddMaxState = {
@@ -36,19 +37,21 @@ export async function addOneRepMax(
     unit: formData.get("unit"),
     performed_on: formData.get("performed_on") || undefined,
     notes: formData.get("notes") || undefined,
+    client_id: formData.get("client_id") || undefined,
   });
 
   if (!parsed.success) {
     return { errors: z.flattenError(parsed.error).fieldErrors };
   }
 
-  const { exercise_id, weight, reps, unit, performed_on, notes } = parsed.data;
+  const { exercise_id, weight, reps, unit, performed_on, notes, client_id } =
+    parsed.data;
 
   const isEstimated = reps > 1;
   const stored = isEstimated ? (estimatedOneRepMax(weight, reps) ?? weight) : weight;
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.from("one_rep_max_records").insert({
+  const row = {
     user_id: user.id,
     exercise_id,
     weight: stored,
@@ -57,7 +60,13 @@ export async function addOneRepMax(
     source_reps: reps,
     performed_on: performed_on ?? new Date().toISOString().slice(0, 10),
     notes: notes ?? null,
-  });
+    client_id: client_id ?? null,
+  };
+  const { error } = client_id
+    ? await supabase
+        .from("one_rep_max_records")
+        .upsert(row, { onConflict: "user_id,client_id", ignoreDuplicates: true })
+    : await supabase.from("one_rep_max_records").insert(row);
 
   if (error) return { message: error.message };
 
