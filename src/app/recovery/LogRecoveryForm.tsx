@@ -1,13 +1,18 @@
 "use client";
 
-import { useActionState } from "react";
+import { useOfflineAction } from "@/lib/offline/useOfflineAction";
 import { logRecoveryEntry, type RecoveryEntryState } from "./actions";
 
 export function LogRecoveryForm() {
-  const [state, action, pending] = useActionState<
-    RecoveryEntryState | undefined,
-    FormData
-  >(logRecoveryEntry, undefined);
+  const [status, action, pending] = useOfflineAction<
+    RecoveryEntryState | undefined
+  >({
+    kind: "logRecoveryEntry",
+    action: logRecoveryEntry,
+  });
+  const state =
+    status.kind === "ok" ? (status.state as RecoveryEntryState | undefined) : undefined;
+  const queued = status.kind === "queued";
 
   return (
     <form action={action} className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -72,6 +77,11 @@ export function LogRecoveryForm() {
       {state?.message ? (
         <p className="sm:col-span-2 rounded-lg border border-recovery-risk/40 bg-recovery-risk/10 p-3 text-sm text-recovery-risk">
           {state.message}
+        </p>
+      ) : null}
+      {queued ? (
+        <p className="sm:col-span-2 rounded-lg border border-gold/40 bg-gold/10 p-3 text-sm text-navy">
+          Queued for sync — we&apos;ll upload this when you&apos;re back online.
         </p>
       ) : null}
 
