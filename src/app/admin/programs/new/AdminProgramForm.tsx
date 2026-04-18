@@ -195,8 +195,9 @@ export function AdminProgramForm() {
       ),
     );
     setSearchResults((prev) => {
-      const { [exId]: _removed, ...rest } = prev;
-      return rest;
+      const copy = { ...prev };
+      delete copy[exId];
+      return copy;
     });
   }
 
@@ -529,10 +530,12 @@ export function AdminProgramForm() {
                                       className={INPUT_CLS}
                                       role="combobox"
                                       aria-expanded={showDropdown}
+                                      aria-controls={`listbox-${ex.id}`}
                                     />
                                   </label>
                                   {showDropdown ? (
                                     <ul
+                                      id={`listbox-${ex.id}`}
                                       role="listbox"
                                       className="absolute z-10 w-full bg-surface border border-border rounded-xl shadow-sm mt-1"
                                     >
