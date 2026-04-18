@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 type Dataset = "workouts" | "maxes" | "benchmarks" | "recovery" | "pain";
@@ -21,7 +21,7 @@ function toCsv(rows: Record<string, unknown>[]): string {
   return `${head}\n${body}\n`;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
