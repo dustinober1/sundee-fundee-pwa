@@ -51,8 +51,13 @@ Plans:
   2. Admin can create a new program template with a name, description, duration in weeks, and sessions per week
   3. Admin can add phases to the template by specifying a phase name, start week, and end week
   4. Admin can define session prescriptions for any week — adding exercises with sets, reps, and a %1RM percentage for each
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Add is_admin to UserProfileRow, add requireAdmin() to DAL, write createProgramTemplate + searchExercises Server Actions, write Vitest test scaffolds
+- [ ] 03-02-PLAN.md — Build admin page.tsx Server Component and AdminProgramForm Client Component (full form interactivity)
+- [ ] 03-03-PLAN.md — Add conditional "New Template →" admin link to /programs page
+- [ ] 03-04-PLAN.md — Build check, full test suite, and human verification checkpoint
 
 ### Phase 4: Enrollment Browse UI
 **Goal**: Any authenticated user can discover available programs, preview the structure of a program before committing, enroll, and see their current program and position on return visits
@@ -105,7 +110,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Data Model & Schema | 2/2 | Complete | 2026-04-17 |
 | 2. SQL Seed Data | 1/1 | Complete | 2026-04-17 |
-| 3. Admin Builder UI | 0/? | Not started | - |
+| 3. Admin Builder UI | 0/4 | In progress | - |
 | 4. Enrollment Browse UI | 0/? | Not started | - |
 | 5. Session View | 0/? | Not started | - |
 | 6. Session Logging | 0/? | Not started | - |
@@ -114,4 +119,4 @@ Plans:
 ---
 
 *Roadmap created: 2026-04-17*
-*Last updated: 2026-04-17 — Phase 2 complete (1/1 plans, seed migration applied and verified)*
+*Last updated: 2026-04-18 — Phase 3 planned (4 plans, 3 waves)*

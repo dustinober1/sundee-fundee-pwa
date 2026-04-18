@@ -46,3 +46,10 @@ export async function requireOnboardedProfile() {
   if (!profile || !profile.onboarded_at) redirect("/onboarding");
   return { user, profile };
 }
+
+export async function requireAdmin() {
+  const user = await requireUser();
+  const profile = await getUserProfile();
+  if (!profile || !profile.is_admin) redirect("/programs");
+  return { user, profile };
+}

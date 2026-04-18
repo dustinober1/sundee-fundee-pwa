@@ -26,4 +26,6 @@ export interface UserProfileRow {
   onboarded_at: string | null;
   created_at: string;
   updated_at: string;
+  // DB column added in migration 0005_programs_schema.sql
+  is_admin: boolean;
 }
