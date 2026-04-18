@@ -39,6 +39,9 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: http://localhost:54321
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZmF1bHQiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcyNDgzMjc5MCwiZXhwIjo0ODgwNDMyNzkwfQ.cE5F6k-3m_Q9Q9fQ9Q9fQ9Q9fQ9Q9fQ9Q9fQ9Q9fQ9Q
       - uses: actions/upload-artifact@v4
         if: always()
         with:
