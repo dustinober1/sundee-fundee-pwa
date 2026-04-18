@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   currentPhaseForWeek,
   findWeek,
+  resolveTargetWeight,
   targetWeight,
   weeksRemaining,
   type ProgramPhase,
@@ -59,5 +60,24 @@ describe("targetWeight", () => {
   it("multiplies 1RM by pct", () => {
     expect(targetWeight(200, 0.85)).toBe(170);
     expect(targetWeight(100, 1.0)).toBe(100);
+  });
+});
+
+describe("resolveTargetWeight", () => {
+  it("returns has_max:false when max is null/undefined", () => {
+    expect(resolveTargetWeight(0.85, null)).toEqual({ has_max: false });
+    expect(resolveTargetWeight(0.85, undefined)).toEqual({ has_max: false });
+  });
+  it("computes rounded target weight with unit when max is provided", () => {
+    expect(resolveTargetWeight(0.85, { weight: 200, unit: "lb" })).toEqual({
+      has_max: true,
+      weight: 170,
+      unit: "lb",
+    });
+  });
+  it("rounds to 0.5 plate granularity", () => {
+    // 123.4 kg * 0.72 = 88.848 → 89
+    const r = resolveTargetWeight(0.72, { weight: 123.4, unit: "kg" });
+    expect(r).toEqual({ has_max: true, weight: 89, unit: "kg" });
   });
 });

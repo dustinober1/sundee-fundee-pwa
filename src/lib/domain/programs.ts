@@ -1,6 +1,9 @@
 // Domain types + pure helpers for program templates.
 // No framework imports — safe to use from server or client.
 
+import { roundToPlate } from "./oneRepMax";
+import type { WeightUnit } from "@/lib/supabase/types";
+
 export type ProgramPhase = {
   name: string;
   start_week: number;
@@ -52,4 +55,25 @@ export function weeksRemaining(totalWeeks: number, currentWeek: number): number 
 /** Calculate target weight from stored 1RM and prescribed percentage. */
 export function targetWeight(oneRepMax: number, pct1rm: number): number {
   return oneRepMax * pct1rm;
+}
+
+export type ResolvedTarget =
+  | { has_max: true; weight: number; unit: WeightUnit }
+  | { has_max: false };
+
+/**
+ * Resolve a rounded target weight for a prescribed %1RM given the user's stored
+ * max for that exercise. Returns `{ has_max: false }` when no max is stored —
+ * the caller should render a "log a max" prompt.
+ */
+export function resolveTargetWeight(
+  pct_1rm: number,
+  max: { weight: number; unit: WeightUnit } | null | undefined,
+): ResolvedTarget {
+  if (!max) return { has_max: false };
+  return {
+    has_max: true,
+    weight: roundToPlate(max.weight * pct_1rm),
+    unit: max.unit,
+  };
 }

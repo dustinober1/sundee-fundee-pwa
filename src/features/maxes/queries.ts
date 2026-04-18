@@ -33,6 +33,18 @@ function exerciseName(rel: RawRow["exercises"]): string {
   return Array.isArray(rel) ? (rel[0]?.name ?? "") : rel.name;
 }
 
+export const listLatestMaxByExerciseId = cache(
+  async (): Promise<Map<string, OneRepMaxRow>> => {
+    const rows = await listMaxes();
+    const byId = new Map<string, OneRepMaxRow>();
+    // rows arrive desc by performed_on — first seen per exercise wins.
+    for (const r of rows) {
+      if (!byId.has(r.exercise_id)) byId.set(r.exercise_id, r);
+    }
+    return byId;
+  },
+);
+
 export const listMaxes = cache(async (): Promise<OneRepMaxRow[]> => {
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
