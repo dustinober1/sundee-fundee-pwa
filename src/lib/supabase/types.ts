@@ -28,4 +28,7 @@ export interface UserProfileRow {
   updated_at: string;
   // DB column added in migration 0005_programs_schema.sql
   is_admin: boolean;
+  // DB column added in migration 0007_equipment.sql; preset key resolved in
+  // src/lib/domain/equipmentProfiles.ts. null = show all equipment.
+  equipment_profile: string | null;
 }
