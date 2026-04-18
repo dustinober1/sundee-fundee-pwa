@@ -10,17 +10,18 @@ See: `.planning/PROJECT.md` (updated 2026-04-17)
 ## Current Position
 
 Phase: 1 — Data Model & Schema
-Plan: TBD (roadmap defined, planning not yet started)
-Status: Ready to plan Phase 1
-Last activity: 2026-04-17 — Roadmap created, 7 phases, 21 requirements mapped
+Plan: 1/2 complete (Wave 1: migration file done; Wave 2: push + verify next)
+Status: Executing Phase 1
+Last activity: 2026-04-18 — Plan 01-01 complete (migration 0005_programs_schema.sql written)
 
-Progress: [-------] 0/7 phases complete
+Progress: [-------] 0/7 phases complete (Phase 1 in progress: 1/2 plans done)
 
 ## Performance Metrics
 
 Phases complete: 0/7
 Requirements mapped: 21/21
-Plans written: 0
+Plans written: 2
+Plans executed: 1 (01-01: migration write, ~1 min)
 
 ## Accumulated Context
 
@@ -57,11 +58,24 @@ Plans written: 0
 
 ## Session Continuity
 
-Next action: Run `/gsd-plan-phase 1` to decompose Phase 1 (Data Model & Schema) into executable plans.
+Next action: Execute Phase 1, Plan 02 (01-02-PLAN.md) — push migration 0005_programs_schema.sql to Supabase and verify schema changes are live.
 
-Phase 1 scope reminder: JSONB structure definition for phases/weeks/sessions/exercises, `is_admin` flag + RLS policy on `program_templates`, workout-session linkage column.
+Phase 1 context locked:
+- phases = [{name, start_week, end_week}], weeks = [{week_num, sessions: [{label, exercises: [{exercise_id, sets, reps, pct_1rm: decimal}]}]}]
+- is_admin boolean on user_profiles; admin write RLS via subquery on user_profiles
+- enrolled_program_sessions table (minimal) with UNIQUE(enrollment_id, week_num, session_index) and session_workout_id FK to workouts
+- jsonb_typeof check constraints on phases + weeks columns
+
+### Decisions from 01-01
+
+- is_admin stored as DB column on user_profiles, not JWT claim — cannot be self-granted client-side
+- Admin write RLS uses direct subquery on user_profiles.is_admin; no helper function (D-07)
+- program_templates_select_all policy preserved — templates are public catalog data (D-08)
+- session_workout_id FK uses on delete set null so deleting a workout does not cascade-delete session records (D-09)
+- Unique constraint (enrollment_id, week_num, session_index) inline on table definition; Phase 6 can upsert on conflict (D-10)
+- updated_at trigger applied to enrolled_program_sessions following existing table conventions
 
 ---
 
 *State initialized: 2026-04-17 — Roadmap created*
-*Last updated: 2026-04-17*
+*Last updated: 2026-04-18 — 01-01 complete (migration 0005_programs_schema.sql written)*
