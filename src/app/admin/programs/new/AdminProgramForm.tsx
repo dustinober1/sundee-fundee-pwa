@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useRef, useState } from "react";
-import {
-  createProgramTemplate,
-  searchExercises,
-  type CreateProgramState,
-} from "./actions";
+import { searchExercises, type CreateProgramState } from "./actions";
 
 // ── Types ────────────────────────────────────────────────────────────────
 
@@ -29,6 +25,41 @@ type ExerciseRow = {
 type SessionSlot = { label: string; exercises: ExerciseRow[] };
 type WeekState = { sessions: SessionSlot[] };
 type ExerciseMatch = { id: string; name: string };
+
+export type ProgramFormInitial = {
+  name?: string;
+  description?: string;
+  duration_weeks?: number;
+  sessions_per_week?: number;
+  phases?: Array<{ name: string; start_week: number; end_week: number }>;
+  weeks?: Array<{
+    sessions: Array<{
+      label: string;
+      exercises: Array<{
+        exercise_id: string;
+        exercise_name: string;
+        sets: number;
+        reps: number;
+        pct_1rm: number; // decimal (0..1) — converted back to integer for display
+      }>;
+    }>;
+  }>;
+};
+
+export type ProgramFormProps = {
+  action: (
+    prev: CreateProgramState | undefined,
+    formData: FormData,
+  ) => Promise<CreateProgramState>;
+  initial?: ProgramFormInitial;
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+  pendingLabel?: string;
+  backHref?: string;
+  backLabel?: string;
+  extraFields?: Array<{ name: string; value: string }>;
+};
 
 // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -80,20 +111,59 @@ const REMOVE_BTN_CLS = "text-xs text-muted hover:text-recovery-risk";
 
 // ── Component ────────────────────────────────────────────────────────────
 
-export function AdminProgramForm() {
+export function AdminProgramForm(props: ProgramFormProps = { action: () => Promise.resolve({}) }) {
+  const {
+    action: submitAction,
+    initial,
+    title = "New Program",
+    description = "Fill in the template details below, then define phases and weekly sessions.",
+    submitLabel = "Create Program",
+    pendingLabel = "Creating…",
+    backHref = "/programs",
+    backLabel = "← Programs",
+    extraFields = [],
+  } = props;
+
   const [state, action, pending] = useActionState<
     CreateProgramState | undefined,
     FormData
-  >(createProgramTemplate, undefined);
+  >(submitAction, undefined);
 
-  const [formName, setFormName] = useState("");
-  const [formDesc, setFormDesc] = useState("");
-  const [durationWeeks, setDurationWeeks] = useState(4);
-  const [sessionsPerWeek, setSessionsPerWeek] = useState(3);
-  const [phases, setPhases] = useState<PhaseRow[]>([newPhase()]);
-  const [weeks, setWeeks] = useState<WeekState[]>(() =>
-    buildInitialWeeks(4, 3),
+  const initialDuration = initial?.duration_weeks ?? 4;
+  const initialSessionsPerWeek = initial?.sessions_per_week ?? 3;
+
+  const [formName, setFormName] = useState(initial?.name ?? "");
+  const [formDesc, setFormDesc] = useState(initial?.description ?? "");
+  const [durationWeeks, setDurationWeeks] = useState(initialDuration);
+  const [sessionsPerWeek, setSessionsPerWeek] = useState(initialSessionsPerWeek);
+  const [phases, setPhases] = useState<PhaseRow[]>(() =>
+    initial?.phases && initial.phases.length > 0
+      ? initial.phases.map((p) => ({
+          id: crypto.randomUUID(),
+          name: p.name,
+          start_week: String(p.start_week),
+          end_week: String(p.end_week),
+        }))
+      : [newPhase()],
   );
+  const [weeks, setWeeks] = useState<WeekState[]>(() => {
+    if (initial?.weeks && initial.weeks.length > 0) {
+      return initial.weeks.map((w) => ({
+        sessions: w.sessions.map((s) => ({
+          label: s.label,
+          exercises: s.exercises.map((e) => ({
+            id: crypto.randomUUID(),
+            exercise_id: e.exercise_id,
+            exercise_name: e.exercise_name,
+            sets: String(e.sets),
+            reps: String(e.reps),
+            pct_1rm: String(Math.round(e.pct_1rm * 100)),
+          })),
+        })),
+      }));
+    }
+    return buildInitialWeeks(initialDuration, initialSessionsPerWeek);
+  });
   const [openWeek, setOpenWeek] = useState<number | null>(null);
   const [searchResults, setSearchResults] = useState<
     Record<string, ExerciseMatch[]>
@@ -292,18 +362,18 @@ export function AdminProgramForm() {
   return (
     <form action={action} className="mt-2">
       <input type="hidden" name="payload" value={payload} />
+      {extraFields.map((f) => (
+        <input key={f.name} type="hidden" name={f.name} value={f.value} />
+      ))}
 
       <Link
-        href="/programs"
+        href={backHref}
         className="text-xs text-muted underline-offset-4 hover:underline"
       >
-        ← Programs
+        {backLabel}
       </Link>
-      <h1 className="font-display mt-3 text-4xl font-semibold">New Program</h1>
-      <p className="mt-2 text-sm text-muted">
-        Fill in the template details below, then define phases and weekly
-        sessions.
-      </p>
+      <h1 className="font-display mt-3 text-4xl font-semibold">{title}</h1>
+      <p className="mt-2 text-sm text-muted">{description}</p>
 
       {/* ── Template metadata ──────────────────────────────────────── */}
       <div className="mt-8 space-y-4">
@@ -673,7 +743,7 @@ export function AdminProgramForm() {
         disabled={pending}
         className="mt-6 flex w-full h-12 items-center justify-center rounded-lg bg-orange font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
       >
-        {pending ? "Creating…" : "Create Program"}
+        {pending ? pendingLabel : submitLabel}
       </button>
     </form>
   );
