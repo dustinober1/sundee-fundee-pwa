@@ -182,34 +182,53 @@ export async function startProgramSession(formData: FormData): Promise<void> {
   if (werr || !workout) return;
   const workoutId = (workout as { id: string }).id;
 
-  // Insert workout_exercises + workout_sets.
-  for (let ei = 0; ei < session.exercises.length; ei++) {
-    const ex = session.exercises[ei];
-    const { data: we, error: weErr } = await supabase
-      .from("workout_exercises")
-      .insert({
-        workout_id: workoutId,
-        exercise_id: ex.exercise_id,
-        position: ei,
-      })
-      .select("id")
-      .single();
-    if (weErr || !we) continue;
-    const weId = (we as { id: string }).id;
-
-    const max = latestMax.get(ex.exercise_id);
-    const prescribedWeight =
-      max !== undefined ? roundToPlate(max * ex.pct_1rm) : null;
-
-    const setRows = Array.from({ length: ex.sets }, (_, i) => ({
-      workout_exercise_id: weId,
-      position: i,
-      prescribed_weight: prescribedWeight,
-      prescribed_reps: ex.reps,
-      is_complete: false,
+  // Insert workout_exercises + workout_sets in bulk.
+  if (session.exercises.length > 0) {
+    const exerciseInserts = session.exercises.map((ex, ei) => ({
+      workout_id: workoutId,
+      exercise_id: ex.exercise_id,
+      position: ei,
     }));
-    if (setRows.length > 0) {
-      await supabase.from("workout_sets").insert(setRows);
+
+    const { data: insertedExercises, error: weErr } = await supabase
+      .from("workout_exercises")
+      .insert(exerciseInserts)
+      .select("id, exercise_id, position");
+
+    if (!weErr && insertedExercises && insertedExercises.length > 0) {
+      const insertedList = insertedExercises as Array<{ id: string, exercise_id: string, position: number }>;
+      const allSetRows: Array<{
+        workout_exercise_id: string;
+        position: number;
+        prescribed_weight: number | null;
+        prescribed_reps: number;
+        is_complete: boolean;
+      }> = [];
+
+      for (let ei = 0; ei < session.exercises.length; ei++) {
+        const ex = session.exercises[ei];
+        const insertedEx = insertedList.find(ie => ie.position === ei);
+        if (!insertedEx) continue;
+
+        const weId = insertedEx.id;
+
+        const max = latestMax.get(ex.exercise_id);
+        const prescribedWeight =
+          max !== undefined ? roundToPlate(max * ex.pct_1rm) : null;
+
+        const setRows = Array.from({ length: ex.sets }, (_, i) => ({
+          workout_exercise_id: weId,
+          position: i,
+          prescribed_weight: prescribedWeight,
+          prescribed_reps: ex.reps,
+          is_complete: false,
+        }));
+        allSetRows.push(...setRows);
+      }
+
+      if (allSetRows.length > 0) {
+        await supabase.from("workout_sets").insert(allSetRows);
+      }
     }
   }
 
