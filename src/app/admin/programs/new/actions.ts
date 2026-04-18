@@ -16,9 +16,6 @@ export type CreateProgramState = {
   message?: string;
 };
 
-// Re-export for any external callers still referencing this module.
-export { CreateProgramSchema };
-
 export async function createProgramTemplate(
   _prev: CreateProgramState | undefined,
   formData: FormData,
