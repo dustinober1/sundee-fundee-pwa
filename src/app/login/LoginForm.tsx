@@ -18,6 +18,7 @@ const PROVIDERS: { id: Provider; label: string }[] = [
 export function LoginForm({ next }: { next?: string }) {
   const supabase = createSupabaseBrowserClient();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [pending, startTransition] = useTransition();
 
@@ -47,6 +48,25 @@ export function LoginForm({ next }: { next?: string }) {
     });
   }
 
+  function signInWithPassword(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formEmail = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const formPassword = (form.elements.namedItem("password") as HTMLInputElement).value;
+    startTransition(async () => {
+      setStatus({ kind: "idle" });
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formEmail,
+        password: formPassword,
+      });
+      if (error) {
+        setStatus({ kind: "error", message: error.message });
+      } else {
+        window.location.href = next ?? "/dashboard";
+      }
+    });
+  }
+
   return (
     <div className="mt-8 space-y-3">
       {PROVIDERS.map((p) => (
@@ -67,7 +87,7 @@ export function LoginForm({ next }: { next?: string }) {
         <span className="h-px flex-1 bg-border" />
       </div>
 
-      <form onSubmit={sendMagicLink} className="space-y-3">
+      <form onSubmit={signInWithPassword} className="space-y-3">
         <label className="block text-sm font-medium text-navy" htmlFor="email">
           Email
         </label>
@@ -81,12 +101,32 @@ export function LoginForm({ next }: { next?: string }) {
           placeholder="you@example.com"
           className="block w-full h-12 rounded-lg border border-border bg-surface px-5 text-navy placeholder:text-muted focus:border-navy focus:outline-none"
         />
+        <label className="block text-sm font-medium text-navy" htmlFor="password">
+          Password
+        </label>
+        <input
+          id="password"
+          type="password"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
+          className="block w-full h-12 rounded-lg border border-border bg-surface px-5 text-navy placeholder:text-muted focus:border-navy focus:outline-none"
+        />
         <button
           type="submit"
-          disabled={pending || !email}
+          disabled={pending}
           className="flex w-full h-12 items-center justify-center rounded-lg bg-orange px-5 font-medium text-cream transition-opacity hover:opacity-90 disabled:opacity-50"
         >
-          {pending ? "Sending…" : "Email me a magic link"}
+          {pending ? "Signing in…" : "Sign in"}
+        </button>
+        <button
+          type="button"
+          disabled={pending || !email}
+          onClick={() => sendMagicLink({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>)}
+          className="block w-full text-center text-sm text-muted hover:text-navy disabled:opacity-50"
+        >
+          Or email me a magic link instead
         </button>
       </form>
 
