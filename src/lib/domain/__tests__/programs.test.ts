@@ -6,7 +6,6 @@ import {
   targetWeight,
   weeksRemaining,
   type ProgramPhase,
-  type ProgramWeek,
 } from "../programs";
 
 describe("currentPhaseForWeek", () => {
@@ -31,7 +30,7 @@ describe("currentPhaseForWeek", () => {
 });
 
 describe("findWeek", () => {
-  const weeks: ProgramWeek[] = [
+  const weeks = [
     { week_num: 1, sessions: [] },
     { week_num: 2, sessions: [] },
   ];
