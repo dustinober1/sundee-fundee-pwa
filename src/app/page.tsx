@@ -10,6 +10,12 @@ export default function Landing() {
           </Link>
           <nav className="flex items-center gap-3">
             <Link
+              href="/blog"
+              className="text-sm font-medium text-navy hover:opacity-70"
+            >
+              Blog
+            </Link>
+            <Link
               href="/login"
               className="text-sm font-medium text-navy hover:opacity-70"
             >
