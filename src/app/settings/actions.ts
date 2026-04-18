@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireUser } from "@/lib/supabase/dal";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { EQUIPMENT_PROFILE_KEYS } from "@/lib/domain/equipmentProfiles";
 
 const Schema = z.object({
   display_name: z.string().trim().min(1).max(80),
@@ -11,6 +12,9 @@ const Schema = z.object({
   experience_level: z.enum(["beginner", "intermediate", "advanced"]),
   primary_goal: z.enum(["strength", "hypertrophy", "endurance", "general_fitness"]),
   cycle_tracking_enabled: z.coerce.boolean(),
+  equipment_profile: z
+    .enum([...EQUIPMENT_PROFILE_KEYS, "skip"])
+    .transform((v) => (v === "skip" ? null : v)),
 });
 
 export type SettingsState = {
@@ -30,6 +34,7 @@ export async function saveProfile(
     experience_level: formData.get("experience_level"),
     primary_goal: formData.get("primary_goal"),
     cycle_tracking_enabled: formData.get("cycle_tracking_enabled") === "on",
+    equipment_profile: formData.get("equipment_profile") ?? "skip",
   });
   if (!parsed.success) {
     return { errors: z.flattenError(parsed.error).fieldErrors };

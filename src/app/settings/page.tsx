@@ -24,6 +24,7 @@ export default async function SettingsPage() {
             experience_level: profile.experience_level ?? "intermediate",
             primary_goal: profile.primary_goal ?? "general_fitness",
             cycle_tracking_enabled: profile.cycle_tracking_enabled,
+            equipment_profile: profile.equipment_profile,
           }}
         />
 

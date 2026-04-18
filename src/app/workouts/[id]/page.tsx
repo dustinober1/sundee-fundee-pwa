@@ -4,13 +4,13 @@ import { requireOnboardedProfile } from "@/lib/supabase/dal";
 import { listExercises } from "@/features/exercises/queries";
 import { getWorkout } from "@/features/workouts/queries";
 import {
-  addExerciseToWorkout,
   addSetToExercise,
   completeWorkout,
   deleteSet,
   deleteWorkout,
   deleteWorkoutExercise,
 } from "../actions";
+import { ExercisePicker } from "./ExercisePicker";
 
 function formatDate(iso: string) {
   return new Date(iso + "T00:00:00").toLocaleDateString(undefined, {
@@ -24,7 +24,7 @@ function formatDate(iso: string) {
 type Params = Promise<{ id: string }>;
 
 export default async function WorkoutDetailPage({ params }: { params: Params }) {
-  await requireOnboardedProfile();
+  const { profile } = await requireOnboardedProfile();
   const { id } = await params;
   const [workout, exercises] = await Promise.all([
     getWorkout(id),
@@ -147,30 +147,17 @@ export default async function WorkoutDetailPage({ params }: { params: Params }) 
 
         <section className="mt-8 rounded-2xl border border-border bg-surface p-5">
           <h2 className="font-display text-lg font-semibold">Add exercise</h2>
-          <form action={addExerciseToWorkout} className="mt-3 flex gap-2">
-            <input type="hidden" name="workout_id" value={workout.id} />
-            <select
-              name="exercise_id"
-              required
-              defaultValue=""
-              className="h-12 flex-1 rounded-xl border border-border bg-cream px-3 focus:border-navy focus:outline-none"
-            >
-              <option value="" disabled>
-                Pick an exercise…
-              </option>
-              {exercises.map((e) => (
-                <option key={e.id} value={e.id}>
-                  {e.name}
-                </option>
-              ))}
-            </select>
-            <button
-              type="submit"
-              className="h-12 rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
-            >
-              Add
-            </button>
-          </form>
+          <ExercisePicker
+            workoutId={workout.id}
+            exercises={exercises.map((e) => ({
+              id: e.id,
+              name: e.name,
+              kind: e.kind,
+              weightlifting_category: e.weightlifting_category,
+              equipment: e.equipment,
+            }))}
+            profileKey={profile.equipment_profile}
+          />
         </section>
 
         <footer className="mt-10 flex items-center justify-between">

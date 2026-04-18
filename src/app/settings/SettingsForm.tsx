@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { saveProfile, type SettingsState } from "./actions";
+import { EQUIPMENT_PROFILES, EQUIPMENT_PROFILE_KEYS } from "@/lib/domain/equipmentProfiles";
 
 type Defaults = {
   display_name: string;
@@ -9,6 +10,7 @@ type Defaults = {
   experience_level: "beginner" | "intermediate" | "advanced";
   primary_goal: "strength" | "hypertrophy" | "endurance" | "general_fitness";
   cycle_tracking_enabled: boolean;
+  equipment_profile: string | null;
 };
 
 const GOALS = [
@@ -83,6 +85,25 @@ export function SettingsForm({ defaults }: { defaults: Defaults }) {
             </option>
           ))}
         </select>
+      </label>
+
+      <label className="block text-sm">
+        <span className="block font-medium text-navy">Where you usually train</span>
+        <select
+          name="equipment_profile"
+          defaultValue={defaults.equipment_profile ?? "skip"}
+          className="mt-1 block w-full h-12 rounded-xl border border-border bg-surface px-3 focus:border-navy focus:outline-none"
+        >
+          {EQUIPMENT_PROFILE_KEYS.map((k) => (
+            <option key={k} value={k}>
+              {EQUIPMENT_PROFILES[k].label}
+            </option>
+          ))}
+          <option value="skip">Show all exercises</option>
+        </select>
+        <span className="mt-1 block text-xs text-muted">
+          Filters the exercise picker to lifts you can do at your gym.
+        </span>
       </label>
 
       <label className="flex items-center gap-3 text-sm">

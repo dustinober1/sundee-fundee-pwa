@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { completeOnboarding, type OnboardingState } from "./actions";
+import { EQUIPMENT_PROFILES } from "@/lib/domain/equipmentProfiles";
 
 const EXPERIENCE = [
   { value: "beginner", label: "Beginner", hint: "< 1 year" },
@@ -14,6 +15,15 @@ const GOALS = [
   { value: "hypertrophy", label: "Hypertrophy" },
   { value: "endurance", label: "Endurance" },
   { value: "general_fitness", label: "General fitness" },
+] as const;
+
+const EQUIPMENT = [
+  { value: "commercial_gym", label: EQUIPMENT_PROFILES.commercial_gym.label, hint: "Machines, dumbbells, cables" },
+  { value: "full_gym", label: EQUIPMENT_PROFILES.full_gym.label, hint: "Everything, including barbell & rack" },
+  { value: "home_barbell", label: EQUIPMENT_PROFILES.home_barbell.label, hint: "Rack, bench, plates" },
+  { value: "home_dumbbell", label: EQUIPMENT_PROFILES.home_dumbbell.label, hint: "Dumbbells + bench" },
+  { value: "bodyweight", label: EQUIPMENT_PROFILES.bodyweight.label, hint: "Minimal kit" },
+  { value: "skip", label: "Skip / varies", hint: "Show all exercises" },
 ] as const;
 
 type Defaults = {
@@ -45,6 +55,13 @@ export function OnboardingForm({ defaults }: { defaults: Defaults }) {
 
       <Field label="Primary goal" error={state?.errors?.primary_goal?.[0]}>
         <RadioGroup name="primary_goal" options={GOALS} />
+      </Field>
+
+      <Field
+        label="Where do you usually train?"
+        error={state?.errors?.equipment_profile?.[0]}
+      >
+        <RadioGroup name="equipment_profile" options={EQUIPMENT} defaultValue="skip" />
       </Field>
 
       <Field label="Weight unit" error={state?.errors?.weight_unit?.[0]}>
