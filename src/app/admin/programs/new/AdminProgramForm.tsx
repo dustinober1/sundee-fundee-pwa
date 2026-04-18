@@ -195,6 +195,7 @@ export function AdminProgramForm() {
       ),
     );
     setSearchResults((prev) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [exId]: _removed, ...rest } = prev;
       return rest;
     });
@@ -529,6 +530,7 @@ export function AdminProgramForm() {
                                       className={INPUT_CLS}
                                       role="combobox"
                                       aria-expanded={showDropdown}
+                                      aria-controls="exercise-dropdown"
                                     />
                                   </label>
                                   {showDropdown ? (
