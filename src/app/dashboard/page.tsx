@@ -3,6 +3,11 @@ import { requireOnboardedProfile } from "@/lib/supabase/dal";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getTodayRecoveryScore } from "@/features/recovery/queries";
 import { recommendationLabel } from "@/lib/domain/recoveryScore";
+import {
+  evaluateAndUpsert,
+  getActiveRecommendations,
+} from "@/features/coach/queries";
+import { CoachCard } from "@/components/CoachCard";
 
 function recommendationColor(r: string) {
   return r === "push_day"
@@ -29,9 +34,11 @@ async function thisWeekWorkoutCount(userId: string): Promise<number> {
 
 export default async function DashboardPage() {
   const { user, profile } = await requireOnboardedProfile();
-  const [today, weekCount] = await Promise.all([
+  await evaluateAndUpsert(user.id);
+  const [today, weekCount, recs] = await Promise.all([
     getTodayRecoveryScore(),
     thisWeekWorkoutCount(user.id),
+    getActiveRecommendations(user.id),
   ]);
 
   return (
@@ -47,6 +54,17 @@ export default async function DashboardPage() {
         <h1 className="font-display mt-3 text-4xl font-semibold">
           Welcome back, {profile.display_name ?? "lifter"}.
         </h1>
+
+        {recs.length > 0 ? (
+          <section className="mt-8 space-y-3">
+            <p className="font-display text-gold uppercase tracking-[0.3em] text-xs">
+              Coach
+            </p>
+            {recs.map((r) => (
+              <CoachCard key={r.id} rec={r} />
+            ))}
+          </section>
+        ) : null}
 
         <section className="mt-8 grid gap-4 sm:grid-cols-2">
           <Link
