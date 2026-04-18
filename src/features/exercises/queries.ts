@@ -34,3 +34,15 @@ export const listWeightliftingExercises = cache(async () => {
   const all = await listExercises();
   return all.filter((e) => e.kind === "weightlifting");
 });
+
+export async function listExercisesByIds(
+  ids: string[],
+): Promise<{ id: string; name: string }[]> {
+  if (ids.length === 0) return [];
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("exercises")
+    .select("id, name")
+    .in("id", ids);
+  return (data as { id: string; name: string }[] | null) ?? [];
+}
