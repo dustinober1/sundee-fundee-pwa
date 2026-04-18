@@ -89,3 +89,20 @@ Multi-provider OAuth: Apple, Google, Facebook, email magic-link. Flow: `/login` 
 **`server-only` package:** Imported at the top of server-only modules. Vitest stubs it — tests can import these files safely.
 
 **Graceful degradation:** App boots without Supabase env vars. Public routes render; DB-touching routes redirect.
+
+## Security
+
+**Never commit secrets.** Environment variables, API keys, tokens, and credentials must never be committed to git.
+
+**Secrets setup:**
+- Copy `.env.example` to `.env.local` and fill in your credentials
+- `.env*` is in `.gitignore` — local env files are safe
+- Use `NEXT_PUBLIC_*` prefix only for values that can be public (anon Supabase key)
+- Server-only secrets (service role keys, JWT secrets) go unprefixed
+
+**Pre-commit secret scanning:** Gitleaks runs on every commit (via pre-commit hooks). If a secret is detected, fix it before committing. If you accidentally commit a secret:
+1. Immediately rotate the credential in its source system
+2. Use `git filter-branch` or `git filter-repo` to remove it from history
+3. Force-push the cleaned history to the remote
+
+**Testing with secrets:** Use `.env.local` (git-ignored) for test credentials. Never hardcode real tokens in test files or comments.
