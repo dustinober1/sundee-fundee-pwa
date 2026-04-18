@@ -37,7 +37,13 @@ export default async function DashboardPage() {
   return (
     <main className="flex flex-1 flex-col px-6 py-10">
       <div className="mx-auto w-full max-w-3xl">
-        <p className="font-display text-gold uppercase tracking-[0.4em] text-xs">Today</p>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1 text-sm font-medium text-muted hover:text-navy"
+        >
+          ← Back to main site
+        </Link>
+        <p className="font-display text-gold mt-6 uppercase tracking-[0.4em] text-xs">Today</p>
         <h1 className="font-display mt-3 text-4xl font-semibold">
           Welcome back, {profile.display_name ?? "lifter"}.
         </h1>
