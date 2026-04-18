@@ -5,82 +5,65 @@
 See: `.planning/PROJECT.md` (updated 2026-04-17)
 
 **Core value:** A user can log, track, and follow structured training — all in one place that understands her cycle.
-**Current milestone:** v1.0 Programs
+**Current milestone:** v1.0 Programs — functionally complete; human UAT deferred
 
 ## Current Position
 
-Phase: 3 — Admin Builder UI (next)
-Plan: Phase 2 complete — 1/1 plans done
-Status: Phase 2 verified and complete
-Last activity: 2026-04-17 — Phase 2 complete (seed migration applied, 'starting-strength-4wk' row verified in DB)
+Phase: All 7 phases complete (Phases 3–7 completed autonomously on 2026-04-18 with human UAT deferred)
+Plan: Milestone v1.0 Programs — all plans executed
+Status: Automated gates green; awaiting human UAT sweep before milestone archive
+Last activity: 2026-04-18 — Phases 4, 5, 6, 7 executed end-to-end; all commits on main
 
-Progress: [##-----] 2/7 phases complete
+Progress: [#######] 7/7 phases complete
 
 ## Performance Metrics
 
-Phases complete: 2/7
+Phases complete: 7/7
 Requirements mapped: 21/21
-Plans written: 3
-Plans executed: 3 (01-01: migration write, 01-02: push + verify, 02-01: seed migration write + push + verify)
+Plans written: 13 (01-01, 01-02, 02-01, 03-01..04, 04-01..03, 05-01..02, 06-01..02, 07-01..02)
+Plans executed: 13
 
 ## Accumulated Context
 
 ### Architecture & Conventions
-
-- Brownfield Next.js 16.2.4 App Router PWA — read `node_modules/next/dist/docs/` before writing any Next.js code (breaking changes from training data)
-- Server Components render all authenticated pages; mutations via Server Actions (`"use server"`)
-- Feature queries in `src/features/<domain>/queries.ts` (server-only, `cache()`-wrapped)
-- Domain logic in `src/lib/domain/` — pure TypeScript, no framework imports
-- Auth guards: `requireOnboardedProfile()` at top of every protected page
+- Brownfield Next.js 16.2.4 App Router PWA — breaking changes from training data, consult `node_modules/next/dist/docs/`.
+- Server Components render all protected routes; mutations via Server Actions.
+- Feature queries in `src/features/<domain>/queries.ts` (server-only, cached).
+- Domain logic in `src/lib/domain/` — pure TypeScript.
+- Auth guards: `requireOnboardedProfile()` / `requireAdmin()`.
 
 ### Programs Domain State
+- Full template model in `program_templates` (phases + weeks JSONB).
+- Admin builder at `/admin/programs/new` creates templates.
+- Users browse `/programs`, view `/programs/[id]` detail, enroll via Server Action.
+- Active enrollment shown at `/programs/enrolled` with current phase + week of total + weeks remaining.
+- Session detail at `/programs/enrolled/week/[week]/session/[sessionIndex]` renders target weights using stored 1RMs.
+- `startProgramSession` creates a workout + workout_exercises + prescribed workout_sets and links via `enrolled_program_sessions`.
+- `completeWorkout` propagates completion to the linked program session row.
+- Week advance bounded by `duration_weeks`; final-week UI swaps to "Complete program".
 
-- `program_templates` table exists with `phases` and `weeks` JSONB columns (currently empty `[]`)
-- `enrolled_programs` table tracks `user_id`, `template_id`, `current_week`, `is_active`
-- Unique partial index enforces one active program per user at DB level
-- `src/features/programs/queries.ts` exists (partial implementation)
-- `src/app/programs/` route exists; `enrolled/page.tsx` is a placeholder
-- `src/lib/domain/oneRepMax.ts` has Epley/Brzycki estimators — use for %1RM load calculation
+### Decisions (key)
+- JSONB for phases + weeks (D-01…D-04).
+- Admin write RLS via direct subquery on user_profiles.is_admin (D-07).
+- `session_workout_id` FK with on-delete-set-null (D-09).
+- Unique (enrollment_id, week_num, session_index) enables upsert from startProgramSession (D-10).
 
-### Key Decisions (from PROJECT.md)
-
-- JSONB for program template structure (mirrors iOS source data shape; flexible hierarchy)
-- Session logs create real workout entries (unified workout history — program sessions appear alongside regular workouts)
-- Admin role via `is_admin` flag on profiles (no complex RBAC)
-- One active enrollment per user (enforced at DB level)
-
-### Known Concerns (from CONCERNS.md)
-
-- Open redirect in auth callback
-- Missing middleware mount (some routes may be unguarded)
-- No server action tests
-- No DB-level query aggregation for analytics
+### Known Concerns
+- Open redirect in auth callback (pre-existing).
+- No DB-level aggregation for analytics (v2).
+- Tests rely on pure-domain helpers; server actions are not mocked for E2E. Future: add integration tests against local Supabase.
 
 ## Session Continuity
 
-Next action: Phase 3 Admin Builder UI — discuss → plan → execute.
+Next action: Human UAT sweep for phases 3–7 when the user is ready. After UAT, `gsd-complete-milestone` to archive v1.0 and open v1.1.
 
-Phase 2 context locked:
-- Seed template id: 'starting-strength-4wk', name: 'Starting Strength — 4-Week Beginner'
-- Migration: supabase/migrations/0006_seed_program_templates.sql (idempotent, ON CONFLICT DO NOTHING)
-- 1 phase (Foundation weeks 1-4), 4 weeks, Session A (Squat/Bench/Row) + Session B (Squat/Press/Deadlift), 3 exercises each
-
-Phase 1 context locked:
-- phases = [{name, start_week, end_week}], weeks = [{week_num, sessions: [{label, exercises: [{exercise_id, sets, reps, pct_1rm: decimal}]}]}]
-- is_admin boolean on user_profiles; admin write RLS via subquery on user_profiles
-- enrolled_program_sessions table (minimal) with UNIQUE(enrollment_id, week_num, session_index) and session_workout_id FK to workouts
-- jsonb_typeof check constraints on phases + weeks columns
-
-### Decisions from 01-01
-
-- is_admin stored as DB column on user_profiles, not JWT claim — cannot be self-granted client-side
-- Admin write RLS uses direct subquery on user_profiles.is_admin; no helper function (D-07)
-- program_templates_select_all policy preserved — templates are public catalog data (D-08)
-- session_workout_id FK uses on delete set null so deleting a workout does not cascade-delete session records (D-09)
-- Unique constraint (enrollment_id, week_num, session_index) inline on table definition; Phase 6 can upsert on conflict (D-10)
-- updated_at trigger applied to enrolled_program_sessions following existing table conventions
+## Deferred UAT
+- Phase 3: admin builder end-to-end (see `.planning/phases/03-admin-builder-ui/03-04-PLAN.md`)
+- Phase 4: browse → detail → enroll → enrolled view
+- Phase 5: start session flow; missing-1RM prompt
+- Phase 6: start → log sets → complete workflow; DB row in `enrolled_program_sessions`
+- Phase 7: advance through weeks; final-week complete; leave program
 
 ---
 
-*State initialized: 2026-04-17 — Roadmap created*
-*Last updated: 2026-04-17 — Phase 2 complete (seed migration applied, row verified in local DB)*
+*Last updated: 2026-04-18 — Phases 4, 5, 6, 7 complete (human UAT deferred)*

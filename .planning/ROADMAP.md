@@ -8,11 +8,11 @@
 
 - [x] **Phase 1: Data Model & Schema** - Define the JSONB structure, add `is_admin` flag, and add the workout-session linkage column (completed 2026-04-17)
 - [x] **Phase 2: SQL Seed Data** - Populate initial program templates via migration so the app has real content to work with (completed 2026-04-17)
-- [ ] **Phase 3: Admin Builder UI** - Gate-controlled UI for admins to create and edit program templates
-- [ ] **Phase 4: Enrollment Browse UI** - Users can browse available programs, inspect structure, and enroll
-- [ ] **Phase 5: Session View** - Users can view a session's prescribed exercises with %1RM-calculated target weights
-- [ ] **Phase 6: Session Logging** - Users can start, log, and complete a session — creating a linked workout entry
-- [ ] **Phase 7: Week Progression** - Users can advance weeks, track their position, and leave a program
+- [x] **Phase 3: Admin Builder UI** - Gate-controlled UI for admins to create and edit program templates (completed 2026-04-18; human UAT deferred)
+- [x] **Phase 4: Enrollment Browse UI** - Users can browse available programs, inspect structure, and enroll (completed 2026-04-18; human UAT deferred)
+- [x] **Phase 5: Session View** - Users can view a session's prescribed exercises with %1RM-calculated target weights (completed 2026-04-18; human UAT deferred)
+- [x] **Phase 6: Session Logging** - Users can start, log, and complete a session — creating a linked workout entry (completed 2026-04-18; human UAT deferred)
+- [x] **Phase 7: Week Progression** - Users can advance weeks, track their position, and leave a program (completed 2026-04-18; human UAT deferred)
 
 ## Phase Details
 
@@ -110,13 +110,13 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Data Model & Schema | 2/2 | Complete | 2026-04-17 |
 | 2. SQL Seed Data | 1/1 | Complete | 2026-04-17 |
-| 3. Admin Builder UI | 0/4 | In progress | - |
-| 4. Enrollment Browse UI | 0/? | Not started | - |
-| 5. Session View | 0/? | Not started | - |
-| 6. Session Logging | 0/? | Not started | - |
-| 7. Week Progression | 0/? | Not started | - |
+| 3. Admin Builder UI | 4/4 | Complete | 2026-04-18 |
+| 4. Enrollment Browse UI | 3/3 | Complete | 2026-04-18 |
+| 5. Session View | 2/2 | Complete | 2026-04-18 |
+| 6. Session Logging | 2/2 | Complete | 2026-04-18 |
+| 7. Week Progression | 2/2 | Complete | 2026-04-18 |
 
 ---
 
 *Roadmap created: 2026-04-17*
-*Last updated: 2026-04-18 — Phase 3 planned (4 plans, 3 waves)*
+*Last updated: 2026-04-18 — Phases 4–7 complete (human UAT deferred); milestone v1.0 Programs functionally complete*
