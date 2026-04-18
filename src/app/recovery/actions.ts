@@ -13,6 +13,7 @@ const Schema = z.object({
   sleep_hours: z.coerce.number().min(0).max(16).optional(),
   pain_intensity: z.coerce.number().int().min(1).max(10).optional(),
   notes: z.string().trim().max(500).optional(),
+  client_id: z.uuid().optional(),
 });
 
 export type RecoveryEntryState = {
@@ -74,6 +75,7 @@ export async function logRecoveryEntry(
     sleep_hours: formData.get("sleep_hours") || undefined,
     pain_intensity: formData.get("pain_intensity") || undefined,
     notes: formData.get("notes") || undefined,
+    client_id: formData.get("client_id") || undefined,
   });
   if (!parsed.success) {
     return { errors: z.flattenError(parsed.error).fieldErrors };
@@ -105,6 +107,7 @@ export async function logRecoveryEntry(
         pain_intensity: parsed.data.pain_intensity ?? null,
         cycle_phase: phase,
         notes: parsed.data.notes ?? null,
+        client_id: parsed.data.client_id ?? null,
       },
       { onConflict: "user_id,performed_on" },
     );
