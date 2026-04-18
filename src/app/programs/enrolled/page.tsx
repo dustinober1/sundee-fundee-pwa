@@ -83,20 +83,32 @@ export default async function EnrolledProgramPage() {
         </section>
 
         <div className="mt-6 flex items-center gap-3">
-          <form action={advanceWeek}>
-            <input type="hidden" name="id" value={active.id} />
-            <input
-              type="hidden"
-              name="next_week"
-              value={active.current_week + 1}
-            />
-            <button
-              type="submit"
-              className="h-10 rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
-            >
-              Advance to week {active.current_week + 1}
-            </button>
-          </form>
+          {active.current_week < active.template_duration_weeks ? (
+            <form action={advanceWeek}>
+              <input type="hidden" name="id" value={active.id} />
+              <input
+                type="hidden"
+                name="next_week"
+                value={active.current_week + 1}
+              />
+              <button
+                type="submit"
+                className="h-10 rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
+              >
+                Advance to week {active.current_week + 1}
+              </button>
+            </form>
+          ) : (
+            <form action={endEnrollment}>
+              <input type="hidden" name="id" value={active.id} />
+              <button
+                type="submit"
+                className="h-10 rounded-lg bg-recovery-good px-5 text-sm font-medium text-cream hover:opacity-90"
+              >
+                Complete program
+              </button>
+            </form>
+          )}
 
           <form action={endEnrollment}>
             <input type="hidden" name="id" value={active.id} />

@@ -238,6 +238,29 @@ export async function advanceWeek(formData: FormData): Promise<void> {
   if (typeof id !== "string" || !Number.isInteger(next) || next < 1) return;
 
   const supabase = await createSupabaseServerClient();
+
+  // Clamp upper bound at template.duration_weeks.
+  const { data: enrollment } = await supabase
+    .from("enrolled_programs")
+    .select("user_id, program_templates ( duration_weeks )")
+    .eq("id", id)
+    .maybeSingle();
+  if (!enrollment) return;
+  type E = {
+    user_id: string;
+    program_templates:
+      | { duration_weeks: number }
+      | { duration_weeks: number }[]
+      | null;
+  };
+  const e = enrollment as E;
+  if (e.user_id !== user.id) return;
+  const tpl = Array.isArray(e.program_templates)
+    ? e.program_templates[0]
+    : e.program_templates;
+  const duration = tpl?.duration_weeks ?? Number.POSITIVE_INFINITY;
+  if (next > duration) return;
+
   await supabase
     .from("enrolled_programs")
     .update({ current_week: next })
