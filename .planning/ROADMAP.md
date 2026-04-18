@@ -24,7 +24,11 @@
   1. A program template's `phases` JSONB column stores named phases with start/end week bounds and nested weekly sessions containing prescribed exercises (exercise_id, sets, reps, %1RM percentage)
   2. A user profile row can have `is_admin = true` and Supabase RLS policies enforce that only admin users can write to `program_templates`
   3. A `session_workout_id` column (or equivalent) exists on `enrolled_program_sessions` (or the linkage table) so a completed session can reference the workout entry it created
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Write migration 0005_programs_schema.sql (is_admin, JSONB constraints, enrolled_program_sessions)
+- [ ] 01-02-PLAN.md — Push migration to Supabase and verify schema changes are live
 
 ### Phase 2: SQL Seed Data
 **Goal**: At least one real program template exists in the database, seeded via migration, so subsequent phases have content to display and interact with
@@ -96,7 +100,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Model & Schema | 0/? | Not started | - |
+| 1. Data Model & Schema | 0/2 | Not started | - |
 | 2. SQL Seed Data | 0/? | Not started | - |
 | 3. Admin Builder UI | 0/? | Not started | - |
 | 4. Enrollment Browse UI | 0/? | Not started | - |
@@ -107,4 +111,4 @@
 ---
 
 *Roadmap created: 2026-04-17*
-*Last updated: 2026-04-17 — Milestone v1.0 roadmap defined*
+*Last updated: 2026-04-17 — Phase 1 planned: 2 plans in 2 waves*
