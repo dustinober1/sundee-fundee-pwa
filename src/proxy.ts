@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSupabaseSession } from "@/lib/supabase/proxy";
 
-const PUBLIC_ROUTES = new Set(["/", "/login", "/auth/callback"]);
-const PUBLIC_PREFIXES = ["/auth/"];
+const PUBLIC_ROUTES = new Set(["/", "/login", "/auth/callback", "/privacy", "/terms", "/blog"]);
+const PUBLIC_PREFIXES = ["/auth/", "/blog/"];
 
 function isPublic(pathname: string) {
   if (PUBLIC_ROUTES.has(pathname)) return true;
