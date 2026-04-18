@@ -17,6 +17,7 @@ export type ProgramTemplate = {
   duration_weeks: number;
   sessions_per_week: number;
   sort_order: number;
+  owner_user_id: string | null;
 };
 
 export type ProgramTemplateDetail = ProgramTemplate & {
@@ -40,10 +41,27 @@ export const listProgramTemplates = cache(async (): Promise<ProgramTemplate[]> =
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("program_templates")
-    .select("id, name, category, description, difficulty, duration_weeks, sessions_per_week, sort_order")
+    .select(
+      "id, name, category, description, difficulty, duration_weeks, sessions_per_week, sort_order, owner_user_id",
+    )
+    .is("owner_user_id", null)
     .order("sort_order", { ascending: true });
   return (data as ProgramTemplate[] | null) ?? [];
 });
+
+export const listUserOwnedPrograms = cache(
+  async (userId: string): Promise<ProgramTemplate[]> => {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase
+      .from("program_templates")
+      .select(
+        "id, name, category, description, difficulty, duration_weeks, sessions_per_week, sort_order, owner_user_id",
+      )
+      .eq("owner_user_id", userId)
+      .order("sort_order", { ascending: true });
+    return (data as ProgramTemplate[] | null) ?? [];
+  },
+);
 
 export const getProgramTemplate = cache(
   async (id: string): Promise<ProgramTemplateDetail | null> => {
@@ -51,7 +69,7 @@ export const getProgramTemplate = cache(
     const { data } = await supabase
       .from("program_templates")
       .select(
-        "id, name, category, description, difficulty, duration_weeks, sessions_per_week, sort_order, phases, weeks",
+        "id, name, category, description, difficulty, duration_weeks, sessions_per_week, sort_order, phases, weeks, owner_user_id",
       )
       .eq("id", id)
       .maybeSingle();
@@ -82,11 +100,19 @@ export const getProgramTemplate = cache(
       duration_weeks: r.duration_weeks,
       sessions_per_week: r.sessions_per_week,
       sort_order: r.sort_order,
+      owner_user_id: r.owner_user_id,
       phases,
       weeks,
     };
   },
 );
+
+export function canEditTemplate(
+  userId: string,
+  template: Pick<ProgramTemplate, "owner_user_id">,
+): boolean {
+  return template.owner_user_id !== null && template.owner_user_id === userId;
+}
 
 export const getActiveEnrollment = cache(async (): Promise<EnrolledProgram | null> => {
   const supabase = await createSupabaseServerClient();
