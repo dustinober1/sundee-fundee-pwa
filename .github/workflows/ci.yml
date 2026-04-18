@@ -41,9 +41,3 @@ jobs:
       - run: echo 'NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321' > .env.local
       - run: echo 'NEXT_PUBLIC_SUPABASE_ANON_KEY=dummy' >> .env.local
       - run: npm run test:e2e
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 14
