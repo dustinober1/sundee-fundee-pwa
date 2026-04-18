@@ -1,13 +1,16 @@
 "use client";
 
-import { useActionState } from "react";
+import { useOfflineAction } from "@/lib/offline/useOfflineAction";
 import { createWorkout, type CreateWorkoutState } from "../actions";
 
 export function NewWorkoutForm() {
-  const [state, action, pending] = useActionState<CreateWorkoutState | undefined, FormData>(
-    createWorkout,
-    undefined,
-  );
+  const [status, action, pending] = useOfflineAction<CreateWorkoutState | undefined>({
+    kind: "createWorkout",
+    action: createWorkout,
+  });
+  const state =
+    status.kind === "ok" ? (status.state as CreateWorkoutState | undefined) : undefined;
+  const queued = status.kind === "queued";
 
   return (
     <form action={action} className="mt-8 space-y-4">
@@ -50,6 +53,11 @@ export function NewWorkoutForm() {
       {state?.message ? (
         <p className="rounded-lg border border-recovery-risk/40 bg-recovery-risk/10 p-3 text-sm text-recovery-risk">
           {state.message}
+        </p>
+      ) : null}
+      {queued ? (
+        <p className="rounded-lg border border-gold/40 bg-gold/10 p-3 text-sm text-navy">
+          Queued for sync — we&apos;ll upload this when you&apos;re back online.
         </p>
       ) : null}
 
