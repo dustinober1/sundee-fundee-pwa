@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useOfflineAction } from "@/lib/offline/useOfflineAction";
 import type { ExerciseRow } from "@/features/exercises/queries";
 import type { WeightUnit } from "@/lib/supabase/types";
 import { addOneRepMax, type AddMaxState } from "./actions";
@@ -21,10 +21,13 @@ export function AddMaxForm({
   exercises: ExerciseRow[];
   defaultUnit: WeightUnit;
 }) {
-  const [state, action, pending] = useActionState<AddMaxState | undefined, FormData>(
-    addOneRepMax,
-    undefined,
-  );
+  const [status, action, pending] = useOfflineAction<AddMaxState | undefined>({
+    kind: "addOneRepMax",
+    action: addOneRepMax,
+  });
+  const state =
+    status.kind === "ok" ? (status.state as AddMaxState | undefined) : undefined;
+  const queued = status.kind === "queued";
 
   const grouped = exercises.reduce<Record<string, ExerciseRow[]>>((acc, ex) => {
     const key = ex.weightlifting_category
@@ -131,6 +134,11 @@ export function AddMaxForm({
       {state?.message ? (
         <p className="sm:col-span-2 rounded-lg border border-recovery-risk/40 bg-recovery-risk/10 p-3 text-sm text-recovery-risk">
           {state.message}
+        </p>
+      ) : null}
+      {queued ? (
+        <p className="sm:col-span-2 rounded-lg border border-gold/40 bg-gold/10 p-3 text-sm text-navy">
+          Queued for sync — we&apos;ll upload this when you&apos;re back online.
         </p>
       ) : null}
 
