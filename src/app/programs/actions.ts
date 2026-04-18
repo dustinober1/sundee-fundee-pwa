@@ -50,6 +50,12 @@ export async function endEnrollment(formData: FormData): Promise<void> {
   redirect("/programs");
 }
 
+// Stub — full implementation arrives in Phase 6. For now, redirect to /workouts.
+export async function startProgramSession(_formData: FormData): Promise<void> {
+  await requireUser();
+  redirect("/workouts");
+}
+
 export async function advanceWeek(formData: FormData): Promise<void> {
   const user = await requireUser();
   const id = formData.get("id");

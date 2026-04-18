@@ -1,13 +1,20 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireOnboardedProfile } from "@/lib/supabase/dal";
-import { getActiveEnrollment } from "@/features/programs/queries";
+import {
+  getActiveEnrollment,
+  getProgramTemplate,
+} from "@/features/programs/queries";
+import { findWeek } from "@/lib/domain/programs";
 import { advanceWeek, endEnrollment } from "../actions";
 
 export default async function EnrolledProgramPage() {
   await requireOnboardedProfile();
   const active = await getActiveEnrollment();
   if (!active) redirect("/programs");
+
+  const template = await getProgramTemplate(active.template_id);
+  const thisWeek = template ? findWeek(template.weeks, active.current_week) : null;
 
   return (
     <main className="flex flex-1 flex-col px-6 py-10">
@@ -37,11 +44,42 @@ export default async function EnrolledProgramPage() {
             : ""}
         </p>
 
-        <section className="mt-8 rounded-2xl border border-dashed border-border p-6 text-sm text-muted">
-          Per-week session details land in a follow-up — the iOS source has
-          full templates with exercises, sets, reps, and %1RM. Until then, log
-          workouts manually under <Link href="/workouts" className="text-navy underline">Workouts</Link>{" "}
-          and reference the program structure from your training notes.
+        <section className="mt-8">
+          <h2 className="font-display text-gold uppercase tracking-[0.3em] text-xs">
+            This week
+          </h2>
+          {thisWeek && thisWeek.sessions.length > 0 ? (
+            <ul className="mt-3 space-y-2">
+              {thisWeek.sessions.map((s, idx) => (
+                <li
+                  key={`${s.label}-${idx}`}
+                  className="rounded-2xl border border-border bg-surface p-4"
+                >
+                  <Link
+                    href={`/programs/enrolled/week/${active.current_week}/session/${idx}`}
+                    className="flex items-center justify-between"
+                  >
+                    <span className="font-display text-base font-semibold">
+                      {s.label}
+                    </span>
+                    <span className="text-xs text-muted">
+                      {s.exercises.length} exercise
+                      {s.exercises.length === 1 ? "" : "s"} →
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-3 rounded-2xl border border-dashed border-border p-5 text-sm text-muted">
+              No sessions are defined for week {active.current_week}. Log
+              workouts manually under{" "}
+              <Link href="/workouts" className="text-navy underline">
+                Workouts
+              </Link>
+              .
+            </p>
+          )}
         </section>
 
         <div className="mt-6 flex items-center gap-3">
