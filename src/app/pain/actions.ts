@@ -22,6 +22,7 @@ const Schema = z.object({
   intensity: z.coerce.number().int().min(1).max(10),
   pain_type: z.enum(PAIN_TYPES),
   notes: z.string().trim().max(500).optional(),
+  client_id: z.uuid().optional(),
 });
 
 export type LogPainState = {
@@ -40,20 +41,27 @@ export async function logPain(
     intensity: formData.get("intensity"),
     pain_type: formData.get("pain_type"),
     notes: formData.get("notes") || undefined,
+    client_id: formData.get("client_id") || undefined,
   });
   if (!parsed.success) {
     return { errors: z.flattenError(parsed.error).fieldErrors };
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.from("daily_pain_logs").insert({
+  const row = {
     user_id: user.id,
     performed_on: parsed.data.performed_on,
     location_ids: parsed.data.location_ids,
     intensity: parsed.data.intensity,
     pain_type: parsed.data.pain_type,
     notes: parsed.data.notes ?? null,
-  });
+    client_id: parsed.data.client_id ?? null,
+  };
+  const { error } = parsed.data.client_id
+    ? await supabase
+        .from("daily_pain_logs")
+        .upsert(row, { onConflict: "user_id,client_id", ignoreDuplicates: true })
+    : await supabase.from("daily_pain_logs").insert(row);
   if (error) return { message: error.message };
 
   revalidatePath("/pain");
