@@ -5,12 +5,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireUser } from "@/lib/supabase/dal";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import {
-  advanceTier,
-  DEFAULT_LIFETIME_TIERS,
-  DEFAULT_PER_EXERCISE_TIERS,
-  type ChallengeTier,
-} from "@/lib/domain/challenges";
+import * as ChallengeDomain from "@/lib/domain/challenges";
 
 const CreateSchema = z.discriminatedUnion("type", [
   z.object({
@@ -64,17 +59,17 @@ export async function createChallenge(
     return { errors: z.flattenError(parsed.error).fieldErrors };
   }
 
-  let tiers: ChallengeTier[];
+  let tiers: ChallengeDomain.ChallengeTier[];
   let exerciseId: string | null = null;
   let exerciseName: string | null = null;
   let endDate: string | null = null;
 
   switch (parsed.data.type) {
     case "lifetime_volume":
-      tiers = DEFAULT_LIFETIME_TIERS;
+      tiers = ChallengeDomain.DEFAULT_LIFETIME_TIERS;
       break;
     case "exercise_volume":
-      tiers = DEFAULT_PER_EXERCISE_TIERS;
+      tiers = ChallengeDomain.DEFAULT_PER_EXERCISE_TIERS;
       exerciseId = parsed.data.exercise_id;
       exerciseName = parsed.data.exercise_name;
       break;
@@ -130,14 +125,14 @@ export async function addVolumeToChallenge(formData: FormData): Promise<void> {
     accumulated_volume_lbs: string | number;
   };
   const row = data as Raw;
-  const tiers = (Array.isArray(row.tiers) ? row.tiers : []) as ChallengeTier[];
+  const tiers = (Array.isArray(row.tiers) ? row.tiers : []) as ChallengeDomain.ChallengeTier[];
   const currentVolume =
     typeof row.accumulated_volume_lbs === "string"
       ? parseFloat(row.accumulated_volume_lbs)
       : row.accumulated_volume_lbs;
   const newVolume = currentVolume + parsed.data.volume_lbs;
 
-  const advance = advanceTier(tiers, row.current_tier_index, newVolume);
+  const advance = ChallengeDomain.advanceTier(tiers, row.current_tier_index, newVolume);
 
   await supabase
     .from("challenges")
