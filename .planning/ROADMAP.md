@@ -7,7 +7,7 @@
 ## Phases
 
 - [x] **Phase 1: Data Model & Schema** - Define the JSONB structure, add `is_admin` flag, and add the workout-session linkage column (completed 2026-04-17)
-- [ ] **Phase 2: SQL Seed Data** - Populate initial program templates via migration so the app has real content to work with
+- [x] **Phase 2: SQL Seed Data** - Populate initial program templates via migration so the app has real content to work with (completed 2026-04-17)
 - [ ] **Phase 3: Admin Builder UI** - Gate-controlled UI for admins to create and edit program templates
 - [ ] **Phase 4: Enrollment Browse UI** - Users can browse available programs, inspect structure, and enroll
 - [ ] **Phase 5: Session View** - Users can view a session's prescribed exercises with %1RM-calculated target weights
@@ -40,7 +40,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 02-01-PLAN.md — Write migration 0006_seed_program_templates.sql, push to local Supabase, and verify row exists
+- [x] 02-01-PLAN.md — Write migration 0006_seed_program_templates.sql, push to local Supabase, and verify row exists
 
 ### Phase 3: Admin Builder UI
 **Goal**: An admin user can create and fully define a program template — including phases, week session prescriptions, and individual prescribed exercises — through the application UI
@@ -104,7 +104,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Model & Schema | 2/2 | Complete | 2026-04-17 |
-| 2. SQL Seed Data | 0/1 | In progress | - |
+| 2. SQL Seed Data | 1/1 | Complete | 2026-04-17 |
 | 3. Admin Builder UI | 0/? | Not started | - |
 | 4. Enrollment Browse UI | 0/? | Not started | - |
 | 5. Session View | 0/? | Not started | - |
@@ -114,4 +114,4 @@ Plans:
 ---
 
 *Roadmap created: 2026-04-17*
-*Last updated: 2026-04-17 — Phase 2 planned (1 plan: seed migration + push + verify)*
+*Last updated: 2026-04-17 — Phase 2 complete (1/1 plans, seed migration applied and verified)*

@@ -9,19 +9,19 @@ See: `.planning/PROJECT.md` (updated 2026-04-17)
 
 ## Current Position
 
-Phase: 1 — Data Model & Schema
-Plan: 1/2 complete (Wave 1: migration file done; Wave 2: push + verify next)
-Status: Executing Phase 1
-Last activity: 2026-04-18 — Plan 01-01 complete (migration 0005_programs_schema.sql written)
+Phase: 3 — Admin Builder UI (next)
+Plan: Phase 2 complete — 1/1 plans done
+Status: Phase 2 verified and complete
+Last activity: 2026-04-17 — Phase 2 complete (seed migration applied, 'starting-strength-4wk' row verified in DB)
 
-Progress: [-------] 0/7 phases complete (Phase 1 in progress: 1/2 plans done)
+Progress: [##-----] 2/7 phases complete
 
 ## Performance Metrics
 
-Phases complete: 0/7
+Phases complete: 2/7
 Requirements mapped: 21/21
-Plans written: 2
-Plans executed: 1 (01-01: migration write, ~1 min)
+Plans written: 3
+Plans executed: 3 (01-01: migration write, 01-02: push + verify, 02-01: seed migration write + push + verify)
 
 ## Accumulated Context
 
@@ -58,7 +58,12 @@ Plans executed: 1 (01-01: migration write, ~1 min)
 
 ## Session Continuity
 
-Next action: Execute Phase 1, Plan 02 (01-02-PLAN.md) — push migration 0005_programs_schema.sql to Supabase and verify schema changes are live.
+Next action: Phase 3 Admin Builder UI — discuss → plan → execute.
+
+Phase 2 context locked:
+- Seed template id: 'starting-strength-4wk', name: 'Starting Strength — 4-Week Beginner'
+- Migration: supabase/migrations/0006_seed_program_templates.sql (idempotent, ON CONFLICT DO NOTHING)
+- 1 phase (Foundation weeks 1-4), 4 weeks, Session A (Squat/Bench/Row) + Session B (Squat/Press/Deadlift), 3 exercises each
 
 Phase 1 context locked:
 - phases = [{name, start_week, end_week}], weeks = [{week_num, sessions: [{label, exercises: [{exercise_id, sets, reps, pct_1rm: decimal}]}]}]
@@ -78,4 +83,4 @@ Phase 1 context locked:
 ---
 
 *State initialized: 2026-04-17 — Roadmap created*
-*Last updated: 2026-04-18 — 01-01 complete (migration 0005_programs_schema.sql written)*
+*Last updated: 2026-04-17 — Phase 2 complete (seed migration applied, row verified in local DB)*
