@@ -1,12 +1,14 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Landing() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-border bg-cream/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="font-display text-xl font-semibold text-navy">
-            Sundee Fundee
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image src="/Logo.jpeg" alt="Sundee Fundee" width={40} height={40} className="rounded-full" />
+            <span className="font-display text-xl font-semibold text-navy">Sundee Fundee</span>
           </Link>
           <nav className="flex items-center gap-3">
             <Link
@@ -185,6 +187,10 @@ export default function Landing() {
           <p className="font-display text-base font-semibold text-navy">
             Sundee Fundee
           </p>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="hover:text-navy">Privacy</Link>
+            <Link href="/terms" className="hover:text-navy">Terms</Link>
+          </div>
           <p>© 2026 Sundee Fundee. All rights reserved.</p>
         </div>
       </footer>
