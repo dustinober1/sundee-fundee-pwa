@@ -5,7 +5,6 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   getEquipmentProfile,
   isExerciseAllowed,
-  type EquipmentProfileKey,
 } from "@/lib/domain/equipmentProfiles";
 
 export type ExerciseRow = {
@@ -56,7 +55,7 @@ export async function listExercisesByIds(
 // Filters the exercise catalog by the user's equipment profile preset.
 // Pass a null/unknown key to get everything (no filter).
 export async function listExercisesForProfile(
-  profileKey: EquipmentProfileKey | string | null,
+  profileKey: string | null,
 ): Promise<ExerciseRow[]> {
   const all = await listExercises();
   const profile = getEquipmentProfile(profileKey);
