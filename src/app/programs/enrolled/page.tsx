@@ -24,9 +24,17 @@ export default async function EnrolledProgramPage() {
         <h1 className="font-display mt-2 text-4xl font-semibold">
           {active.template_name}
         </h1>
+        {active.current_phase_name ? (
+          <p className="mt-1 text-sm text-navy/80">
+            {active.current_phase_name}
+          </p>
+        ) : null}
         <p className="mt-1 text-sm text-muted">
           Started {new Date(active.started_on + "T00:00:00").toLocaleDateString()}{" "}
-          · Week {active.current_week}
+          · Week {active.current_week} of {active.template_duration_weeks}
+          {active.template_duration_weeks > 0
+            ? ` · ${Math.max(0, active.template_duration_weeks - active.current_week)} weeks remaining`
+            : ""}
         </p>
 
         <section className="mt-8 rounded-2xl border border-dashed border-border p-6 text-sm text-muted">

@@ -62,7 +62,14 @@ export default async function ProgramsPage() {
               className="rounded-2xl border border-border bg-surface p-5"
             >
               <header className="flex items-baseline justify-between gap-3">
-                <h2 className="font-display text-lg font-semibold">{t.name}</h2>
+                <h2 className="font-display text-lg font-semibold">
+                  <Link
+                    href={`/programs/${t.id}`}
+                    className="underline-offset-4 hover:underline"
+                  >
+                    {t.name}
+                  </Link>
+                </h2>
                 <span className="text-xs text-muted uppercase tracking-widest">
                   {t.difficulty}
                 </span>
@@ -72,6 +79,12 @@ export default async function ProgramsPage() {
                 {t.duration_weeks} weeks · {t.sessions_per_week}× per week ·{" "}
                 {t.category}
               </p>
+              <Link
+                href={`/programs/${t.id}`}
+                className="mt-2 inline-block text-xs text-navy underline-offset-4 hover:underline"
+              >
+                View details →
+              </Link>
               {!active || active.template_id !== t.id ? (
                 <form action={enrollInProgram} className="mt-3">
                   <input type="hidden" name="template_id" value={t.id} />
