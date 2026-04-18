@@ -73,7 +73,7 @@ export function CreateChallengeForm({ exercises }: { exercises: ExerciseRow[] })
             <input
               name="target_volume_lbs"
               type="number"
-              step="100"
+              step="1"
               min="1"
               required
               className="mt-1 block w-full h-12 rounded-xl border border-border bg-cream px-3 focus:border-navy focus:outline-none"

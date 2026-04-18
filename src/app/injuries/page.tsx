@@ -84,25 +84,27 @@ export default async function InjuriesPage() {
                   </p>
                   {i.notes ? <p className="mt-2 text-sm text-navy/80">{i.notes}</p> : null}
 
-                  <form action={updateInjuryPhase} className="mt-3 flex items-center gap-2">
-                    <input type="hidden" name="id" value={i.id} />
-                    <select
-                      name="recovery_phase"
-                      defaultValue={i.recovery_phase}
-                      className="h-10 rounded-xl border border-border bg-cream px-3 text-sm focus:border-navy focus:outline-none"
-                    >
-                      {PHASES.map((p) => (
-                        <option key={p} value={p}>
-                          {PHASE_LABELS[p]}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      type="submit"
-                      className="h-10 rounded-lg bg-orange px-4 text-sm font-medium text-cream hover:opacity-90"
-                    >
-                      Update phase
-                    </button>
+                  <div className="mt-3 flex items-center gap-2">
+                    <form action={updateInjuryPhase} className="flex items-center gap-2">
+                      <input type="hidden" name="id" value={i.id} />
+                      <select
+                        name="recovery_phase"
+                        defaultValue={i.recovery_phase}
+                        className="h-10 rounded-xl border border-border bg-cream px-3 text-sm focus:border-navy focus:outline-none"
+                      >
+                        {PHASES.map((p) => (
+                          <option key={p} value={p}>
+                            {PHASE_LABELS[p]}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        type="submit"
+                        className="h-10 rounded-lg bg-orange px-4 text-sm font-medium text-cream hover:opacity-90"
+                      >
+                        Update phase
+                      </button>
+                    </form>
                     <form action={deleteInjury} className="ml-auto">
                       <input type="hidden" name="id" value={i.id} />
                       <button
@@ -112,7 +114,7 @@ export default async function InjuriesPage() {
                         Delete
                       </button>
                     </form>
-                  </form>
+                  </div>
                 </article>
               );
             })
