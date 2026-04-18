@@ -183,6 +183,14 @@ export async function startProgramSession(formData: FormData): Promise<void> {
   const workoutId = (workout as { id: string }).id;
 
   // Insert workout_exercises + workout_sets.
+  const allSetRows: Array<{
+    workout_exercise_id: string;
+    position: number;
+    prescribed_weight: number | null;
+    prescribed_reps: number;
+    is_complete: boolean;
+  }> = [];
+
   for (let ei = 0; ei < session.exercises.length; ei++) {
     const ex = session.exercises[ei];
     const { data: we, error: weErr } = await supabase
@@ -208,9 +216,12 @@ export async function startProgramSession(formData: FormData): Promise<void> {
       prescribed_reps: ex.reps,
       is_complete: false,
     }));
-    if (setRows.length > 0) {
-      await supabase.from("workout_sets").insert(setRows);
-    }
+
+    allSetRows.push(...setRows);
+  }
+
+  if (allSetRows.length > 0) {
+    await supabase.from("workout_sets").insert(allSetRows);
   }
 
   // Upsert enrolled_program_sessions row.
