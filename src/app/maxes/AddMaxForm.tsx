@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import type { ExerciseRow } from "@/features/exercises/queries";
 import type { WeightUnit } from "@/lib/supabase/types";
-import { addOneRepMax, type AddMaxState } from "./actions";
+import { addOneRepMax } from "./actions";
 
 const CATEGORY_LABEL: Record<NonNullable<ExerciseRow["weightlifting_category"]>, string> = {
   squat: "Squat",
@@ -21,7 +21,7 @@ export function AddMaxForm({
   exercises: ExerciseRow[];
   defaultUnit: WeightUnit;
 }) {
-  const [state, action, pending] = useActionState<AddMaxState | undefined, FormData>(
+  const [state, action, pending] = useActionState(
     addOneRepMax,
     undefined,
   );
