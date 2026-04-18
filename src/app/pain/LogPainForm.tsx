@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useOfflineAction } from "@/lib/offline/useOfflineAction";
 import type { BodyRegion } from "@/lib/domain/bodyRegions";
 import { logPain, type LogPainState } from "./actions";
 
@@ -16,10 +16,13 @@ const PAIN_TYPES = [
 ] as const;
 
 export function LogPainForm({ regions }: { regions: readonly BodyRegion[] }) {
-  const [state, action, pending] = useActionState<LogPainState | undefined, FormData>(
-    logPain,
-    undefined,
-  );
+  const [status, action, pending] = useOfflineAction<LogPainState | undefined>({
+    kind: "logPain",
+    action: logPain,
+  });
+  const state =
+    status.kind === "ok" ? (status.state as LogPainState | undefined) : undefined;
+  const queued = status.kind === "queued";
 
   return (
     <form action={action} className="mt-3 space-y-4">
@@ -99,6 +102,11 @@ export function LogPainForm({ regions }: { regions: readonly BodyRegion[] }) {
       {state?.message ? (
         <p className="rounded-lg border border-recovery-risk/40 bg-recovery-risk/10 p-3 text-sm text-recovery-risk">
           {state.message}
+        </p>
+      ) : null}
+      {queued ? (
+        <p className="rounded-lg border border-gold/40 bg-gold/10 p-3 text-sm text-navy">
+          Queued for sync — we&apos;ll upload this when you&apos;re back online.
         </p>
       ) : null}
 
