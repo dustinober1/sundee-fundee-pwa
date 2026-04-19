@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 const display = Playfair_Display({
   variable: "--font-display",
@@ -16,12 +17,28 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Sundee Fundee",
-    template: "%s · Sundee Fundee",
+    default: SITE_TITLE,
+    template: `%s · ${SITE_TITLE}`,
   },
-  description:
-    "Strength training & rucking programs. Injury-aware training plans and recovery tracking. Available on iOS.",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_TITLE,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: SITE_TITLE,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
   formatDetection: {
     telephone: false,
   },
@@ -42,9 +59,7 @@ export default function RootLayout({
       lang="en"
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-cream text-navy">
-        {children}
-      </body>
+      <body className="min-h-full flex flex-col bg-cream text-navy">{children}</body>
     </html>
   );
 }

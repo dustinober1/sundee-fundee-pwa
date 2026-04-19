@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { AppStoreButtons } from "@/components/AppStoreButtons";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import { posts, getPost, formatDate } from "../posts";
 
 type Params = Promise<{ slug: string }>;
@@ -52,27 +55,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-cream/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="font-display text-xl font-semibold text-navy">
-            Sundee Fundee
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm font-medium text-navy hover:opacity-70"
-            >
-              Home
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-navy hover:opacity-70"
-            >
-              Blog
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader showHomeLink />
 
       <main className="flex flex-1 flex-col">
         <article className="px-6 pt-16 pb-20">
@@ -122,27 +105,16 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               Train with the same thinking.
             </h2>
             <p className="mt-4 text-muted">
-              Sundee Fundee puts recovery, injury, and cycle awareness into every
-              session — without the guesswork.
+              Get recovery-aware training plans and rucking programs on iOS.
             </p>
-            <Link
-              href="/login"
-              className="mt-8 inline-flex h-12 items-center rounded-lg bg-orange px-8 font-medium text-cream hover:opacity-90"
-            >
-              Create your free account
-            </Link>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <AppStoreButtons />
+            </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-border px-6 py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
-          <p className="font-display text-base font-semibold text-navy">
-            Sundee Fundee
-          </p>
-          <p>© 2026 Sundee Fundee. All rights reserved.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

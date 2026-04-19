@@ -14,10 +14,10 @@ export default function NotFound() {
           The page may have moved or never existed.
         </p>
         <Link
-          href="/dashboard"
+          href="/"
           className="mt-6 inline-flex h-12 items-center rounded-lg bg-orange px-8 font-medium text-cream hover:opacity-90"
         >
-          Back to dashboard
+          Back home
         </Link>
       </div>
     </main>

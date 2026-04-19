@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import { posts, formatDate } from "./posts";
 
 export const metadata: Metadata = {
@@ -15,27 +17,7 @@ export default function BlogIndex() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-cream/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link href="/" className="font-display text-xl font-semibold text-navy">
-            Sundee Fundee
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link
-              href="/"
-              className="text-sm font-medium text-navy hover:opacity-70"
-            >
-              Home
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-navy hover:opacity-70"
-            >
-              Blog
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader showHomeLink />
 
       <main className="flex flex-1 flex-col">
         <section className="px-6 pt-20 pb-12">
@@ -92,14 +74,7 @@ export default function BlogIndex() {
         </section>
       </main>
 
-      <footer className="border-t border-border px-6 py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
-          <p className="font-display text-base font-semibold text-navy">
-            Sundee Fundee
-          </p>
-          <p>© 2026 Sundee Fundee. All rights reserved.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }
