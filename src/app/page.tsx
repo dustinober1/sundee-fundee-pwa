@@ -1,10 +1,46 @@
+import Link from "next/link";
+import type { Metadata } from "next";
 import { AppStoreButtons } from "@/components/AppStoreButtons";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildOrganizationJsonLd, buildWebsiteJsonLd } from "@/lib/seo";
+import {
+  SITE_DESCRIPTION,
+  SITE_OG_IMAGE_PATH,
+  SITE_TITLE,
+  SITE_URL,
+} from "@/lib/site";
+import { formatDate, posts } from "./blog/posts";
+
+const latestPosts = posts.slice(0, 3);
+
+export const metadata: Metadata = {
+  title: "Recovery-Aware Strength Training & Rucking App for iOS",
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: SITE_TITLE,
+    title: "Recovery-Aware Strength Training & Rucking App for iOS",
+    description: SITE_DESCRIPTION,
+    images: [SITE_OG_IMAGE_PATH],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Recovery-Aware Strength Training & Rucking App for iOS",
+    description: SITE_DESCRIPTION,
+    images: [SITE_OG_IMAGE_PATH],
+  },
+};
 
 export default function Landing() {
   return (
     <>
+      <JsonLd data={[buildOrganizationJsonLd(), buildWebsiteJsonLd()]} />
       <SiteHeader showDownloadButtons />
 
       <main className="flex flex-1 flex-col">
@@ -137,6 +173,51 @@ export default function Landing() {
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <AppStoreButtons compact={false} />
+            </div>
+          </div>
+        </section>
+
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-5xl">
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                  Latest from the blog
+                </p>
+                <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
+                  Recent training notes
+                </h2>
+              </div>
+              <Link
+                href="/blog"
+                className="text-sm font-medium text-orange underline-offset-4 hover:underline"
+              >
+                View all
+              </Link>
+            </div>
+
+            <div className="mt-12 grid gap-6 lg:grid-cols-3">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="block rounded-2xl border border-border bg-surface p-6 transition hover:border-navy"
+                >
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-muted">
+                    <time dateTime={post.publishedAt}>
+                      {formatDate(post.publishedAt)}
+                    </time>
+                    <span aria-hidden="true">·</span>
+                    <span>{post.readMinutes} min read</span>
+                  </div>
+                  <h3 className="font-display mt-4 text-2xl font-semibold text-navy">
+                    {post.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">
+                    {post.description}
+                  </p>
+                </Link>
+              ))}
             </div>
           </div>
         </section>

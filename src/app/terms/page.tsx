@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   title: "Terms of Use – Sundee Fundee",
   description:
     "Terms covering the Sundee Fundee website, blog content, outbound links, and linked iOS apps.",
+  alternates: {
+    canonical: "/terms",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function TermsPage() {

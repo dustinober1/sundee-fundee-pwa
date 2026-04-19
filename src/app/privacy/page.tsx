@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: "Privacy Policy – Sundee Fundee",
   description:
     "Privacy information for the Sundee Fundee website, blog, affiliate links, and linked iOS apps.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function PrivacyPage() {

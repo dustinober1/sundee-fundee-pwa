@@ -1,13 +1,35 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildBreadcrumbJsonLd } from "@/lib/seo";
+import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { posts, formatDate } from "./posts";
 
 export const metadata: Metadata = {
   title: "Blog",
   description:
     "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/blog`,
+    siteName: SITE_TITLE,
+    title: "Blog · Sundee Fundee",
+    description:
+      "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
+    images: [SITE_OG_IMAGE_PATH],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog · Sundee Fundee",
+    description:
+      "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
+    images: [SITE_OG_IMAGE_PATH],
+  },
 };
 
 export default function BlogIndex() {
@@ -17,6 +39,22 @@ export default function BlogIndex() {
 
   return (
     <>
+      <JsonLd
+        data={[
+          buildBreadcrumbJsonLd([
+            { name: "Home", url: SITE_URL },
+            { name: "Blog", url: `${SITE_URL}/blog` },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Blog",
+            url: `${SITE_URL}/blog`,
+            description:
+              "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
+          },
+        ]}
+      />
       <SiteHeader showHomeLink />
 
       <main className="flex flex-1 flex-col">

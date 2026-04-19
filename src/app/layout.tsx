@@ -24,21 +24,6 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_TITLE,
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    url: SITE_URL,
-    siteName: SITE_TITLE,
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-  },
-  twitter: {
-    card: "summary",
-    title: SITE_TITLE,
-    description: SITE_DESCRIPTION,
-  },
   formatDetection: {
     telephone: false,
   },
