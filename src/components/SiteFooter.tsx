@@ -18,7 +18,7 @@ export function SiteFooter() {
             Terms
           </Link>
         </div>
-        <p>© 2026 Sundee Fundee. Public site.</p>
+        <p>© 2026 Sundee Fundee. All rights reserved.</p>
       </div>
     </footer>
   );
