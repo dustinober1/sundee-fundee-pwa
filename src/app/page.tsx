@@ -1,6 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 
+const APP_STORE_LINKS = {
+  sundeeFundee: "https://apps.apple.com/us/app/sundeefundee/id6759870888",
+  ruckingClub: "https://apps.apple.com/us/app/sundee-fundee-rucking-club/id6760980683",
+};
+
 export default function Landing() {
   return (
     <>
@@ -17,18 +22,14 @@ export default function Landing() {
             >
               Blog
             </Link>
-            <Link
-              href="/login"
-              className="text-sm font-medium text-navy hover:opacity-70"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/login"
+            <a
+              href={APP_STORE_LINKS.sundeeFundee}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex h-10 items-center rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
             >
-              Get Started
-            </Link>
+              Download
+            </a>
           </nav>
         </div>
       </header>
@@ -37,28 +38,31 @@ export default function Landing() {
         <section className="px-6 pt-24 pb-20">
           <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
             <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-              Recovery-Aware Strength Training
+              Strength Training & Rucking
             </p>
             <h1 className="font-display mt-6 text-5xl font-bold leading-[1.05] text-navy sm:text-6xl lg:text-7xl">
-              Train around what your body can handle today.
+              Train smarter with recovery-aware programs.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-muted">
-              Log workouts, track maxes, and let your readiness drive the
-              plan — without the guesswork.
+              Injury-adaptive plans, cycle tracking, and recovery-driven workouts. Available on iOS.
             </p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/login"
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row justify-center">
+              <a
+                href={APP_STORE_LINKS.sundeeFundee}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-8 font-medium text-cream hover:opacity-90"
               >
-                Get started
-              </Link>
-              <Link
-                href="#features"
-                className="inline-flex h-12 items-center justify-center rounded-lg border border-navy px-8 font-medium text-navy hover:bg-surface"
+                Download Sundee Fundee
+              </a>
+              <a
+                href={APP_STORE_LINKS.ruckingClub}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center justify-center rounded-lg border border-orange bg-transparent px-8 font-medium text-orange hover:bg-orange/5"
               >
-                See how it works
-              </Link>
+                Download Rucking Club
+              </a>
             </div>
           </div>
         </section>
@@ -67,14 +71,13 @@ export default function Landing() {
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
               <p className="text-sm font-medium uppercase tracking-[0.3em] text-gold">
-                Everything You Need
+                What's Included
               </p>
               <h2 className="font-display mt-4 text-4xl font-bold sm:text-5xl">
-                Built around how your body works
+                Training built around your body
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-cream/80">
-                Recovery, injuries, and cycle phase shape every session — not a
-                one-size-fits-all template.
+                Recovery, injuries, and cycle phase shape every session. Not one-size-fits-all.
               </p>
             </div>
 
@@ -82,27 +85,27 @@ export default function Landing() {
               {[
                 {
                   title: "Recovery-Driven Plans",
-                  body: "Log readiness daily. Workouts adapt to how recovered you actually are, not what the calendar says.",
+                  body: "Log readiness daily. Workouts adapt to how recovered you actually are.",
                 },
                 {
                   title: "Cycle Phase Tracking",
-                  body: "Optional cycle tracking informs load and intensity so you train with your body, not against it.",
+                  body: "Optional cycle tracking informs load and intensity. Train with your body, not against it.",
                 },
                 {
                   title: "Injury Adaptation",
-                  body: "Log injuries and pain. Sessions adjust around limitations to keep you training safely.",
+                  body: "Log injuries and pain. Sessions adjust to keep you training safely around limitations.",
                 },
                 {
                   title: "Max & PR Tracking",
-                  body: "Record every lift and benchmark. See progress over time and catch plateaus early.",
+                  body: "Record lifts and benchmarks. See progress over time and catch plateaus early.",
                 },
                 {
-                  title: "Program Builder",
-                  body: "Enroll in structured programs or build your own with periodization and deload weeks.",
+                  title: "Strength & Rucking Programs",
+                  body: "Pre-built programs or customize your own. Periodization and deload weeks included.",
                 },
                 {
-                  title: "Challenges & Benchmarks",
-                  body: "Track classic benchmarks, custom WODs, and personal challenges. See how far you've come.",
+                  title: "Benchmarks & Challenges",
+                  body: "Track classic benchmarks, WODs, and personal goals. Celebrate every milestone.",
                 },
               ].map((f) => (
                 <div
@@ -125,28 +128,28 @@ export default function Landing() {
           <div className="mx-auto max-w-5xl">
             <div className="text-center">
               <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-                Simple Process
+                Why Choose Sundee Fundee
               </p>
               <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
-                Three steps to smarter training
+                Built by athletes, for athletes
               </h2>
             </div>
             <div className="mt-16 grid gap-10 sm:grid-cols-3">
               {[
                 {
                   n: "01",
-                  title: "Set your foundation",
-                  body: "Enter lifts, 1RMs, and any injuries. Optionally enable cycle tracking.",
+                  title: "Train Around Injuries",
+                  body: "Adapt without detraining. Keep making progress while respecting limitations.",
                 },
                 {
                   n: "02",
-                  title: "Log & train",
-                  body: "Run sessions from a program or roll your own. Pain and effort tracked along the way.",
+                  title: "Data-Driven Recovery",
+                  body: "Recovery scores from HRV, sleep, and pain inform every training decision.",
                 },
                 {
                   n: "03",
-                  title: "Track & grow",
-                  body: "Watch maxes climb, hit benchmarks, and let recovery drive the next session.",
+                  title: "Periodized Programs",
+                  body: "Structured strength and rucking plans that respect your body's capacity.",
                 },
               ].map((s) => (
                 <div key={s.n}>
@@ -166,18 +169,29 @@ export default function Landing() {
         <section className="bg-surface px-6 py-24">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="font-display text-4xl font-bold text-navy sm:text-5xl">
-              Your strongest self starts here.
+              Download now on the App Store.
             </h2>
             <p className="mt-4 text-muted">
-              Train smarter — with workouts that respect your body and your
-              goals.
+              Get recovery-aware training plans, injury adaptation, and progress tracking.
             </p>
-            <Link
-              href="/login"
-              className="mt-8 inline-flex h-12 items-center rounded-lg bg-orange px-8 font-medium text-cream hover:opacity-90"
-            >
-              Create your free account
-            </Link>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row justify-center">
+              <a
+                href={APP_STORE_LINKS.sundeeFundee}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-8 font-medium text-cream hover:opacity-90"
+              >
+                Sundee Fundee
+              </a>
+              <a
+                href={APP_STORE_LINKS.ruckingClub}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center justify-center rounded-lg border border-orange bg-transparent px-8 font-medium text-orange hover:bg-orange/5"
+              >
+                Rucking Club
+              </a>
+            </div>
           </div>
         </section>
       </main>
@@ -188,6 +202,7 @@ export default function Landing() {
             Sundee Fundee
           </p>
           <div className="flex gap-6">
+            <Link href="/blog" className="hover:text-navy">Blog</Link>
             <Link href="/privacy" className="hover:text-navy">Privacy</Link>
             <Link href="/terms" className="hover:text-navy">Terms</Link>
           </div>

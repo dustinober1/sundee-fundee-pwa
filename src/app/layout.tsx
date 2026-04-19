@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
-import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
-import { OfflineProvider } from "@/components/OfflineProvider";
-import { SyncStatusBadge } from "@/components/SyncStatusBadge";
 
 const display = Playfair_Display({
   variable: "--font-display",
@@ -24,13 +21,7 @@ export const metadata: Metadata = {
     template: "%s · Sundee Fundee",
   },
   description:
-    "Recovery-aware strength training. Log workouts, track maxes, and train around what your body can actually handle today.",
-  applicationName: "Sundee Fundee",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Sundee Fundee",
-  },
+    "Strength training & rucking programs. Injury-aware training plans and recovery tracking. Available on iOS.",
   formatDetection: {
     telephone: false,
   },
@@ -52,11 +43,7 @@ export default function RootLayout({
       className={`${display.variable} ${body.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-cream text-navy">
-        <OfflineProvider>
-          {children}
-          <SyncStatusBadge />
-        </OfflineProvider>
-        <ServiceWorkerRegister />
+        {children}
       </body>
     </html>
   );
