@@ -20,24 +20,18 @@ export default function BlogIndex() {
           <Link href="/" className="font-display text-xl font-semibold text-navy">
             Sundee Fundee
           </Link>
-          <nav className="flex items-center gap-3">
+          <nav className="flex items-center gap-6">
+            <Link
+              href="/"
+              className="text-sm font-medium text-navy hover:opacity-70"
+            >
+              Home
+            </Link>
             <Link
               href="/blog"
               className="text-sm font-medium text-navy hover:opacity-70"
             >
               Blog
-            </Link>
-            <Link
-              href="/login"
-              className="text-sm font-medium text-navy hover:opacity-70"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/login"
-              className="inline-flex h-10 items-center rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
-            >
-              Get Started
             </Link>
           </nav>
         </div>
