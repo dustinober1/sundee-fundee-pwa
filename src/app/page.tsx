@@ -198,7 +198,7 @@ export default function Landing() {
 
             <div className="mt-10 rounded-[2rem] border border-border bg-surface p-6 text-center">
               <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-                Turn reading into training
+                Turn reading into training, then ship it
               </p>
               <p className="mx-auto mt-4 max-w-2xl text-muted">
                 Use the app to turn recovery ideas into an actual session when
