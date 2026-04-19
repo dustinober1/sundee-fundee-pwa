@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -108,6 +109,22 @@ export default function BlogIndex() {
                 </li>
               ))}
             </ul>
+
+            <div className="mt-12 rounded-[2rem] border border-border bg-surface p-6 text-center">
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                Read, then train
+              </p>
+              <h2 className="font-display mt-4 text-3xl font-bold text-navy">
+                Put the training ideas into the app.
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-muted">
+                The blog explains the method. The app applies it when recovery,
+                pain, or schedule changes make the old plan wrong.
+              </p>
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                <AppStoreButtons compact />
+              </div>
+            </div>
           </div>
         </section>
       </main>

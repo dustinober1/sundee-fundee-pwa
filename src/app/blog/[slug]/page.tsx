@@ -128,6 +128,23 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               <Markdown content={post.body} />
             </div>
 
+            <div className="mt-12 rounded-[2rem] border border-border bg-surface p-6">
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                Turn this article into a session
+              </p>
+              <h2 className="font-display mt-4 text-3xl font-bold text-navy">
+                Use the app when the plan needs to adapt.
+              </h2>
+              <p className="mt-4 text-muted">
+                If this topic maps to your own training week, open the app and
+                let recovery, pain, and readiness shape the session instead of
+                forcing a fixed calendar.
+              </p>
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                <AppStoreButtons compact />
+              </div>
+            </div>
+
             <div className="mt-16 flex flex-wrap gap-2">
               {post.tags.map((t) => (
                 <span

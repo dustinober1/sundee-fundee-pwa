@@ -1,9 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { AppStoreButtons } from "@/components/AppStoreButtons";
+import { AppComparison } from "@/components/AppComparison";
 import { JsonLd } from "@/components/JsonLd";
+import { HomeProductPreview } from "@/components/HomeProductPreview";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { ReadinessAdvisor } from "@/components/ReadinessAdvisor";
+import { TrustSignals } from "@/components/TrustSignals";
 import { buildOrganizationJsonLd, buildWebsiteJsonLd } from "@/lib/seo";
 import {
   SITE_DESCRIPTION,
@@ -44,21 +48,29 @@ export default function Landing() {
       <SiteHeader showDownloadButtons />
 
       <main className="flex flex-1 flex-col">
-        <section className="px-6 pt-24 pb-20">
-          <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-            <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-              Strength Training &amp; Rucking
-            </p>
-            <h1 className="font-display mt-6 text-5xl font-bold leading-[1.05] text-navy sm:text-6xl lg:text-7xl">
-              Train smarter with recovery-aware programs.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg text-muted">
-              Injury-adaptive plans, cycle tracking, and recovery-driven
-              workouts. Available on iOS.
-            </p>
-            <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-              <AppStoreButtons />
+        <section className="px-6 pt-20 pb-20">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="max-w-2xl">
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                Strength Training &amp; Rucking
+              </p>
+              <h1 className="font-display mt-6 text-5xl font-bold leading-[1.05] text-navy sm:text-6xl lg:text-7xl">
+                Train smarter with recovery-aware programs.
+              </h1>
+              <p className="mt-6 max-w-xl text-lg text-muted">
+                Injury-adaptive plans, cycle tracking, and recovery-driven
+                workouts. Available on iOS.
+              </p>
+              <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+                <AppStoreButtons />
+              </div>
+              <p className="mt-4 text-sm text-muted">
+                Built around the idea that your training should adapt to your
+                body, not the calendar.
+              </p>
             </div>
+
+            <HomeProductPreview />
           </div>
         </section>
 
@@ -120,47 +132,11 @@ export default function Landing() {
           </div>
         </section>
 
-        <section className="px-6 py-24">
-          <div className="mx-auto max-w-5xl">
-            <div className="text-center">
-              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-                Why Choose Sundee Fundee
-              </p>
-              <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
-                Built by athletes, for athletes
-              </h2>
-            </div>
-            <div className="mt-16 grid gap-10 sm:grid-cols-3">
-              {[
-                {
-                  n: "01",
-                  title: "Train Around Injuries",
-                  body: "Adapt without detraining. Keep making progress while respecting limitations.",
-                },
-                {
-                  n: "02",
-                  title: "Data-Driven Recovery",
-                  body: "Recovery scores from HRV, sleep, and pain inform every training decision.",
-                },
-                {
-                  n: "03",
-                  title: "Periodized Programs",
-                  body: "Structured strength and rucking plans that respect your body's capacity.",
-                },
-              ].map((s) => (
-                <div key={s.n}>
-                  <p className="font-display text-5xl font-bold text-orange">
-                    {s.n}
-                  </p>
-                  <h3 className="font-display mt-4 text-xl font-semibold text-navy">
-                    {s.title}
-                  </h3>
-                  <p className="mt-3 text-sm text-muted">{s.body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <AppComparison />
+
+        <TrustSignals />
+
+        <ReadinessAdvisor />
 
         <section className="bg-surface px-6 py-24">
           <div className="mx-auto max-w-3xl text-center">
@@ -218,6 +194,19 @@ export default function Landing() {
                   </p>
                 </Link>
               ))}
+            </div>
+
+            <div className="mt-10 rounded-[2rem] border border-border bg-surface p-6 text-center">
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                Turn reading into training
+              </p>
+              <p className="mx-auto mt-4 max-w-2xl text-muted">
+                Use the app to turn recovery ideas into an actual session when
+                your readiness changes during the week.
+              </p>
+              <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                <AppStoreButtons compact />
+              </div>
             </div>
           </div>
         </section>
