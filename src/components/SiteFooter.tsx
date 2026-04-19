@@ -8,6 +8,9 @@ export function SiteFooter() {
           Sundee Fundee
         </p>
         <div className="flex gap-6">
+          <Link href="/about" className="hover:text-navy">
+            About Us
+          </Link>
           <Link href="/blog" className="hover:text-navy">
             Blog
           </Link>
