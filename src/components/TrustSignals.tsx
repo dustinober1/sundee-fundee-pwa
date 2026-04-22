@@ -22,12 +22,11 @@ export function TrustSignals() {
             Why trust it
           </p>
           <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
-            Trust comes from transparency, not fake proof.
+            Trust comes from transparency.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted">
-            You do not have user testimonials yet, so this section leans on what
-            people can verify right now: the policy surface, the distribution
-            path, and the actual training philosophy.
+            No hype, just transparency. Here&apos;s what you can verify before
+            you download.
           </p>
         </div>
 
