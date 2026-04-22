@@ -27,7 +27,7 @@ const apps = [
 
 export function AppComparison() {
   return (
-    <section className="bg-surface px-6 py-24">
+    <section id="compare" className="bg-surface px-6 py-24">
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
           <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
@@ -37,9 +37,8 @@ export function AppComparison() {
             Make the choice obvious.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted">
-            The site currently promotes two products, so this section makes the
-            split explicit instead of making visitors guess which download they
-            should tap.
+            Two apps, one philosophy. Pick the one that fits your training
+            focus.
           </p>
         </div>
 
