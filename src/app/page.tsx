@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { AppComparison } from "@/components/AppComparison";
+import { TrainingLifestyleGallery } from "@/components/TrainingLifestyleGallery";
 import { JsonLd } from "@/components/JsonLd";
 import { HomeProductPreview } from "@/components/HomeProductPreview";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -50,24 +51,32 @@ export default function Landing() {
       <main className="flex flex-1 flex-col">
         <section className="px-6 pt-20 pb-20">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="max-w-2xl">
-              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-                Strength Training &amp; Rucking
-              </p>
-              <h1 className="font-display mt-6 text-5xl font-bold leading-[1.05] text-navy sm:text-6xl lg:text-7xl">
-                Train smarter with recovery-aware programs.
-              </h1>
-              <p className="mt-6 max-w-xl text-lg text-muted">
-                Injury-adaptive plans, cycle tracking, and recovery-driven
-                workouts. Available on iOS.
-              </p>
-              <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons />
+            <div className="relative max-w-2xl">
+              <div className="absolute -inset-12 rounded-full bg-[radial-gradient(circle_at_center,rgba(242,115,25,0.12),transparent_60%)] blur-3xl pointer-events-none" />
+              <div className="relative">
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                  Strength Training &amp; Rucking
+                </p>
+                <h1 className="font-display mt-6 text-5xl font-bold leading-[1.05] text-navy sm:text-6xl lg:text-7xl">
+                  Train smarter with recovery-aware programs.
+                </h1>
+                <p className="mt-6 max-w-xl text-lg text-muted">
+                  Injury-adaptive plans, cycle tracking, and recovery-driven
+                  workouts. Available on iOS.
+                </p>
+                <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+                  <a
+                    href="#compare"
+                    className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-8 font-medium text-cream transition hover:opacity-90"
+                  >
+                    Explore the Apps
+                  </a>
+                </div>
+                <p className="mt-4 text-sm text-muted">
+                  Built around the idea that your training should adapt to your
+                  body, not the calendar.
+                </p>
               </div>
-              <p className="mt-4 text-sm text-muted">
-                Built around the idea that your training should adapt to your
-                body, not the calendar.
-              </p>
             </div>
 
             <HomeProductPreview />
@@ -118,7 +127,7 @@ export default function Landing() {
               ].map((f) => (
                 <div
                   key={f.title}
-                  className="rounded-2xl border border-cream/10 bg-cream/5 p-6"
+                  className="rounded-2xl border border-cream/10 border-l-orange/40 bg-cream/5 p-6"
                 >
                   <h3 className="font-display text-xl font-semibold text-cream">
                     {f.title}
@@ -131,6 +140,8 @@ export default function Landing() {
             </div>
           </div>
         </section>
+
+        <TrainingLifestyleGallery />
 
         <AppComparison />
 
@@ -177,7 +188,7 @@ export default function Landing() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="block rounded-2xl border border-border bg-surface p-6 transition hover:border-navy"
+                  className="block rounded-2xl border border-border bg-surface p-6 transition hover:border-orange/50"
                 >
                   <div className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-muted">
                     <time dateTime={post.publishedAt}>
