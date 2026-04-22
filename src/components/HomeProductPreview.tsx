@@ -63,16 +63,29 @@ export function HomeProductPreview() {
           </span>
         </div>
 
-        <div className="overflow-hidden rounded-[2rem] border border-navy/8 bg-white shadow-[0_15px_30px_rgba(13,26,64,0.06)]">
-          <Image
-            src={current.src}
-            alt={current.alt}
-            width={1320}
-            height={2868}
-            priority={active === "dashboard"}
-            sizes="(min-width: 1024px) 420px, 92vw"
-            className="h-auto w-full"
-          />
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-[#0f0f0f] shadow-[0_15px_30px_rgba(13,26,64,0.06)]">
+          <svg
+            viewBox="0 0 440 900"
+            className="absolute inset-0 h-full w-full"
+            aria-hidden="true"
+          >
+            <rect x="0" y="0" width="440" height="900" rx="44" fill="#0f0f0f" />
+            <rect x="14" y="14" width="412" height="872" rx="36" fill="white" />
+            <rect x="180" y="24" width="80" height="20" rx="10" fill="#0a0a0a" />
+          </svg>
+          <div className="relative p-[3.2%]">
+            <div className="overflow-hidden rounded-[2rem]">
+              <Image
+                src={current.src}
+                alt={current.alt}
+                width={1320}
+                height={2868}
+                priority={active === "dashboard"}
+                sizes="(min-width: 1024px) 420px, 92vw"
+                className="h-auto w-full"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
