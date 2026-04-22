@@ -56,8 +56,8 @@ export function ReadinessAdvisor() {
             What should I train today?
           </h2>
           <p className="mt-4 max-w-xl text-muted">
-            This is a simple demo of the product logic. Pick the state that most
-            matches today and get a clear training direction back immediately.
+            Not sure what to train today? Pick how you feel and get a
+            recommendation in seconds.
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
