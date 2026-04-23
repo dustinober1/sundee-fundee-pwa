@@ -16,34 +16,28 @@ export function TrainingLifestyleGallery() {
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Slot 1 — replace src/alt with a real lifestyle image */}
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-navy/10 to-orange/10">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-sm text-muted">
-                {/* TODO: Replace with training photo */}
-                Lifestyle image 1
-              </p>
-            </div>
+            <img
+              src="/lifestyle-gifs/hiker.gif"
+              alt="Hiker during golden hour"
+              className="h-full w-full object-cover"
+            />
           </div>
 
-          {/* Slot 2 */}
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-orange/10 to-navy/10">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-sm text-muted">
-                {/* TODO: Replace with training photo */}
-                Lifestyle image 2
-              </p>
-            </div>
+            <img
+              src="/lifestyle-gifs/kettlebell.gif"
+              alt="Kettlebell training macro shot"
+              className="h-full w-full object-cover"
+            />
           </div>
 
-          {/* Slot 3 */}
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-navy/10 to-gold/10 sm:col-span-2 lg:col-span-1">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-sm text-muted">
-                {/* TODO: Replace with training photo */}
-                Lifestyle image 3
-              </p>
-            </div>
+            <img
+              src="/lifestyle-gifs/woman-gym.gif"
+              alt="Woman training in gym"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
       </div>
