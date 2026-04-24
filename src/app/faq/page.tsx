@@ -35,9 +35,9 @@ const faqSections: FaqSection[] = [
           "Download the app from the App Store, create a free account, and complete the onboarding questionnaire. The questionnaire takes about two minutes and covers your training history, current schedule, and any active injuries. Your first session is ready immediately after.",
       },
       {
-        question: "Is there a free trial?",
+        question: "Is there a subscription or paid tier?",
         answer:
-          "Yes. Sundee Fundee includes a free trial so you can experience the full app before committing to a subscription. No credit card is required to start.",
+          "No. Sundee Fundee is completely free. The app is supported by voluntary donations from athletes who find it valuable. If you want to help keep development going, there is a donation option inside the app.",
       },
       {
         question: "What devices are supported?",
