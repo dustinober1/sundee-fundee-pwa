@@ -11,6 +11,9 @@ export function SiteFooter() {
           <Link href="/about" className="hover:text-navy">
             About Us
           </Link>
+          <Link href="/donate" className="hover:text-navy">
+            Support
+          </Link>
           <Link href="/blog" className="hover:text-navy">
             Blog
           </Link>

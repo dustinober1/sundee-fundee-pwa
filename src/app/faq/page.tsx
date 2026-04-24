@@ -36,8 +36,20 @@ const faqSections: FaqSection[] = [
       },
       {
         question: "Is there a subscription or paid tier?",
-        answer:
-          "No. Sundee Fundee is completely free. The app is supported by voluntary donations from athletes who find it valuable. If you want to help keep development going, there is a donation option inside the app.",
+        answer: (
+          <>
+            No. Sundee Fundee is completely free. The app is supported by
+            voluntary donations from athletes who find it valuable. If you
+            want to help keep development going, you can{" "}
+            <a
+              href="/donate"
+              className="font-medium text-orange underline underline-offset-2 hover:opacity-70"
+            >
+              make a donation here
+            </a>
+            .
+          </>
+        ),
       },
       {
         question: "What devices are supported?",
