@@ -42,6 +42,24 @@ export function SiteHeader({
           >
             Blog
           </Link>
+          <Link
+            href="/science"
+            className="text-sm font-medium text-navy hover:opacity-70"
+          >
+            The Science
+          </Link>
+          <Link
+            href="/roadmap"
+            className="text-sm font-medium text-navy hover:opacity-70"
+          >
+            Roadmap
+          </Link>
+          <Link
+            href="/faq"
+            className="text-sm font-medium text-navy hover:opacity-70"
+          >
+            FAQ
+          </Link>
           {showDownloadButtons ? (
             <a
               href={APP_STORE_URL}

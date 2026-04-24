@@ -7,12 +7,21 @@ export function SiteFooter() {
         <p className="font-display text-base font-semibold text-navy">
           Sundee Fundee
         </p>
-        <div className="flex gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           <Link href="/about" className="hover:text-navy">
             About Us
           </Link>
           <Link href="/blog" className="hover:text-navy">
             Blog
+          </Link>
+          <Link href="/science" className="hover:text-navy">
+            The Science
+          </Link>
+          <Link href="/roadmap" className="hover:text-navy">
+            Roadmap
+          </Link>
+          <Link href="/faq" className="hover:text-navy">
+            FAQ
           </Link>
           <Link href="/privacy" className="hover:text-navy">
             Privacy
