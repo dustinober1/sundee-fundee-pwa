@@ -48,12 +48,6 @@ const liveItems: RoadmapItem[] = [
       "Flag an injury and the app automatically routes around the affected structure with the highest-fidelity substitute available.",
     status: "live",
   },
-  {
-    title: "Rucking Club",
-    description:
-      "A companion app for rucking training with route tracking, load logging, and progressive programming.",
-    status: "live",
-  },
 ];
 
 const inProgressItems: RoadmapItem[] = [

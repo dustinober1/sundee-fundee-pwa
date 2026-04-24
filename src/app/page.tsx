@@ -21,7 +21,7 @@ import { formatDate, posts } from "./blog/posts";
 const latestPosts = posts.slice(0, 3);
 
 export const metadata: Metadata = {
-  title: "Recovery-Aware Strength Training & Rucking App for iOS",
+  title: "Recovery-Aware Strength Training App for iOS",
   description: SITE_DESCRIPTION,
   alternates: {
     canonical: "/",
@@ -30,13 +30,13 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: SITE_TITLE,
-    title: "Recovery-Aware Strength Training & Rucking App for iOS",
+    title: "Recovery-Aware Strength Training App for iOS",
     description: SITE_DESCRIPTION,
     images: [SITE_OG_IMAGE_PATH],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Recovery-Aware Strength Training & Rucking App for iOS",
+    title: "Recovery-Aware Strength Training App for iOS",
     description: SITE_DESCRIPTION,
     images: [SITE_OG_IMAGE_PATH],
   },
@@ -55,7 +55,7 @@ export default function Landing() {
               <div className="absolute -inset-12 rounded-full bg-[radial-gradient(circle_at_center,rgba(242,115,25,0.12),transparent_60%)] blur-3xl pointer-events-none" />
               <div className="relative">
                 <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-                  Strength Training &amp; Rucking
+                  Strength Training
                 </p>
                 <h1 className="font-display mt-6 text-5xl font-bold leading-[1.05] text-navy sm:text-6xl lg:text-7xl">
                   Train smarter with recovery-aware programs.
@@ -69,7 +69,7 @@ export default function Landing() {
                     href="#compare"
                     className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-8 font-medium text-cream transition hover:opacity-90"
                   >
-                    Explore the Apps
+                    See What's Inside
                   </a>
                 </div>
                 <p className="mt-4 text-sm text-muted">
@@ -117,7 +117,7 @@ export default function Landing() {
                   body: "Record lifts and benchmarks. See progress over time and catch plateaus early.",
                 },
                 {
-                  title: "Strength & Rucking Programs",
+                  title: "Strength Programs",
                   body: "Pre-built programs or customize your own. Periodization and deload weeks included.",
                 },
                 {

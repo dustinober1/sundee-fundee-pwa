@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { AppStoreButtons } from "@/components/AppStoreButtons";
+import { APP_STORE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "The Science – Sundee Fundee",
@@ -440,8 +440,15 @@ export default function SciencePage() {
                 Recovery-aware programming, cycle-phase adaptation, and
                 injury-smart substitutions — all in one free app.
               </p>
-              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons compact={false} />
+              <div className="mt-8">
+                <a
+                  href={APP_STORE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-8 font-medium text-cream transition hover:opacity-90"
+                >
+                  Download Sundee Fundee
+                </a>
               </div>
             </section>
 

@@ -109,7 +109,7 @@ const faqSections: FaqSection[] = [
       {
         question: "Can men use Sundee Fundee?",
         answer:
-          "Absolutely. The cycle-phase layer simply remains inactive. All other features — readiness scoring, injury routing, progressive overload logic, and rucking programming — apply equally regardless of whether cycle tracking is used.",
+          "Absolutely. The cycle-phase layer simply remains inactive. All other features — readiness scoring, injury routing, and progressive overload logic — apply equally regardless of whether cycle tracking is used.",
       },
     ],
   },

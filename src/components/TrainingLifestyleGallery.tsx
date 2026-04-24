@@ -10,7 +10,7 @@ export function TrainingLifestyleGallery() {
             Built for real training.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted">
-            Recovery-aware programming designed for strength work, rucking, and
+            Recovery-aware programming designed for strength work and
             the days when your body needs you to adapt.
           </p>
         </div>

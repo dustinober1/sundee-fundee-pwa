@@ -207,7 +207,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               Train with the same thinking.
             </h2>
             <p className="mt-4 text-muted">
-              Get recovery-aware training plans and rucking programs on iOS.
+              Get recovery-aware training plans on iOS.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <AppStoreButtons />
