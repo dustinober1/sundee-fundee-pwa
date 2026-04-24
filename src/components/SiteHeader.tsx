@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { APP_STORE_URL } from "@/lib/site";
 
 type Props = {
@@ -11,6 +14,59 @@ export function SiteHeader({
   showHomeLink = false,
   showDownloadButtons = false,
 }: Props) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const navLinks = (
+    <>
+      {showHomeLink ? (
+        <Link
+          href="/"
+          onClick={() => setOpen(false)}
+          className="text-sm font-medium text-navy hover:opacity-70"
+        >
+          Home
+        </Link>
+      ) : null}
+      <Link
+        href="/blog"
+        onClick={() => setOpen(false)}
+        className="text-sm font-medium text-navy hover:opacity-70"
+      >
+        Blog
+      </Link>
+      <Link
+        href="/science"
+        onClick={() => setOpen(false)}
+        className="text-sm font-medium text-navy hover:opacity-70"
+      >
+        The Science
+      </Link>
+      <Link
+        href="/roadmap"
+        onClick={() => setOpen(false)}
+        className="text-sm font-medium text-navy hover:opacity-70"
+      >
+        Roadmap
+      </Link>
+      <Link
+        href="/faq"
+        onClick={() => setOpen(false)}
+        className="text-sm font-medium text-navy hover:opacity-70"
+      >
+        FAQ
+      </Link>
+    </>
+  );
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-cream/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -27,39 +83,8 @@ export function SiteHeader({
           </span>
         </Link>
 
-        <nav className="flex items-center gap-3">
-          {showHomeLink ? (
-            <Link
-              href="/"
-              className="text-sm font-medium text-navy hover:opacity-70"
-            >
-              Home
-            </Link>
-          ) : null}
-          <Link
-            href="/blog"
-            className="text-sm font-medium text-navy hover:opacity-70"
-          >
-            Blog
-          </Link>
-          <Link
-            href="/science"
-            className="text-sm font-medium text-navy hover:opacity-70"
-          >
-            The Science
-          </Link>
-          <Link
-            href="/roadmap"
-            className="text-sm font-medium text-navy hover:opacity-70"
-          >
-            Roadmap
-          </Link>
-          <Link
-            href="/faq"
-            className="text-sm font-medium text-navy hover:opacity-70"
-          >
-            FAQ
-          </Link>
+        <nav className="hidden items-center gap-3 md:flex">
+          {navLinks}
           {showDownloadButtons ? (
             <a
               href={APP_STORE_URL}
@@ -71,7 +96,63 @@ export function SiteHeader({
             </a>
           ) : null}
         </nav>
+
+        <button
+          type="button"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          onClick={() => setOpen((v) => !v)}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-navy hover:bg-navy/5 md:hidden"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            {open ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </>
+            ) : (
+              <>
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </>
+            )}
+          </svg>
+        </button>
       </div>
+
+      {open ? (
+        <nav
+          id="mobile-nav"
+          className="border-t border-border bg-cream px-6 py-4 md:hidden"
+        >
+          <div className="flex flex-col gap-4">
+            {navLinks}
+            {showDownloadButtons ? (
+              <a
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="inline-flex h-10 items-center justify-center rounded-lg bg-orange px-5 text-sm font-medium text-cream hover:opacity-90"
+              >
+                Download
+              </a>
+            ) : null}
+          </div>
+        </nav>
+      ) : null}
     </header>
   );
 }
