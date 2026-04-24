@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { AppStoreButtons } from "@/components/AppStoreButtons";
 
 export const metadata: Metadata = {
   title: "The Science – Sundee Fundee",
@@ -15,6 +16,194 @@ export const metadata: Metadata = {
     follow: true,
   },
 };
+
+function CyclePhaseWave() {
+  return (
+    <div className="mt-8 rounded-2xl border border-border bg-surface p-6">
+      <p className="mb-4 text-center text-xs font-medium uppercase tracking-[0.2em] text-muted">
+        Recommended Training Intensity by Cycle Phase
+      </p>
+      <svg
+        viewBox="0 0 600 180"
+        className="w-full"
+        aria-label="Wave chart showing training intensity across cycle phases: high during follicular, peak at ovulatory, moderate during luteal, low during menstrual"
+        role="img"
+      >
+        {/* Grid lines */}
+        <line x1="60" y1="30" x2="580" y2="30" stroke="currentColor" className="text-border" strokeDasharray="4 4" />
+        <line x1="60" y1="70" x2="580" y2="70" stroke="currentColor" className="text-border" strokeDasharray="4 4" />
+        <line x1="60" y1="110" x2="580" y2="110" stroke="currentColor" className="text-border" strokeDasharray="4 4" />
+
+        {/* Y-axis labels */}
+        <text x="55" y="34" textAnchor="end" className="fill-muted text-[10px]">High</text>
+        <text x="55" y="74" textAnchor="end" className="fill-muted text-[10px]">Med</text>
+        <text x="55" y="114" textAnchor="end" className="fill-muted text-[10px]">Low</text>
+
+        {/* Phase backgrounds */}
+        <rect x="60" y="20" width="130" height="110" rx="4" className="fill-orange/5" />
+        <rect x="190" y="20" width="80" height="110" rx="4" className="fill-gold/10" />
+        <rect x="270" y="20" width="200" height="110" rx="4" className="fill-navy/5" />
+        <rect x="470" y="20" width="110" height="110" rx="4" className="fill-orange/10" />
+
+        {/* Intensity wave */}
+        <path
+          d="M 60,90 C 90,80 110,50 125,40 C 140,30 160,28 190,25 C 210,22 220,20 230,22 C 240,25 250,35 270,50 C 300,75 340,90 380,95 C 420,100 450,105 470,108 C 490,100 510,85 540,75 C 560,68 575,72 580,80"
+          fill="none"
+          stroke="#F27319"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+
+        {/* Phase labels */}
+        <text x="125" y="150" textAnchor="middle" className="fill-navy font-medium text-[11px]">Follicular</text>
+        <text x="125" y="163" textAnchor="middle" className="fill-muted text-[9px]">Days 1–13</text>
+        <text x="230" y="150" textAnchor="middle" className="fill-navy font-medium text-[11px]">Ovulatory</text>
+        <text x="230" y="163" textAnchor="middle" className="fill-muted text-[9px]">Days 14–16</text>
+        <text x="370" y="150" textAnchor="middle" className="fill-navy font-medium text-[11px]">Luteal</text>
+        <text x="370" y="163" textAnchor="middle" className="fill-muted text-[9px]">Days 17–28</text>
+        <text x="525" y="150" textAnchor="middle" className="fill-navy font-medium text-[11px]">Menstrual</text>
+        <text x="525" y="163" textAnchor="middle" className="fill-muted text-[9px]">Days 1–5</text>
+
+        {/* Phase dividers */}
+        <line x1="190" y1="20" x2="190" y2="135" stroke="currentColor" className="text-border" strokeDasharray="3 3" />
+        <line x1="270" y1="20" x2="270" y2="135" stroke="currentColor" className="text-border" strokeDasharray="3 3" />
+        <line x1="470" y1="20" x2="470" y2="135" stroke="currentColor" className="text-border" strokeDasharray="3 3" />
+      </svg>
+    </div>
+  );
+}
+
+function CyclePhaseAccordion({
+  title,
+  days,
+  children,
+}: {
+  title: string;
+  days: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <details className="group border-t border-border py-5">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+        <div>
+          <span className="font-display font-semibold text-navy">{title}</span>
+          <span className="ml-2 text-sm text-muted">({days})</span>
+        </div>
+        <span className="shrink-0 text-orange transition-transform group-open:rotate-90">
+          ▶
+        </span>
+      </summary>
+      <p className="mt-3 leading-relaxed text-muted">{children}</p>
+    </details>
+  );
+}
+
+function ReadinessIcon({ type }: { type: "hrv" | "heart" | "sleep" | "feel" }) {
+  const paths: Record<string, React.ReactNode> = {
+    hrv: (
+      /* Heart-rate/HRV wave */
+      <path
+        d="M3 12h4l3-8 4 16 3-8h4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    heart: (
+      /* Heart icon for resting HR */
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    sleep: (
+      /* Moon/bed icon for sleep */
+      <path
+        d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    ),
+    feel: (
+      /* Brain/sparkle icon for subjective feel */
+      <>
+        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+        <path d="M8 14s1.5 2 4 2 4-2 4-2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <line x1="9" y1="9" x2="9.01" y2="9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        <line x1="15" y1="9" x2="15.01" y2="9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      </>
+    ),
+  };
+
+  return (
+    <svg viewBox="0 0 24 24" className="mt-0.5 h-5 w-5 shrink-0 text-orange" aria-hidden="true">
+      {paths[type]}
+    </svg>
+  );
+}
+
+function TrainingBlockComparison() {
+  return (
+    <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      <div className="rounded-2xl border border-border bg-surface p-6">
+        <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted">
+          Before — Static Program
+        </p>
+        <div className="mt-4 space-y-3">
+          {[
+            { day: "Mon", exercise: "Barbell Back Squat", sets: "5×5 @ 80%", flag: true },
+            { day: "Wed", exercise: "Deadlift", sets: "4×3 @ 85%", flag: false },
+            { day: "Fri", exercise: "Barbell Back Squat", sets: "5×5 @ 82%", flag: true },
+          ].map((row) => (
+            <div key={row.day} className="flex items-center gap-3 text-sm">
+              <span className="w-10 shrink-0 font-medium text-navy">{row.day}</span>
+              <span className={`flex-1 ${row.flag ? "text-red-500 line-through" : "text-muted"}`}>
+                {row.exercise}
+              </span>
+              <span className={`text-xs ${row.flag ? "text-red-500" : "text-muted"}`}>{row.sets}</span>
+            </div>
+          ))}
+          <p className="mt-2 text-xs text-red-500/80">
+            Hip flexor flagged — but program runs unchanged
+          </p>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-orange/30 bg-orange/5 p-6">
+        <p className="text-xs font-medium uppercase tracking-[0.2em] text-orange">
+          After — Sundee Fundee Adapts
+        </p>
+        <div className="mt-4 space-y-3">
+          {[
+            { day: "Mon", exercise: "Split Squat (DB)", sets: "4×8 @ RPE 7", adapted: true },
+            { day: "Wed", exercise: "Deadlift", sets: "4×3 @ 85%", adapted: false },
+            { day: "Fri", exercise: "Leg Press + Step-ups", sets: "3×10 / 3×8", adapted: true },
+          ].map((row) => (
+            <div key={row.day} className="flex items-center gap-3 text-sm">
+              <span className="w-10 shrink-0 font-medium text-navy">{row.day}</span>
+              <span className={`flex-1 ${row.adapted ? "font-medium text-navy" : "text-muted"}`}>
+                {row.exercise}
+              </span>
+              <span className="text-xs text-muted">{row.sets}</span>
+            </div>
+          ))}
+          <p className="mt-2 text-xs text-orange">
+            Hip flexor flagged — squat pattern preserved, load redistributed
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function SciencePage() {
   return (
@@ -42,6 +231,7 @@ export default function SciencePage() {
         <section className="px-6 pb-24">
           <div className="mx-auto max-w-3xl space-y-0">
 
+            {/* ── Readiness Score ── */}
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
                 The Readiness Score
@@ -53,7 +243,7 @@ export default function SciencePage() {
               </p>
               <ul className="mt-4 space-y-3 text-muted">
                 <li className="flex gap-3">
-                  <span className="mt-1 shrink-0 text-orange">—</span>
+                  <ReadinessIcon type="hrv" />
                   <span>
                     <strong className="text-navy">HRV trend.</strong> A
                     single-night HRV reading is noisy. The model tracks a rolling
@@ -62,7 +252,7 @@ export default function SciencePage() {
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 shrink-0 text-orange">—</span>
+                  <ReadinessIcon type="heart" />
                   <span>
                     <strong className="text-navy">Resting heart rate delta.</strong>{" "}
                     An elevated resting HR the morning after a hard session is one
@@ -72,7 +262,7 @@ export default function SciencePage() {
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 shrink-0 text-orange">—</span>
+                  <ReadinessIcon type="sleep" />
                   <span>
                     <strong className="text-navy">Sleep quality.</strong> Duration
                     alone is a weak predictor. The app uses Apple Health sleep
@@ -82,7 +272,7 @@ export default function SciencePage() {
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="mt-1 shrink-0 text-orange">—</span>
+                  <ReadinessIcon type="feel" />
                   <span>
                     <strong className="text-navy">Subjective feel.</strong> A
                     brief daily check-in captures soreness, motivation, and energy.
@@ -101,6 +291,7 @@ export default function SciencePage() {
               </p>
             </section>
 
+            {/* ── Cycle-Phase Adaptation ── */}
             <section className="border-t border-border pt-10 mt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
                 Cycle-Phase Adaptation
@@ -111,56 +302,41 @@ export default function SciencePage() {
                 table in some phases and accumulating unnecessary fatigue in
                 others. Sundee Fundee maps programming to four distinct phases:
               </p>
-              <div className="mt-6 space-y-6">
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-navy">
-                    Follicular phase (days 1–13)
-                  </h3>
-                  <p className="mt-2 leading-relaxed text-muted">
-                    Rising estrogen improves neuromuscular recruitment and
-                    blunts perceived exertion. This is the phase best suited for
-                    intensity work — heavier loads, PR attempts, and higher
-                    volume blocks. The app increases working weight targets and
-                    flags this as a prime window for strength testing.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-navy">
-                    Ovulatory phase (days 14–16)
-                  </h3>
-                  <p className="mt-2 leading-relaxed text-muted">
-                    Peak estrogen and a short LH surge create the highest
-                    strength potential of the cycle, but also the highest ligament
-                    laxity — particularly in the ACL. The app maintains high
-                    intensity while substituting or flagging exercises with known
-                    elevated injury risk during this window.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-navy">
-                    Luteal phase (days 17–28)
-                  </h3>
-                  <p className="mt-2 leading-relaxed text-muted">
-                    Progesterone rises and core temperature increases slightly.
-                    Fatigue accumulates faster and perceived effort goes up for
-                    equivalent loads. Volume is reduced by 10–20%, rest periods
-                    are extended, and hypertrophy-focused rep ranges take
-                    priority over absolute load.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-display text-lg font-semibold text-navy">
-                    Menstrual phase (days 1–5)
-                  </h3>
-                  <p className="mt-2 leading-relaxed text-muted">
-                    For athletes who experience significant symptoms, the app
-                    reduces intensity further and prioritizes movement quality
-                    over load. For athletes who feel strong early in menstruation,
-                    the readiness score will reflect that and normal programming
-                    applies — the system adapts to you, not a textbook average.
-                  </p>
-                </div>
+
+              <CyclePhaseWave />
+
+              <div className="mt-6">
+                <CyclePhaseAccordion title="Follicular phase" days="days 1–13">
+                  Rising estrogen improves neuromuscular recruitment and
+                  blunts perceived exertion. This is the phase best suited for
+                  intensity work — heavier loads, PR attempts, and higher
+                  volume blocks. The app increases working weight targets and
+                  flags this as a prime window for strength testing.
+                </CyclePhaseAccordion>
+                <CyclePhaseAccordion title="Ovulatory phase" days="days 14–16">
+                  Peak estrogen and a short LH surge create the highest
+                  strength potential of the cycle, but also the highest ligament
+                  laxity — particularly in the ACL. The app maintains high
+                  intensity while substituting or flagging exercises with known
+                  elevated injury risk during this window.
+                </CyclePhaseAccordion>
+                <CyclePhaseAccordion title="Luteal phase" days="days 17–28">
+                  Progesterone rises and core temperature increases slightly.
+                  Fatigue accumulates faster and perceived effort goes up for
+                  equivalent loads. Volume is reduced by 10–20%, rest periods
+                  are extended, and hypertrophy-focused rep ranges take
+                  priority over absolute load.
+                </CyclePhaseAccordion>
+                <CyclePhaseAccordion title="Menstrual phase" days="days 1–5">
+                  For athletes who experience significant symptoms, the app
+                  reduces intensity further and prioritizes movement quality
+                  over load. For athletes who feel strong early in menstruation,
+                  the readiness score will reflect that and normal programming
+                  applies — the system adapts to you, not a textbook average.
+                </CyclePhaseAccordion>
+                <div className="border-t border-border" />
               </div>
+
               <p className="mt-6 leading-relaxed text-muted">
                 Cycle tracking is optional. Athletes who prefer not to use it
                 train on the readiness-only model, which still outperforms a
@@ -168,6 +344,7 @@ export default function SciencePage() {
               </p>
             </section>
 
+            {/* ── Injury-Aware Programming ── */}
             <section className="border-t border-border pt-10 mt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
                 Injury-Aware Programming
@@ -215,8 +392,11 @@ export default function SciencePage() {
                   </span>
                 </li>
               </ul>
+
+              <TrainingBlockComparison />
             </section>
 
+            {/* ── Recovery vs Calendar ── */}
             <section className="border-t border-border pt-10 mt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
                 Why recovery beats the calendar
@@ -249,6 +429,20 @@ export default function SciencePage() {
                 </Link>
                 .
               </p>
+            </section>
+
+            {/* ── Bottom CTA ── */}
+            <section className="mt-16 rounded-[2rem] bg-navy px-8 py-12 text-center text-cream">
+              <h2 className="font-display text-3xl font-bold sm:text-4xl">
+                Train smarter. Download Sundee Fundee.
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-cream/80">
+                Recovery-aware programming, cycle-phase adaptation, and
+                injury-smart substitutions — all in one free app.
+              </p>
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                <AppStoreButtons compact={false} />
+              </div>
             </section>
 
           </div>
