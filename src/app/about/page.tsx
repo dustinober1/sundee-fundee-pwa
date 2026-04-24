@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <SiteHeader showHomeLink />
+      <SiteHeader showHomeLink showDownloadButtons />
 
       <main className="flex flex-1 flex-col">
         <section className="px-6 pt-20 pb-24">

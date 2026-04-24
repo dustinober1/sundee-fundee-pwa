@@ -97,7 +97,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
           },
         ]}
       />
-      <SiteHeader showHomeLink />
+      <SiteHeader showHomeLink showDownloadButtons />
 
       <main className="flex flex-1 flex-col">
         <article className="px-6 pt-16 pb-20">
