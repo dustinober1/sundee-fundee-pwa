@@ -20,6 +20,29 @@ import { formatDate, posts } from "./blog/posts";
 
 const latestPosts = posts.slice(0, 3);
 
+const paths = [
+  {
+    href: "/for-women-who-lift",
+    title: "For Women Who Lift",
+    body: "Cycle-informed, recovery-aware training built around how women actually train.",
+  },
+  {
+    href: "/recovery-aware-strength-training",
+    title: "Recovery-Aware Strength Training",
+    body: "Use readiness, sleep, and fatigue to change the session before the week breaks down.",
+  },
+  {
+    href: "/train-around-injury",
+    title: "Train Around Injury",
+    body: "Keep the habit alive when pain or irritation changes what your body can handle.",
+  },
+  {
+    href: "/apple-health-strength-training-app",
+    title: "Apple Health Strength Training App",
+    body: "Turn Apple Health signals into a smarter lifting decision.",
+  },
+] as const;
+
 export const metadata: Metadata = {
   title: "Recovery-Aware Strength Training App for iOS",
   description: SITE_DESCRIPTION,
@@ -144,6 +167,43 @@ export default function Landing() {
         <TrainingLifestyleGallery />
 
         <AppComparison />
+
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-3xl">
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                Start here
+              </p>
+              <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
+                Find the path that matches how you train.
+              </h2>
+              <p className="mt-4 text-muted">
+                These pages turn the core product idea into clearer entry points
+                for people arriving from search.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-2">
+              {paths.map((path) => (
+                <Link
+                  key={path.href}
+                  href={path.href}
+                  className="rounded-2xl border border-border bg-surface p-6 transition hover:border-orange/50"
+                >
+                  <h3 className="font-display text-2xl font-semibold text-navy">
+                    {path.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">
+                    {path.body}
+                  </p>
+                  <p className="mt-6 text-sm font-medium text-orange">
+                    Learn more →
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <TrustSignals />
 

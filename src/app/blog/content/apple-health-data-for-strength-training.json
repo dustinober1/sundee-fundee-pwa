@@ -1,0 +1,10 @@
+{
+  "slug": "apple-health-data-for-strength-training",
+  "title": "How Apple Health data can improve strength training",
+  "description": "Apple Health already knows a lot about your recovery. The useful part is turning that data into better training decisions.",
+  "author": "Sundee Fundee Team",
+  "publishedAt": "2026-04-12",
+  "readMinutes": 6,
+  "tags": ["apple-health", "recovery", "strength", "programming"],
+  "body": "Apple Health is already collecting signals that matter to lifters: sleep, resting heart rate, heart rate variability, and activity load. On their own, those numbers are just numbers. The value comes from using them to change the plan you were about to follow.\n\n## What the data can tell you\n\nSleep duration and consistency help you see whether you are actually recovered. Resting heart rate can move when stress, illness, or accumulated fatigue are building. HRV is not a magic number, but it can help flag when your nervous system is under more strain than usual. Activity and energy output round out the picture so you can see whether your training week is matching your recovery week.\n\n## What Apple Health cannot do by itself\n\nApple Health does not know whether your squat day should become a technique day. It does not know whether your shoulder is irritated or whether your cycle is affecting performance this week. It gives you useful inputs, not a decision engine.\n\nThat is why an app like [Sundee Fundee](/apple-health-strength-training-app) matters. The app can take those inputs and turn them into a readiness-aware workout choice instead of leaving you to translate the data yourself.\n\n## The practical rule\n\nDo not chase one bad metric in isolation. Look for patterns. A single poor night of sleep does not automatically mean you need to back off, but three of them in a row probably do. A low HRV reading might matter more when it comes with soreness, stress, and poor sleep than when it shows up alone.\n\nThe point is not to obey the dashboard. The point is to train with more context than a calendar gives you."
+}

@@ -1,0 +1,10 @@
+{
+  "slug": "garmin-recovery-data-for-lifters",
+  "title": "What Garmin recovery data means for lifters",
+  "description": "Garmin recovery metrics can be useful for strength training, but only if they are translated into choices you can actually use in the gym.",
+  "author": "Sundee Fundee Team",
+  "publishedAt": "2026-04-14",
+  "readMinutes": 7,
+  "tags": ["garmin", "recovery", "strength", "wearables"],
+  "body": "Garmin users already have access to a lot of recovery context: sleep scores, stress, body battery, heart rate trends, and workout history. The hard part is not gathering the data. It is deciding what to do with it.\n\n## Recovery metrics are decision inputs\n\nA good recovery metric should help answer a simple question: should today be a push day, a maintenance day, or a pull-back day? If the answer is always the same no matter what the data says, then the data is not helping.\n\n## What to watch for\n\nLook at more than one signal. Poor sleep plus elevated stress plus soreness is a different situation than one weird metric after an otherwise solid week. Strength training responds better to trend interpretation than to a single isolated number.\n\n## Current workflow\n\nIf you are using Garmin today, the most practical path is to route the relevant recovery signals through Apple Health and let [Sundee Fundee](/garmin-strength-training-app) read the context that is available now. Direct Garmin integration is on the roadmap, but the training principle stays the same either way: use recovery data to shape the session instead of treating it like trivia.\n\nThe goal is not more dashboard clutter. It is better decisions when the barbell meets the body you actually brought into the gym."
+}

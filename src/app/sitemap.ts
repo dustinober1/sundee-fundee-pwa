@@ -36,6 +36,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 0.9,
     },
+    {
+      url: `${SITE_URL}/for-women-who-lift`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/recovery-aware-strength-training`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/apple-health-strength-training-app`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/train-around-injury`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/garmin-strength-training-app`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/faq`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
     ...postEntries,
   ];
 
