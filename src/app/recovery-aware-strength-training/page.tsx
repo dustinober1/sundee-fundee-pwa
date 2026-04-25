@@ -4,7 +4,10 @@ import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { buildBreadcrumbJsonLd } from "@/lib/seo";
+import {
+  buildBreadcrumbJsonLd,
+  buildSoftwareApplicationJsonLd,
+} from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { getPost, type BlogPost } from "../blog/posts";
 
@@ -56,6 +59,7 @@ export default function RecoveryAwareStrengthTrainingPage() {
               url: `${SITE_URL}/recovery-aware-strength-training`,
             },
           ]),
+          buildSoftwareApplicationJsonLd(),
         ]}
       />
       <SiteHeader showHomeLink showDownloadButtons />

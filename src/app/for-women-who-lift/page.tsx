@@ -4,7 +4,10 @@ import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { buildBreadcrumbJsonLd } from "@/lib/seo";
+import {
+  buildBreadcrumbJsonLd,
+  buildSoftwareApplicationJsonLd,
+} from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { formatDate, getPost, type BlogPost } from "../blog/posts";
 
@@ -52,6 +55,7 @@ export default function ForWomenWhoLiftPage() {
             { name: "Home", url: SITE_URL },
             { name: "For Women Who Lift", url: `${SITE_URL}/for-women-who-lift` },
           ]),
+          buildSoftwareApplicationJsonLd(),
         ]}
       />
       <SiteHeader showHomeLink showDownloadButtons />

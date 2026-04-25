@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildFaqPageJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "FAQ – Sundee Fundee",
@@ -41,12 +44,12 @@ const faqSections: FaqSection[] = [
             No. Sundee Fundee is completely free. The app is supported by
             voluntary donations from athletes who find it valuable. If you
             want to help keep development going, you can{" "}
-            <a
+            <Link
               href="/donate"
               className="font-medium text-orange underline underline-offset-2 hover:opacity-70"
             >
               make a donation here
-            </a>
+            </Link>
             .
           </>
         ),
@@ -115,6 +118,34 @@ const faqSections: FaqSection[] = [
   },
 ];
 
+const faqJsonLdItems = [
+  {
+    question: "How do I get started?",
+    answer:
+      "Download the app from the App Store, create a free account, and complete the onboarding questionnaire. Your first session is ready immediately after.",
+  },
+  {
+    question: "Is there a subscription or paid tier?",
+    answer:
+      "No. Sundee Fundee is completely free and supported by voluntary donations.",
+  },
+  {
+    question: "Does it sync with Apple Health?",
+    answer:
+      "Yes. Sundee Fundee reads permitted Apple Health recovery signals such as HRV, resting heart rate, sleep, and active energy.",
+  },
+  {
+    question: "Does it work with Garmin?",
+    answer:
+      "Garmin Connect integration is in active development. Garmin users can currently sync supported data to Apple Health and use it from there.",
+  },
+  {
+    question: "Is cycle tracking required to use the app?",
+    answer:
+      "No. Cycle tracking is optional. Athletes who do not use it train with the readiness-based model.",
+  },
+];
+
 function FaqAccordion({ item }: { item: FaqItem }) {
   return (
     <details className="group border-t border-border py-5">
@@ -134,6 +165,7 @@ function FaqAccordion({ item }: { item: FaqItem }) {
 export default function FaqPage() {
   return (
     <>
+      <JsonLd data={[buildFaqPageJsonLd(faqJsonLdItems)]} />
       <SiteHeader showHomeLink showDownloadButtons />
 
       <main className="flex flex-1 flex-col">

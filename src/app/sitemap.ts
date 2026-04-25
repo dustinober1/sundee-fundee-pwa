@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { posts } from "./blog/posts";
 import { SITE_URL } from "@/lib/site";
+import { seoPages } from "@/lib/seo-pages";
 
 function toDate(iso: string) {
   return new Date(`${iso}T00:00:00Z`);
@@ -14,6 +15,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: toDate(post.publishedAt),
       changeFrequency: "monthly",
       priority: 0.8,
+    }),
+  );
+  const seoPageEntries: MetadataRoute.Sitemap = seoPages.map(
+    (page): MetadataRoute.Sitemap[number] => ({
+      url: `${SITE_URL}/${page.slug}`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: page.priority,
     }),
   );
 
@@ -72,6 +81,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.6,
     },
+    ...seoPageEntries,
     ...postEntries,
   ];
 

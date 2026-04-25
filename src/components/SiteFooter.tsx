@@ -11,6 +11,15 @@ const footerSections = [
     ],
   },
   {
+    title: "Guides",
+    links: [
+      { href: "/strength-training-for-women", label: "Women" },
+      { href: "/strength-training-recovery", label: "Recovery" },
+      { href: "/lifting-with-injuries", label: "Injuries" },
+      { href: "/wearables-and-strength-training", label: "Wearables" },
+    ],
+  },
+  {
     title: "Support",
     links: [
       { href: "/donate", label: "Support" },
@@ -36,7 +45,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:gap-x-10">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 md:gap-x-10">
             {footerSections.map((section) => (
               <div key={section.title} className="space-y-2.5">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy/65">

@@ -9,7 +9,11 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ReadinessAdvisor } from "@/components/ReadinessAdvisor";
 import { TrustSignals } from "@/components/TrustSignals";
-import { buildOrganizationJsonLd, buildWebsiteJsonLd } from "@/lib/seo";
+import {
+  buildOrganizationJsonLd,
+  buildSoftwareApplicationJsonLd,
+  buildWebsiteJsonLd,
+} from "@/lib/seo";
 import {
   SITE_DESCRIPTION,
   SITE_OG_IMAGE_PATH,
@@ -41,6 +45,26 @@ const paths = [
     title: "Apple Health Strength Training App",
     body: "Turn Apple Health signals into a smarter lifting decision.",
   },
+  {
+    href: "/best-strength-training-app-for-women",
+    title: "Best Strength Training App for Women",
+    body: "Compare what matters when choosing an adaptive strength app.",
+  },
+  {
+    href: "/readiness-score-strength-training",
+    title: "Readiness Score Strength Training",
+    body: "Use recovery context to decide how today’s workout should change.",
+  },
+  {
+    href: "/strength-training-recovery",
+    title: "Strength Training Recovery",
+    body: "Browse recovery-aware guides for lifters.",
+  },
+  {
+    href: "/cycle-aware-training",
+    title: "Cycle-Aware Training",
+    body: "Use optional cycle context without rigid rules.",
+  },
 ] as const;
 
 export const metadata: Metadata = {
@@ -68,7 +92,13 @@ export const metadata: Metadata = {
 export default function Landing() {
   return (
     <>
-      <JsonLd data={[buildOrganizationJsonLd(), buildWebsiteJsonLd()]} />
+      <JsonLd
+        data={[
+          buildOrganizationJsonLd(),
+          buildWebsiteJsonLd(),
+          buildSoftwareApplicationJsonLd(),
+        ]}
+      />
       <SiteHeader showDownloadButtons />
 
       <main className="flex flex-1 flex-col">
