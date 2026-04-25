@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { posts } from "./blog/posts";
 import { SITE_URL } from "@/lib/site";
 import { seoPages } from "@/lib/seo-pages";
+import { BLOG_TOPICS } from "./blog/taxonomy";
 
 function toDate(iso: string) {
   return new Date(`${iso}T00:00:00Z`);
@@ -23,6 +24,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly",
       priority: page.priority,
+    }),
+  );
+  const topicEntries: MetadataRoute.Sitemap = BLOG_TOPICS.map(
+    (topic): MetadataRoute.Sitemap[number] => ({
+      url: `${SITE_URL}${topic.href}`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.65,
     }),
   );
 
@@ -82,6 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     ...seoPageEntries,
+    ...topicEntries,
     ...postEntries,
   ];
 

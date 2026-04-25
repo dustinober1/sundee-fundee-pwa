@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import type { BlogTopicSlug } from "./taxonomy";
 
 export type BlogPost = {
   slug: string;
@@ -7,8 +8,11 @@ export type BlogPost = {
   description: string;
   author: string;
   publishedAt: string;
+  updatedAt?: string;
   readMinutes: number;
   tags: string[];
+  primaryTopic?: BlogTopicSlug;
+  bestFor?: string;
   body: string;
 };
 
@@ -31,4 +35,12 @@ export function formatDate(iso: string): string {
     day: "numeric",
     timeZone: "UTC",
   }).format(new Date(`${iso}T00:00:00Z`));
+}
+
+export function postModifiedAt(post: BlogPost): string {
+  return post.updatedAt ?? post.publishedAt;
+}
+
+export function toRfc822Date(iso: string): string {
+  return new Date(`${iso}T00:00:00Z`).toUTCString();
 }
