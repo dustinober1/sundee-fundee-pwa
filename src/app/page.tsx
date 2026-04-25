@@ -69,7 +69,7 @@ export default function Landing() {
                     href="#compare"
                     className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-8 font-medium text-cream transition hover:opacity-90"
                   >
-                    See What's Inside
+                    See What&apos;s Inside
                   </a>
                 </div>
                 <p className="mt-4 text-sm text-muted">
