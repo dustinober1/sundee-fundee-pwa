@@ -6,12 +6,10 @@ import { JsonLd } from "@/components/JsonLd";
 import { Markdown } from "@/components/Markdown";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import {
-  absoluteUrl,
-  buildBreadcrumbJsonLd,
-} from "@/lib/seo";
+import { absoluteUrl, buildBreadcrumbJsonLd } from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
-import { posts, getPost, formatDate } from "../posts";
+import { formatDate, getPost, posts, postModifiedAt } from "../posts";
+import { getPostCta, getPrimaryTopic, getRelatedPosts } from "../taxonomy";
 
 type Params = Promise<{ slug: string }>;
 
@@ -41,16 +39,14 @@ export async function generateMetadata({
       title: post.title,
       description: post.description,
       publishedTime: post.publishedAt,
-      modifiedTime: post.publishedAt,
+      modifiedTime: postModifiedAt(post),
       authors: [post.author],
       tags: post.tags,
-      images: [SITE_OG_IMAGE_PATH],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: [SITE_OG_IMAGE_PATH],
     },
   };
 }
@@ -60,7 +56,9 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   const post = getPost(slug);
   if (!post) notFound();
   const url = `${SITE_URL}/blog/${slug}`;
-  const relatedPosts = posts.filter((item) => item.slug !== slug).slice(0, 3);
+  const topic = getPrimaryTopic(post);
+  const cta = getPostCta(post);
+  const relatedPosts = getRelatedPosts(post, posts, 3);
 
   return (
     <>
@@ -80,6 +78,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               "@type": "Person",
               name: post.author,
             },
+            articleSection: topic.label,
             publisher: {
               "@type": "Organization",
               name: SITE_TITLE,
@@ -91,7 +90,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
             },
             mainEntityOfPage: url,
             datePublished: post.publishedAt,
-            dateModified: post.publishedAt,
+            dateModified: postModifiedAt(post),
             image: absoluteUrl(SITE_OG_IMAGE_PATH),
             keywords: post.tags.join(", "),
           },
@@ -116,12 +115,24 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                 </time>
                 <span aria-hidden="true">·</span>
                 <span>{post.readMinutes} min read</span>
+                <span aria-hidden="true">·</span>
+                <Link
+                  href={topic.href}
+                  className="rounded-full bg-navy/5 px-3 py-1 text-[0.65rem] tracking-[0.15em] text-navy transition hover:bg-navy/10"
+                >
+                  {topic.label}
+                </Link>
               </div>
               <h1 className="font-display mt-5 text-4xl font-bold leading-[1.1] text-navy sm:text-5xl">
                 {post.title}
               </h1>
               <p className="mt-5 text-lg text-muted">{post.description}</p>
               <p className="mt-6 text-sm text-muted">By {post.author}</p>
+              {post.updatedAt ? (
+                <p className="mt-2 text-sm text-muted">
+                  Updated {formatDate(post.updatedAt)}
+                </p>
+              ) : null}
             </div>
 
             <div className="mt-10 border-t border-border pt-4">
@@ -130,17 +141,19 @@ export default async function BlogPostPage({ params }: { params: Params }) {
 
             <div className="mt-12 rounded-[2rem] border border-border bg-surface p-6">
               <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-                Turn this article into a session
+                {cta.ctaEyebrow}
               </p>
               <h2 className="font-display mt-4 text-3xl font-bold text-navy">
-                Use the app when the plan needs to adapt.
+                {cta.ctaTitle}
               </h2>
-              <p className="mt-4 text-muted">
-                If this topic maps to your own training week, open the app and
-                let recovery, pain, and readiness shape the session instead of
-                forcing a fixed calendar.
-              </p>
-              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <p className="mt-4 text-muted">{cta.ctaBody}</p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href={cta.productHref}
+                  className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-6 font-medium text-navy transition hover:border-navy"
+                >
+                  Learn more
+                </Link>
                 <AppStoreButtons compact />
               </div>
             </div>
@@ -192,7 +205,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                       {related.title}
                     </h3>
                     <p className="mt-2 text-sm text-muted">
-                      {related.description}
+                      {related.bestFor ?? related.description}
                     </p>
                   </Link>
                 ))}

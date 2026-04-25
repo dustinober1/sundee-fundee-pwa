@@ -27,6 +27,11 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
+  alternates: {
+    types: {
+      "application/rss+xml": `${SITE_URL}/rss.xml`,
+    },
+  },
 };
 
 export const viewport: Viewport = {
