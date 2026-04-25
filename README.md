@@ -15,6 +15,9 @@ npm run dev
 
 Local dev runs at `http://localhost:3000`.
 
+Stripe checkout also requires `STRIPE_SECRET_KEY` in your environment. Start
+from `.env.example` if you want the donate flow to work locally.
+
 ## Commands
 
 ```bash
