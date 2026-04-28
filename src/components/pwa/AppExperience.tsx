@@ -12,6 +12,14 @@ import {
   type PhaseRecommendation,
 } from "@/lib/pwa/cycle";
 import {
+  enableCloudSync,
+  getCloudSyncMetadata,
+  runCloudSync,
+  type CloudSyncMetadata,
+  type CloudSyncResult,
+  type CloudSyncStatus,
+} from "@/lib/pwa/cloud-sync";
+import {
   addPeriodLog,
   completeActiveProgramSession,
   countLocalRecords,
@@ -36,11 +44,20 @@ import type {
   LiftRecord,
   RecoveryScoreRecord,
 } from "@/lib/pwa/schema";
-import { isSupabaseBrowserConfigured } from "@/lib/pwa/supabase-browser";
+import {
+  getCloudUser,
+  isSupabaseBrowserConfigured,
+} from "@/lib/pwa/supabase-browser";
 
 type LocalCounts = Awaited<ReturnType<typeof countLocalRecords>>;
 type BestLift = { lift: LiftRecord; exercise?: ExerciseRecord };
 type AppScreen = "today" | "log" | "cycle" | "recovery" | "programs" | "data";
+type CloudState = CloudSyncMetadata & {
+  connected: boolean;
+  userEmail: string | null;
+  status: CloudSyncStatus;
+  lastResult: CloudSyncResult | null;
+};
 
 const navItems: Array<{ id: AppScreen; label: string }> = [
   { id: "today", label: "Today" },
@@ -63,15 +80,62 @@ const defaultCounts: LocalCounts = {
   queuedMutations: 0,
 };
 
+const defaultCloudState: CloudState = {
+  enabled: false,
+  lastPulledAt: null,
+  lastSuccessfulSyncAt: null,
+  lastError: null,
+  deviceId: null,
+  connected: false,
+  userEmail: null,
+  status: "disabled",
+  lastResult: null,
+};
+
 function todayString() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function statusLabel(mode: DataMode | null, online: boolean) {
+function statusLabel(
+  mode: DataMode | null,
+  online: boolean,
+  cloudStatus: CloudSyncStatus,
+) {
   if (!mode) return "Onboarding";
   if (mode === "local-only") return "Local only";
   if (!online) return "Offline";
+  if (cloudStatus === "synced") return "Cloud synced";
+  if (cloudStatus === "failed") return "Sync failed";
+  if (cloudStatus === "signed-out") return "Sign in to sync";
+  if (cloudStatus === "not-configured") return "Cloud not configured";
   return "Cloud sync ready";
+}
+
+function cloudStatusTitle(status: CloudSyncStatus) {
+  switch (status) {
+    case "not-configured":
+      return "Cloud sync not configured";
+    case "signed-out":
+      return "Signed out";
+    case "offline":
+      return "Offline";
+    case "syncing":
+      return "Syncing";
+    case "synced":
+      return "Synced";
+    case "failed":
+      return "Sync failed";
+    case "disabled":
+      return "Connected, not syncing";
+  }
+}
+
+function formatDateTime(value: string | null) {
+  if (!value) return "Never";
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value));
 }
 
 function recoveryLabel(score?: number) {
