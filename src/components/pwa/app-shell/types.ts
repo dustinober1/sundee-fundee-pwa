@@ -63,20 +63,31 @@ export type RecoveryScreenModel = {
   summary: string;
 };
 
+export type ProgramsScreenExerciseRowModel = {
+  id: string;
+  exercise: string;
+  sets: number;
+  reps: number;
+  percentLabel: string | null;
+  restLabel: string;
+  performedWeight: string;
+  performedReps: string;
+  performedUnit: "lb" | "kg";
+  weightLabel: string;
+  repsLabel: string;
+  unitLabel: string;
+  isValid: boolean;
+  helperText: string | null;
+};
+
 export type ProgramsScreenModel = {
   title: string;
   summary: string;
-  buttonLabel: string;
-  buttonDisabled: boolean;
-  exercises:
-    | null
-    | Array<{
-        exercise: string;
-        sets: number;
-        reps: number;
-        percentLabel: string | null;
-        restLabel: string;
-      }>;
+  primaryActionLabel: string;
+  primaryActionDisabled: boolean;
+  primaryActionReason: string | null;
+  completionNote: string;
+  exercises: ProgramsScreenExerciseRowModel[] | null;
 };
 
 export type DataScreenModel = {

@@ -95,9 +95,7 @@ describe("local PWA repositories", () => {
       performedAt: new Date().toISOString(),
       exercises: [
         {
-          exerciseName:
-            (active!.session!.exercises[0] as any).name ??
-            (active!.session!.exercises[0] as any).exercise,
+          exerciseName: active!.session!.exercises[0].exercise,
           sets: [
             { reps: 5, weight: 95, unit: "lb" as const },
             { reps: 5, weight: 95, unit: "lb" as const },
@@ -165,9 +163,7 @@ describe("local PWA repositories", () => {
         performedAt: new Date().toISOString(),
         exercises: [
           {
-            exerciseName:
-              (active!.session!.exercises[0] as any).name ??
-              (active!.session!.exercises[0] as any).exercise,
+            exerciseName: active!.session!.exercises[0].exercise,
             sets: [{ reps: 0, weight: 95, unit: "lb" as const }],
           },
         ],

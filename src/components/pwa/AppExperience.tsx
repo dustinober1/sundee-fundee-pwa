@@ -44,7 +44,14 @@ import { LogScreen } from "@/components/pwa/app-shell/LogScreen";
 import { ProgramsScreen } from "@/components/pwa/app-shell/ProgramsScreen";
 import { RecoveryScreen } from "@/components/pwa/app-shell/RecoveryScreen";
 import { TodayScreen } from "@/components/pwa/app-shell/TodayScreen";
-import type { AppScreen, BestLift, CloudState, LocalCounts, NavItem } from "@/components/pwa/app-shell/types";
+import type {
+  AppScreen,
+  BestLift,
+  CloudState,
+  LocalCounts,
+  NavItem,
+  ProgramsScreenExerciseRowModel,
+} from "@/components/pwa/app-shell/types";
 
 const navItems: NavItem[] = [
   { id: "today", label: "Today" },
@@ -151,6 +158,16 @@ export function AppExperience() {
   const [weight, setWeight] = useState("135");
   const [reps, setReps] = useState("5");
   const [unit, setUnit] = useState<"lb" | "kg">("lb");
+  const [programPerformedRows, setProgramPerformedRows] = useState<
+    Array<{
+      id: string;
+      exerciseName: string;
+      plannedReps: number;
+      performedWeight: string;
+      performedReps: string;
+      performedUnit: "lb" | "kg";
+    }>
+  >([]);
   const [periodStartedOn, setPeriodStartedOn] = useState(todayString);
   const [sleepHours, setSleepHours] = useState("7.5");
   const [soreness, setSoreness] = useState("3");
@@ -194,6 +211,41 @@ export function AppExperience() {
     ],
   );
 
+  function sanitizeNonNegativeNumber(value: string) {
+    if (!value.trim()) return null;
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed) || parsed < 0) return null;
+    return parsed;
+  }
+
+  function sanitizePositiveInteger(value: string) {
+    if (!value.trim()) return null;
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed) || parsed < 1) return null;
+    return Math.floor(parsed);
+  }
+
+  function ensurePerformedRows(session: ActiveProgramSession["session"]) {
+    if (!session) {
+      setProgramPerformedRows([]);
+      return;
+    }
+
+    setProgramPerformedRows((current) =>
+      session.exercises.map((exercise) => {
+        const existing = current.find((row) => row.id === exercise.exercise);
+        return {
+          id: exercise.exercise,
+          exerciseName: exercise.exercise,
+          plannedReps: exercise.reps,
+          performedWeight: existing?.performedWeight ?? "0",
+          performedReps: existing?.performedReps ?? String(exercise.reps),
+          performedUnit: existing?.performedUnit ?? "lb",
+        };
+      }),
+    );
+  }
+
   async function refreshLocalState() {
     const [nextCounts, nextBestLift, cycleInputs, recovery, programSession] =
       await Promise.all([
@@ -214,6 +266,7 @@ export function AppExperience() {
     setPhaseRecommendation(status ? getPhaseRecommendation(status.currentPhase) : null);
     setLatestRecovery(recovery ?? null);
     setActiveProgram(programSession);
+    ensurePerformedRows(programSession?.session ?? null);
   }
 
   async function refreshCloudState(lastResult: CloudSyncResult | null = null) {
@@ -460,23 +513,37 @@ export function AppExperience() {
   }
 
   async function handleProgramComplete() {
+    const active = await getActiveProgramSession();
+    if (!active?.session) return;
+
+    const sanitizedExercises = programPerformedRows.flatMap((row) => {
+      const weightValue = sanitizeNonNegativeNumber(row.performedWeight);
+      const repsValue = sanitizePositiveInteger(row.performedReps);
+      if (weightValue === null || repsValue === null) return [];
+
+      return [
+        {
+          exerciseName: row.exerciseName,
+          sets: [
+            {
+              reps: repsValue,
+              weight: weightValue,
+              unit: row.performedUnit,
+            },
+          ],
+        },
+      ];
+    });
+
+    if (sanitizedExercises.length !== programPerformedRows.length) return;
+
     setBusy(true);
     try {
-      const active = await getActiveProgramSession();
-      if (active?.session) {
-        await completeActiveProgramSession({
-          sessionId: active.session.sessionId,
-          performedAt: new Date().toISOString(),
-          exercises: active.session.exercises.map((exercise: any) => ({
-            exerciseName: exercise.name ?? exercise.exercise,
-            sets: Array.from({ length: exercise.sets ?? 0 }).map(() => ({
-              reps: exercise.reps,
-              weight: 0,
-              unit: "lb" as const,
-            })),
-          })),
-        });
-      }
+      await completeActiveProgramSession({
+        sessionId: active.session.sessionId,
+        performedAt: new Date().toISOString(),
+        exercises: sanitizedExercises,
+      });
       await refreshLocalState();
       setScreen("today");
     } finally {
@@ -657,16 +724,56 @@ export function AppExperience() {
     summary: activeProgram
       ? `${activeProgram.program.title}: session ${activeProgram.enrollment.currentSessionIndex + 1} of ${activeProgram.totalSessions}. ${recommendation.title}.`
       : "Enroll in the bundled 8-week strength block and surface today's programmed session.",
-    buttonLabel: activeProgram ? "Complete session" : "Enroll",
-    buttonDisabled: busy,
+    primaryActionLabel: activeProgram ? "Complete session" : "Enroll",
+    primaryActionDisabled: busy ||
+      (activeProgram?.session
+        ? programPerformedRows.length === 0 ||
+          programPerformedRows.some((row) =>
+            sanitizeNonNegativeNumber(row.performedWeight) === null ||
+            sanitizePositiveInteger(row.performedReps) === null,
+          )
+        : false),
+    primaryActionReason: !activeProgram
+      ? null
+      : busy
+        ? "Saving session locally…"
+        : programPerformedRows.length === 0
+          ? "Enter your performed sets to continue."
+          : programPerformedRows.some((row) => sanitizeNonNegativeNumber(row.performedWeight) === null)
+            ? "Weights must be 0 or greater."
+            : programPerformedRows.some((row) => sanitizePositiveInteger(row.performedReps) === null)
+              ? "Reps must be at least 1."
+              : null,
+    completionNote: activeProgram
+      ? "Completing logs a local workout and advances the program on this device — no cloud sync required."
+      : "Enrollment stays on this device unless you enable cloud sync.",
     exercises: activeProgram?.session
-      ? activeProgram.session.exercises.map((exercise) => ({
-          exercise: exercise.exercise,
-          sets: exercise.sets,
-          reps: exercise.reps,
-          percentLabel: exercise.percent1RM ? `@ ${Math.round(exercise.percent1RM * 100)}%` : null,
-          restLabel: `${exercise.restMinutes} min rest`,
-        }))
+      ? activeProgram.session.exercises.map((exercise) => {
+          const performedRow = programPerformedRows.find((row) => row.id === exercise.exercise);
+          const performedWeight = performedRow?.performedWeight ?? "0";
+          const performedReps = performedRow?.performedReps ?? String(exercise.reps);
+          const performedUnit = performedRow?.performedUnit ?? "lb";
+          const weightValue = sanitizeNonNegativeNumber(performedWeight);
+          const repsValue = sanitizePositiveInteger(performedReps);
+          const isValid = weightValue !== null && repsValue !== null;
+
+          return {
+            id: exercise.exercise,
+            exercise: exercise.exercise,
+            sets: exercise.sets,
+            reps: exercise.reps,
+            percentLabel: exercise.percent1RM ? `@ ${Math.round(exercise.percent1RM * 100)}%` : null,
+            restLabel: `${exercise.restMinutes} min rest`,
+            performedWeight,
+            performedReps,
+            performedUnit,
+            weightLabel: "Weight",
+            repsLabel: "Reps",
+            unitLabel: "Unit",
+            isValid,
+            helperText: isValid ? null : "Enter a non-negative weight and at least 1 rep.",
+          } satisfies ProgramsScreenExerciseRowModel;
+        })
       : null,
   };
 
@@ -754,6 +861,27 @@ export function AppExperience() {
         <ProgramsScreen
           model={programsModel}
           onPrimaryAction={activeProgram ? handleProgramComplete : handleProgramEnroll}
+          onExercisePerformedWeightChange={(exerciseId, nextValue) =>
+            setProgramPerformedRows((current) =>
+              current.map((row) =>
+                row.id === exerciseId ? { ...row, performedWeight: nextValue } : row,
+              ),
+            )
+          }
+          onExercisePerformedRepsChange={(exerciseId, nextValue) =>
+            setProgramPerformedRows((current) =>
+              current.map((row) =>
+                row.id === exerciseId ? { ...row, performedReps: nextValue } : row,
+              ),
+            )
+          }
+          onExercisePerformedUnitChange={(exerciseId, nextValue) =>
+            setProgramPerformedRows((current) =>
+              current.map((row) =>
+                row.id === exerciseId ? { ...row, performedUnit: nextValue } : row,
+              ),
+            )
+          }
         />
       ) : null}
 
