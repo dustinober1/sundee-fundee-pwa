@@ -31,6 +31,7 @@ npm run lint       # eslint (may include pre-existing Next.js <img> warnings)
 npm run typecheck  # tsc --noEmit
 npm run build      # Next production build
 npm run supabase:types # regenerate Supabase database types
+npm run verify:supabase-readiness # check linked project, files, env presence, and migration replay hygiene
 npm run preview    # OpenNext Cloudflare preview
 npm run deploy     # OpenNext Cloudflare deploy
 npm run verify:app-boundary # enforce site/app boundary contract (incl. local-only boundary docs)
@@ -97,15 +98,16 @@ The linked Supabase project is `Sundee_Fundee` (`pufzehwzthropjmrrqgt`). Link a
 local checkout with:
 
 ```bash
+npm run verify:supabase-readiness
 supabase link --project-ref pufzehwzthropjmrrqgt
 supabase db push --dry-run
 supabase db push
 npm run supabase:types
 ```
 
-Cloud sync is optional. Local data is not uploaded until the user selects cloud
-sync, signs in, and starts sync from the app. The first implementation uses
-bidirectional last-write-wins sync by `updated_at`/`updatedAt`.
+Detailed local + hosted apply runbook:
+
+- `docs/architecture/supabase-readiness.md`
 
 ## Deployment
 

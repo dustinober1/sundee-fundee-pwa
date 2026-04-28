@@ -179,6 +179,22 @@ create table if not exists public.stripe_events (
   processed_at timestamptz not null default now()
 );
 
+drop policy if exists "Users can read their profile" on public.profiles;
+drop policy if exists "Users can update their profile" on public.profiles;
+drop policy if exists "Users can insert their profile" on public.profiles;
+drop policy if exists "Users manage their exercises" on public.exercises;
+drop policy if exists "Users manage their lifts" on public.lifts;
+drop policy if exists "Users manage their workouts" on public.workouts;
+drop policy if exists "Users manage their workout sets" on public.workout_sets;
+drop policy if exists "Users manage their cycle settings" on public.cycle_settings;
+drop policy if exists "Users manage their period logs" on public.period_logs;
+drop policy if exists "Users manage their recovery scores" on public.recovery_scores;
+drop policy if exists "Users manage their programs" on public.programs;
+drop policy if exists "Users manage their program enrollments" on public.program_enrollments;
+drop policy if exists "Users manage their injuries" on public.injuries;
+drop policy if exists "Users manage their sync events" on public.sync_events;
+drop policy if exists "Users read their donations" on public.donations;
+
 do $$
 begin
   if not exists (
