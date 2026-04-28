@@ -161,6 +161,10 @@ export function ProgramsScreen(props: {
             </div>
           </div>
         </form>
+      ) : model.primaryActionLabel === "Enroll" ? (
+        <p className="mt-6 text-sm leading-6 text-muted" aria-live="polite">
+          {model.enrollPendingLabel}
+        </p>
       ) : null}
     </section>
   );

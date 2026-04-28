@@ -88,6 +88,7 @@ export type ProgramsScreenModel = {
   primaryActionReason: string | null;
   completionNote: string;
   exercises: ProgramsScreenExerciseRowModel[] | null;
+  enrollPendingLabel: string;
 };
 
 export type DataScreenModel = {

@@ -514,6 +514,8 @@ export function AppExperience() {
     try {
       await enrollFirstMargaritaProgram();
       await refreshLocalState();
+      // Keep the user on Programs after enrolling so the session form is immediately available.
+      setScreen("programs");
     } finally {
       setBusy(false);
     }
@@ -782,6 +784,7 @@ export function AppExperience() {
           } satisfies ProgramsScreenExerciseRowModel;
         })
       : null,
+    enrollPendingLabel: "Loading session…",
   };
 
   const dataModel = {
