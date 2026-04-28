@@ -169,6 +169,7 @@ export function AppExperience() {
     useState<PhaseRecommendation | null>(null);
   const [latestRecovery, setLatestRecovery] = useState<RecoveryScoreRecord | null>(null);
   const [activeProgram, setActiveProgram] = useState<ActiveProgramSession | null>(null);
+  const [cloudState, setCloudState] = useState<CloudState>(defaultCloudState);
   const [busy, setBusy] = useState(false);
   const [exerciseName, setExerciseName] = useState("Back squat");
   const [weight, setWeight] = useState("135");
@@ -239,12 +240,159 @@ export function AppExperience() {
     setActiveProgram(programSession);
   }
 
-  useEffect(() => {
-    const syncMode = () => {
-      void getStoredDataMode().then(setMode);
-      void refreshLocalState();
+  async function refreshCloudState(lastResult: CloudSyncResult | null = null) {
+    if (!cloudConfigured) {
+      const nextState = {
+        ...defaultCloudState,
+        status: "not-configured" as const,
+        lastResult,
+      };
+      setCloudState(nextState);
+      return nextState;
+    }
+
+    const [metadata, user] = await Promise.all([
+      getCloudSyncMetadata(),
+      getCloudUser(),
+    ]);
+    const connected = Boolean(user);
+    const status: CloudSyncStatus = !online
+      ? "offline"
+      : !connected
+        ? "signed-out"
+        : !metadata.enabled
+          ? "disabled"
+          : metadata.lastError
+            ? "failed"
+            : metadata.lastSuccessfulSyncAt
+              ? "synced"
+              : "disabled";
+    const nextState = {
+      ...metadata,
+      connected,
+      userEmail: user?.email ?? null,
+      status,
+      lastResult,
     };
-    const handleOnline = () => setOnline(true);
+
+    setCloudState(nextState);
+    return nextState;
+  }
+
+  async function syncCloudData(options: { enable?: boolean } = {}) {
+    if (!cloudConfigured) {
+      await refreshCloudState({
+        status: "not-configured",
+        pushed: 0,
+        pulled: 0,
+        skipped: 0,
+        failed: 0,
+        queued: counts.queuedMutations,
+        errors: [],
+        startedAt: new Date().toISOString(),
+        finishedAt: new Date().toISOString(),
+      });
+      return;
+    }
+
+    if (!cloudState.connected) {
+      window.location.href = "/auth/sign-in";
+      return;
+    }
+
+    setCloudState((current) => ({ ...current, status: "syncing", lastError: null }));
+    setBusy(true);
+    try {
+      if (options.enable) {
+        await enableCloudSync();
+      }
+      const result = await runCloudSync();
+      await refreshLocalState();
+      await refreshCloudState(result);
+    } catch (error) {
+      const result: CloudSyncResult = {
+        status: "failed",
+        pushed: 0,
+        pulled: 0,
+        skipped: 0,
+        failed: 1,
+        queued: counts.queuedMutations,
+        errors: [
+          {
+            message: error instanceof Error ? error.message : String(error),
+          },
+        ],
+        startedAt: new Date().toISOString(),
+        finishedAt: new Date().toISOString(),
+      };
+      await refreshCloudState(result);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  useEffect(() => {
+    const loadCloudState = async (lastResult: CloudSyncResult | null = null) => {
+      if (!cloudConfigured) {
+        const nextState = {
+          ...defaultCloudState,
+          status: "not-configured" as const,
+          lastResult,
+        };
+        setCloudState(nextState);
+        return nextState;
+      }
+
+      const [metadata, user] = await Promise.all([
+        getCloudSyncMetadata(),
+        getCloudUser(),
+      ]);
+      const connected = Boolean(user);
+      const status: CloudSyncStatus = !navigator.onLine
+        ? "offline"
+        : !connected
+          ? "signed-out"
+          : !metadata.enabled
+            ? "disabled"
+            : metadata.lastError
+              ? "failed"
+              : metadata.lastSuccessfulSyncAt
+                ? "synced"
+                : "disabled";
+      const nextState = {
+        ...metadata,
+        connected,
+        userEmail: user?.email ?? null,
+        status,
+        lastResult,
+      };
+      setCloudState(nextState);
+      return nextState;
+    };
+
+    const syncIfReady = async () => {
+      const result = await runCloudSync();
+      await refreshLocalState();
+      await loadCloudState(result);
+    };
+
+    const syncMode = async () => {
+      const storedMode = await getStoredDataMode();
+      setMode(storedMode);
+      await refreshLocalState();
+      const state = await loadCloudState();
+      if (storedMode === "cloud-sync" && state.enabled && state.connected) {
+        void syncIfReady();
+      }
+    };
+    const handleOnline = () => {
+      setOnline(true);
+      void loadCloudState().then((state) => {
+        if (state.enabled && state.connected) {
+          void syncIfReady();
+        }
+      });
+    };
     const handleOffline = () => setOnline(false);
 
     window.addEventListener("online", handleOnline);
@@ -255,7 +403,7 @@ export function AppExperience() {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
-  }, []);
+  }, [cloudConfigured]);
 
   async function chooseMode(nextMode: DataMode) {
     setBusy(true);
@@ -263,6 +411,7 @@ export function AppExperience() {
       await saveDataMode(nextMode);
       setMode(nextMode);
       await refreshLocalState();
+      await refreshCloudState();
     } finally {
       setBusy(false);
     }
@@ -506,7 +655,7 @@ export function AppExperience() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange">
-                  {statusLabel(mode, online)}
+                  {statusLabel(mode, online, cloudState.status)}
                 </p>
                 <h1 className="font-display text-3xl font-semibold">{screenTitle}</h1>
               </div>
@@ -560,17 +709,34 @@ export function AppExperience() {
                   <p className="mt-3 text-sm leading-6 text-muted">
                     {mode === "local-only"
                       ? "No account is required."
-                      : cloudConfigured
-                        ? "Supabase is configured."
-                        : "Supabase environment variables are not configured yet."}
+                      : cloudStatusTitle(cloudState.status)}
                   </p>
                   {mode === "cloud-sync" ? (
-                    <Link
-                      href="/auth/sign-in"
-                      className="mt-5 inline-flex h-10 items-center rounded-lg border border-navy/15 px-4 text-sm font-semibold text-navy"
-                    >
-                      Connect account
-                    </Link>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {!cloudConfigured ? (
+                        <span className="inline-flex h-10 items-center rounded-lg border border-navy/15 px-4 text-sm font-semibold text-muted">
+                          Add Supabase env
+                        </span>
+                      ) : !cloudState.connected ? (
+                        <Link
+                          href="/auth/sign-in"
+                          className="inline-flex h-10 items-center rounded-lg border border-navy/15 px-4 text-sm font-semibold text-navy"
+                        >
+                          Connect account
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled={busy || cloudState.status === "syncing"}
+                          onClick={() =>
+                            syncCloudData({ enable: !cloudState.enabled })
+                          }
+                          className="inline-flex h-10 items-center rounded-lg border border-navy/15 px-4 text-sm font-semibold text-navy disabled:opacity-60"
+                        >
+                          {cloudState.enabled ? "Sync now" : "Start cloud sync"}
+                        </button>
+                      )}
+                    </div>
                   ) : null}
                 </section>
 
@@ -838,35 +1004,103 @@ export function AppExperience() {
             ) : null}
 
             {screen === "data" ? (
-              <section className="rounded-lg border border-border bg-surface p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted">
-                  Data controls
-                </p>
-                <h2 className="font-display mt-3 text-3xl font-semibold">
-                  {mode === "local-only" ? "This device only" : "Cloud sync mode"}
-                </h2>
-                <p className="mt-3 text-sm leading-6 text-muted">
-                  {counts.queuedMutations} local mutation
-                  {counts.queuedMutations === 1 ? "" : "s"} waiting for future
-                  cloud sync.
-                </p>
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  <button
-                    type="button"
-                    onClick={downloadExport}
-                    className="h-12 rounded-lg border border-navy/15 px-4 text-sm font-semibold text-navy"
-                  >
-                    Export JSON
-                  </button>
-                  <button
-                    type="button"
-                    onClick={clearLocalData}
-                    className="h-12 rounded-lg border border-red-900/20 px-4 text-sm font-semibold text-red-800"
-                  >
-                    Delete local data
-                  </button>
-                </div>
-              </section>
+              <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+                <section className="rounded-lg border border-border bg-surface p-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted">
+                    Data controls
+                  </p>
+                  <h2 className="font-display mt-3 text-3xl font-semibold">
+                    {mode === "local-only" ? "This device only" : "Cloud sync mode"}
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-muted">
+                    {counts.queuedMutations} local mutation
+                    {counts.queuedMutations === 1 ? "" : "s"} waiting for cloud
+                    sync.
+                  </p>
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={downloadExport}
+                      className="h-12 rounded-lg border border-navy/15 px-4 text-sm font-semibold text-navy"
+                    >
+                      Export JSON
+                    </button>
+                    <button
+                      type="button"
+                      onClick={clearLocalData}
+                      className="h-12 rounded-lg border border-red-900/20 px-4 text-sm font-semibold text-red-800"
+                    >
+                      Delete local data
+                    </button>
+                  </div>
+                </section>
+
+                <section className="rounded-lg border border-border bg-[#e7eee8] p-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted">
+                    Cloud sync
+                  </p>
+                  <h2 className="font-display mt-3 text-3xl font-semibold">
+                    {cloudStatusTitle(cloudState.status)}
+                  </h2>
+                  <div className="mt-4 space-y-2 text-sm leading-6 text-muted">
+                    <p>
+                      Account:{" "}
+                      <span className="font-semibold text-navy">
+                        {cloudState.userEmail ?? "Not connected"}
+                      </span>
+                    </p>
+                    <p>
+                      Last sync:{" "}
+                      <span className="font-semibold text-navy">
+                        {formatDateTime(cloudState.lastSuccessfulSyncAt)}
+                      </span>
+                    </p>
+                    <p>
+                      Queued:{" "}
+                      <span className="font-semibold text-navy">
+                        {counts.queuedMutations}
+                      </span>
+                    </p>
+                    {cloudState.lastError ? (
+                      <p className="text-red-800">{cloudState.lastError}</p>
+                    ) : null}
+                    {cloudState.lastResult ? (
+                      <p>
+                        Last run: {cloudState.lastResult.pushed} pushed,{" "}
+                        {cloudState.lastResult.pulled} pulled,{" "}
+                        {cloudState.lastResult.skipped} skipped.
+                      </p>
+                    ) : null}
+                  </div>
+                  <div className="mt-6 grid gap-2">
+                    {!cloudConfigured ? (
+                      <p className="rounded-lg border border-navy/10 bg-cream p-3 text-sm text-muted">
+                        Add Supabase environment variables to enable cloud sync.
+                      </p>
+                    ) : !cloudState.connected ? (
+                      <Link
+                        href="/auth/sign-in"
+                        className="inline-flex h-12 items-center justify-center rounded-lg bg-navy px-4 text-sm font-semibold text-cream"
+                      >
+                        Connect account
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled={busy || cloudState.status === "syncing"}
+                        onClick={() => syncCloudData({ enable: !cloudState.enabled })}
+                        className="h-12 rounded-lg bg-navy px-4 text-sm font-semibold text-cream disabled:opacity-60"
+                      >
+                        {cloudState.status === "syncing"
+                          ? "Syncing"
+                          : cloudState.enabled
+                            ? "Sync now"
+                            : "Start cloud sync"}
+                      </button>
+                    )}
+                  </div>
+                </section>
+              </div>
             ) : null}
           </div>
 

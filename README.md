@@ -1,10 +1,13 @@
 # Sundee Fundee Web
 
-Public marketing, blog, and legal site for `sundeefundee.com`.
+Public marketing, blog, donations, and PWA training app for
+`sundeefundee.com`.
 
-The old authenticated workout app, Supabase backend, offline sync layer, and
-native Capacitor projects have been removed from this repo. What remains is the
-public web surface only.
+The PWA lives at `/app` and is being rebuilt as the long-term primary product.
+It is local-first by default: workout, cycle, recovery, and program data can stay
+in browser storage with export/delete controls. Supabase is being reintroduced
+as an optional cloud sync backend for users who explicitly opt in with magic-link
+auth.
 
 ## Quick start
 
@@ -15,8 +18,10 @@ npm run dev
 
 Local dev runs at `http://localhost:3000`.
 
-Stripe checkout also requires `STRIPE_SECRET_KEY` in your environment. Start
-from `.env.example` if you want the donate flow to work locally.
+Stripe checkout requires `STRIPE_SECRET_KEY` in your environment. Optional
+Supabase cloud sync requires `NEXT_PUBLIC_SUPABASE_URL`,
+`NEXT_PUBLIC_SUPABASE_ANON_KEY`, and server-only `SUPABASE_SERVICE_ROLE_KEY`.
+Start from `.env.example` for local setup.
 
 ## Commands
 
@@ -25,6 +30,7 @@ npm run dev        # local development
 npm run lint       # eslint
 npm run typecheck  # tsc --noEmit
 npm run build      # Next production build
+npm run supabase:types # regenerate Supabase database types
 npm run preview    # OpenNext Cloudflare preview
 npm run deploy     # OpenNext Cloudflare deploy
 ```
@@ -36,14 +42,20 @@ src/
   app/
     page.tsx               # marketing home
     blog/                  # blog index, posts, JSON content
+    app/page.tsx           # local-first PWA shell
+    auth/                  # Supabase magic-link callback/sign-out routes
     privacy/page.tsx       # privacy policy
     terms/page.tsx         # terms of use
   components/
+    pwa/                   # PWA experience and auth components
     AppStoreButtons.tsx
     SiteHeader.tsx
     SiteFooter.tsx
   lib/
+    pwa/                   # IndexedDB repositories, Supabase clients, sync
     site.ts                # public site constants and App Store URLs
+supabase/
+  migrations/              # Supabase schema and RLS policies
 public/
   Logo.jpeg
 ```
@@ -54,7 +66,26 @@ Blog posts live in `src/app/blog/content/*.json`.
 
 App Store links and shared site metadata live in `src/lib/site.ts`.
 
+## Supabase sync
+
+The linked Supabase project is `Sundee_Fundee` (`pufzehwzthropjmrrqgt`). Link a
+local checkout with:
+
+```bash
+supabase link --project-ref pufzehwzthropjmrrqgt
+supabase db push --dry-run
+supabase db push
+npm run supabase:types
+```
+
+Cloud sync is optional. Local data is not uploaded until the user selects cloud
+sync, signs in, and starts sync from the app. The first implementation uses
+bidirectional last-write-wins sync by `updated_at`/`updatedAt`.
+
 ## Deployment
 
 The repo still deploys through the existing Cloudflare/OpenNext path so hosting
-does not need to change while the site remains simple and public-only.
+does not need to change.
+
+The native app remains live until the PWA has production-verified auth, cloud
+sync, export/delete, offline logging, and core training parity.

@@ -44,7 +44,7 @@ Build the PWA as the long-term primary product inside `sundee-fundee-web`, using
 - [x] Add Supabase client dependencies and environment placeholders.
 - [x] Add auth route scaffolding for magic-link sign in/out.
 - [x] Add initial Supabase migration with RLS-protected user tables.
-- [ ] Implement full bidirectional sync worker and conflict UI.
+- [x] Implement first bidirectional sync worker with last-write-wins conflict handling.
 - [ ] Add policy tests against a local Supabase test database.
 
 ## Phase 4: Core Training MVP
@@ -75,7 +75,7 @@ Build the PWA as the long-term primary product inside `sundee-fundee-web`, using
 
 ## Phase 7: Production Hardening
 
-- [ ] Update privacy policy for local-only storage, optional Supabase sync, optional AI, Stripe donations, export, and deletion.
+- [x] Update privacy policy for local-only storage, optional Supabase sync, Stripe donations, export, and deletion.
 - [ ] Add observability for auth errors, sync failures, donation webhook failures, AI failures, and PWA install funnel.
 - [ ] Add E2E smoke tests for local-only onboarding, offline workout, export/delete, cloud sync opt-in, and donation flow.
 - [ ] Run accessibility, mobile viewport, and installability checks.

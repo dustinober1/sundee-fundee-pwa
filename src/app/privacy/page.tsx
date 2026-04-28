@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const metadata: Metadata = {
   title: "Privacy Policy – Sundee Fundee",
   description:
-    "Privacy information for the Sundee Fundee website, blog, affiliate links, and linked iOS apps.",
+    "Privacy information for the Sundee Fundee website, PWA, optional cloud sync, donations, and linked iOS apps.",
   alternates: {
     canonical: "/privacy",
   },
@@ -29,12 +29,12 @@ export default function PrivacyPage() {
             <h1 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
               Privacy Policy
             </h1>
-            <p className="mt-4 text-muted">Effective date: April 19, 2026</p>
+            <p className="mt-4 text-muted">Effective date: April 28, 2026</p>
             <p className="mt-6 text-lg text-muted">
               This policy explains how we handle information on the{" "}
-              <strong className="text-navy">Sundee Fundee</strong> website, blog,
-              support inbox, affiliate links, and the iOS apps linked from this
-              site.
+              <strong className="text-navy">Sundee Fundee</strong> website, PWA,
+              blog, support inbox, donation flow, affiliate links, and the iOS
+              apps linked from this site.
             </p>
           </div>
         </section>
@@ -56,7 +56,35 @@ export default function PrivacyPage() {
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
-                Mobile App Data
+                Local PWA Data
+              </h3>
+              <p className="mt-2 leading-relaxed text-muted">
+                If you use the Sundee Fundee PWA in local-only mode, workout,
+                cycle, recovery, program, and similar app data is stored in your
+                browser&apos;s local IndexedDB storage. We do not receive that
+                local-only data unless you choose to export it and send it to us.
+              </p>
+
+              <h3 className="mt-6 font-display text-lg font-semibold text-navy">
+                Optional Cloud Sync
+              </h3>
+              <p className="mt-2 leading-relaxed text-muted">
+                If you opt into cloud sync, we use Supabase magic-link
+                authentication and store the app data you sync so it can be backed
+                up and restored across devices.
+              </p>
+
+              <h3 className="mt-6 font-display text-lg font-semibold text-navy">
+                Donations
+              </h3>
+              <p className="mt-2 leading-relaxed text-muted">
+                If you make a donation, Stripe processes the payment. We may
+                receive donation metadata such as amount, currency, payment
+                status, checkout identifiers, and email address when available.
+              </p>
+
+              <h3 className="mt-6 font-display text-lg font-semibold text-navy">
+                iOS App Data
               </h3>
               <p className="mt-2 leading-relaxed text-muted">
                 If you use the Sundee Fundee iOS apps, we may process account,
@@ -82,6 +110,9 @@ export default function PrivacyPage() {
               <ul className="mt-4 space-y-2 text-muted">
                 {[
                   "Operate the public website, blog, and linked product pages",
+                  "Provide local-first PWA features on your device",
+                  "Provide optional account-based cloud sync when you opt in",
+                  "Process donations and related payment records",
                   "Respond to support, legal, or account-deletion requests",
                   "Provide and maintain the linked iOS app features",
                   "Review aggregate referral or affiliate performance",
@@ -117,8 +148,9 @@ export default function PrivacyPage() {
                 4. Third-Party Services
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
-                This site links to third-party services including the Apple App
-                Store and, at times, affiliate retailers. Those services operate
+                This site and PWA use third-party services including Supabase for
+                optional auth and cloud sync, Stripe for donations, the Apple App
+                Store, and, at times, affiliate retailers. Those services operate
                 under their own terms and privacy policies.
               </p>
               <p className="mt-4 leading-relaxed text-muted">
@@ -136,6 +168,12 @@ export default function PrivacyPage() {
                 We retain information for as long as it is reasonably needed to
                 operate the site, support the linked apps, resolve disputes, or
                 meet legal obligations.
+              </p>
+              <p className="mt-4 leading-relaxed text-muted">
+                You can export or delete local PWA data from the app&apos;s data
+                controls. Deleting local data removes it from that browser. If
+                you have opted into cloud sync, contact support for account-level
+                deletion of synced data.
               </p>
               <p className="mt-4 leading-relaxed text-muted">
                 For deletion or privacy requests, contact{" "}

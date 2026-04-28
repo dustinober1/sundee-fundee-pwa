@@ -254,60 +254,10 @@ function baseRemoteRow(record: SyncableRecord, userId: string) {
 }
 
 export function toRemoteRow(
-  entity: "exercises",
-  record: ExerciseRecord,
-  userId: string,
-): RemoteInserts["exercises"];
-export function toRemoteRow(
-  entity: "lifts",
-  record: LiftRecord,
-  userId: string,
-): RemoteInserts["lifts"];
-export function toRemoteRow(
-  entity: "workouts",
-  record: WorkoutRecord,
-  userId: string,
-): RemoteInserts["workouts"];
-export function toRemoteRow(
-  entity: "workout_sets",
-  record: WorkoutSetRecord,
-  userId: string,
-): RemoteInserts["workout_sets"];
-export function toRemoteRow(
-  entity: "cycle_settings",
-  record: CycleSettingsRecord,
-  userId: string,
-): RemoteInserts["cycle_settings"];
-export function toRemoteRow(
-  entity: "period_logs",
-  record: PeriodLogRecord,
-  userId: string,
-): RemoteInserts["period_logs"];
-export function toRemoteRow(
-  entity: "recovery_scores",
-  record: RecoveryScoreRecord,
-  userId: string,
-): RemoteInserts["recovery_scores"];
-export function toRemoteRow(
-  entity: "programs",
-  record: ProgramRecord,
-  userId: string,
-): RemoteInserts["programs"];
-export function toRemoteRow(
-  entity: "program_enrollments",
-  record: ProgramEnrollmentRecord,
-  userId: string,
-): RemoteInserts["program_enrollments"];
-export function toRemoteRow(
-  entity: "injuries",
-  record: InjuryRecord,
-  userId: string,
-): RemoteInserts["injuries"];
-export function toRemoteRow(
   entity: SyncableEntity,
   record: SyncableRecord,
   userId: string,
-) {
+): RemoteRow {
   const base = baseRemoteRow(record, userId);
 
   switch (entity) {
@@ -424,31 +374,6 @@ export function toRemoteRow(
   }
 }
 
-export function fromRemoteRow(entity: "exercises", row: RemoteRows["exercises"]): ExerciseRecord;
-export function fromRemoteRow(entity: "lifts", row: RemoteRows["lifts"]): LiftRecord;
-export function fromRemoteRow(entity: "workouts", row: RemoteRows["workouts"]): WorkoutRecord;
-export function fromRemoteRow(
-  entity: "workout_sets",
-  row: RemoteRows["workout_sets"],
-): WorkoutSetRecord;
-export function fromRemoteRow(
-  entity: "cycle_settings",
-  row: RemoteRows["cycle_settings"],
-): CycleSettingsRecord;
-export function fromRemoteRow(
-  entity: "period_logs",
-  row: RemoteRows["period_logs"],
-): PeriodLogRecord;
-export function fromRemoteRow(
-  entity: "recovery_scores",
-  row: RemoteRows["recovery_scores"],
-): RecoveryScoreRecord;
-export function fromRemoteRow(entity: "programs", row: RemoteRows["programs"]): ProgramRecord;
-export function fromRemoteRow(
-  entity: "program_enrollments",
-  row: RemoteRows["program_enrollments"],
-): ProgramEnrollmentRecord;
-export function fromRemoteRow(entity: "injuries", row: RemoteRows["injuries"]): InjuryRecord;
 export function fromRemoteRow(entity: SyncableEntity, row: RemoteRow): SyncableRecord {
   const base = {
     id: row.id,
@@ -583,43 +508,43 @@ async function upsertRemoteRow(
     case "exercises":
       return supabase
         .from("exercises")
-        .upsert(row as RemoteInserts["exercises"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["exercises"], { onConflict: "id" });
     case "lifts":
       return supabase
         .from("lifts")
-        .upsert(row as RemoteInserts["lifts"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["lifts"], { onConflict: "id" });
     case "workouts":
       return supabase
         .from("workouts")
-        .upsert(row as RemoteInserts["workouts"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["workouts"], { onConflict: "id" });
     case "workout_sets":
       return supabase
         .from("workout_sets")
-        .upsert(row as RemoteInserts["workout_sets"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["workout_sets"], { onConflict: "id" });
     case "cycle_settings":
       return supabase
         .from("cycle_settings")
-        .upsert(row as RemoteInserts["cycle_settings"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["cycle_settings"], { onConflict: "id" });
     case "period_logs":
       return supabase
         .from("period_logs")
-        .upsert(row as RemoteInserts["period_logs"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["period_logs"], { onConflict: "id" });
     case "recovery_scores":
       return supabase
         .from("recovery_scores")
-        .upsert(row as RemoteInserts["recovery_scores"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["recovery_scores"], { onConflict: "id" });
     case "programs":
       return supabase
         .from("programs")
-        .upsert(row as RemoteInserts["programs"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["programs"], { onConflict: "id" });
     case "program_enrollments":
       return supabase
         .from("program_enrollments")
-        .upsert(row as RemoteInserts["program_enrollments"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["program_enrollments"], { onConflict: "id" });
     case "injuries":
       return supabase
         .from("injuries")
-        .upsert(row as RemoteInserts["injuries"], { onConflict: "id" });
+        .upsert(row as unknown as RemoteInserts["injuries"], { onConflict: "id" });
   }
 }
 
