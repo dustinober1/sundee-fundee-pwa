@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { calculatePlates, estimatedOneRepMax, roundWeight } from "@/lib/pwa/calculations";
 import {
   calculateCycleStatus,
@@ -248,7 +248,7 @@ export function AppExperience() {
     );
   }
 
-  async function refreshLocalState() {
+  const refreshLocalState = useCallback(async () => {
     const [nextCounts, nextBestLift, cycleInputs, recovery, programSession] =
       await Promise.all([
         countLocalRecords(),
@@ -269,7 +269,7 @@ export function AppExperience() {
     setLatestRecovery(recovery ?? null);
     setActiveProgram(programSession);
     ensurePerformedRows(programSession?.session ?? null);
-  }
+  }, []);
 
   async function refreshCloudState(lastResult: CloudSyncResult | null = null) {
     if (!cloudConfigured) {
@@ -435,7 +435,7 @@ export function AppExperience() {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
-  }, [cloudConfigured]);
+  }, [cloudConfigured, refreshLocalState]);
 
   async function chooseMode(nextMode: DataMode) {
     setBusy(true);

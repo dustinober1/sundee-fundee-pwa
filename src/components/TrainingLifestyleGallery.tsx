@@ -1,3 +1,23 @@
+import Image from "next/image";
+
+const galleryImages = [
+  {
+    src: "/lifestyle-gifs/hiker.gif",
+    alt: "Hiker during golden hour",
+    gradient: "from-navy/10 to-orange/10",
+  },
+  {
+    src: "/lifestyle-gifs/kettlebell.gif",
+    alt: "Kettlebell training macro shot",
+    gradient: "from-orange/10 to-navy/10",
+  },
+  {
+    src: "/lifestyle-gifs/woman-gym.gif",
+    alt: "Woman training in gym",
+    gradient: "from-navy/10 to-gold/10 sm:col-span-2 lg:col-span-1",
+  },
+] as const;
+
 export function TrainingLifestyleGallery() {
   return (
     <section className="bg-surface px-6 py-24">
@@ -16,29 +36,20 @@ export function TrainingLifestyleGallery() {
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-navy/10 to-orange/10">
-            <img
-              src="/lifestyle-gifs/hiker.gif"
-              alt="Hiker during golden hour"
-              className="h-full w-full object-cover"
-            />
-          </div>
-
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-orange/10 to-navy/10">
-            <img
-              src="/lifestyle-gifs/kettlebell.gif"
-              alt="Kettlebell training macro shot"
-              className="h-full w-full object-cover"
-            />
-          </div>
-
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br from-navy/10 to-gold/10 sm:col-span-2 lg:col-span-1">
-            <img
-              src="/lifestyle-gifs/woman-gym.gif"
-              alt="Woman training in gym"
-              className="h-full w-full object-cover"
-            />
-          </div>
+          {galleryImages.map((image) => (
+            <div
+              key={image.src}
+              className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br ${image.gradient}`}
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

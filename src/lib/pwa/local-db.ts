@@ -1,5 +1,4 @@
 import Dexie, { type Table } from "dexie";
-import { LOCAL_EXPORT_SCHEMA_VERSION } from "./schema";
 import type {
   CycleSettingsRecord,
   DonationMetadataRecord,

@@ -14,7 +14,6 @@ import {
   LocalDataExportSchema,
   LOCAL_EXPORT_SCHEMA_VERSION,
   parseLocalDataExport,
-  UnsupportedLocalExportSchemaVersionError,
   PeriodLogRecordSchema,
   PreferenceRecordSchema,
   ProgramEnrollmentRecordSchema,
