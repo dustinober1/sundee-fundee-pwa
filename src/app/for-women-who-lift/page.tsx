@@ -37,9 +37,9 @@ export const metadata: Metadata = {
 };
 
 const relatedPostSlugs = [
+  "strength-training-during-period-modifications",
   "cycle-phase-strength-programming",
   "menstrual-cycle-nutrition-strength-training",
-  "menstrual-cycle-injury-risk-lifting",
 ] as const;
 
 const relatedPosts = relatedPostSlugs
@@ -80,7 +80,7 @@ export default function ForWomenWhoLiftPage() {
                   need from strength training.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <AppStoreButtons />
+                  <AppStoreButtons utmCampaign="product_landing" utmContent="women" />
                   <a
                     href="#guides"
                     className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-8 font-medium text-navy transition hover:border-orange hover:text-orange"
@@ -247,7 +247,11 @@ export default function ForWomenWhoLiftPage() {
                 actually have.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons compact={false} />
+                <AppStoreButtons
+                  utmCampaign="product_landing"
+                  utmContent="women"
+                  compact={false}
+                />
               </div>
             </div>
           </div>
