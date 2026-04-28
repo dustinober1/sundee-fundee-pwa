@@ -10,7 +10,7 @@
 
 ---
 
-See also: `docs/parity/parity-verification-harness.md` for what counts as acceptable evidence when promoting inventory findings into the parity ledger.
+See also: `docs/parity/parity-verification-harness.md` for what counts as acceptable evidence when promoting inventory findings into the parity ledger, and `docs/parity/private-testing-launchability.md` for the private public-URL launchability contract used by parity claims.
 
 ## Inventory
 
@@ -26,7 +26,7 @@ See also: `docs/parity/parity-verification-harness.md` for what counts as accept
 | Recovery | Record recovery inputs (sleep, soreness, stress) and store a daily score | Recovery screen saves a computed recovery score record and shows a training label. | `src/components/pwa/AppExperience.tsx` `src/lib/pwa/local-repositories.ts` `src/lib/pwa/recovery` | No push reminders/notifications; user must open the app. |
 | Programs | Enroll in bundled "First Margarita" program | Programs screen enrolls the user in the bundled program and persists program + enrollment locally. | `src/components/pwa/AppExperience.tsx` `src/lib/pwa/local-repositories.ts` `src/lib/pwa/programs` | Only the first bundled program is surfaced right now. |
 | Programs | Show today’s program session details | When enrolled, app reads active session and renders exercise list with sets/reps/%1RM/rest. | `src/components/pwa/AppExperience.tsx` `src/lib/pwa/local-repositories.ts` | Session detail is derived from the bundled program template. |
-| Programs | Mark program session complete (structured local workout artifacts) | "Complete session" advances enrollment session index/week, persists a completed workout record (`source: program`), persists performed workout set rows, updates lift/best estimates, and queues local mutations for later sync. | `src/components/pwa/AppExperience.tsx` `src/components/pwa/app-shell/ProgramsScreen.tsx` `src/lib/pwa/local-repositories.ts` `src/lib/pwa/core-workout-loop.test.ts` | Timers/rest UI/substitutions still missing; current loop is form-driven set capture. |
+| Programs | Mark program session complete (structured local workout artifacts) | "Complete session" advances enrollment session index/week, persists a completed workout record (`source: program`), persists performed workout set rows, updates lift/best estimates, and queues local mutations for later sync. | `src/components/pwa/AppExperience.tsx` `src/components/pwa/app-shell/ProgramsScreen.tsx` `src/lib/pwa/local-repositories.ts` `src/lib/pwa/core-workout-loop.test.ts` `tests/e2e/parity-app.spec.ts` | Timers/rest UI/substitutions still missing; current loop is form-driven set capture. |
 | Data controls | Export local data as JSON | Data screen generates a JSON export and triggers a file download. | `src/components/pwa/AppExperience.tsx` `src/lib/pwa/local-repositories.ts` | Export includes all local tables (including sync mutation queue). |
 | Data controls | Delete all local data on-device | Data screen confirms then clears all Dexie tables and resets UI state. | `src/components/pwa/AppExperience.tsx` `src/lib/pwa/local-repositories.ts` | No selective delete today (all-or-nothing). |
 | Offline | Continue using the app offline (app shell fallback) | Service worker caches core shell assets and falls back to `/app` or `/offline` on navigation fetch failures. | `public/sw.js` `src/app/offline/page.tsx` | Offline fallback is for navigation requests; no granular per-API caching. |
