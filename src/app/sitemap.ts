@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
-import { posts } from "./blog/posts";
+import { postModifiedAt, posts } from "./blog/posts";
 import { SITE_URL } from "@/lib/site";
-import { seoPages } from "@/lib/seo-pages";
+import { SEO_PAGES_LAST_MODIFIED, seoPages } from "@/lib/seo-pages";
 import { BLOG_TOPICS } from "./blog/taxonomy";
 
 function toDate(iso: string) {
@@ -9,11 +9,14 @@ function toDate(iso: string) {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = posts[0] ? toDate(posts[0].publishedAt) : new Date();
+  const siteLastModified = posts[0]
+    ? toDate(postModifiedAt(posts[0]))
+    : new Date();
+  const seoLastModified = toDate(SEO_PAGES_LAST_MODIFIED);
   const postEntries: MetadataRoute.Sitemap = posts.map(
     (post): MetadataRoute.Sitemap[number] => ({
       url: `${SITE_URL}/blog/${post.slug}`,
-      lastModified: toDate(post.publishedAt),
+      lastModified: toDate(postModifiedAt(post)),
       changeFrequency: "monthly",
       priority: 0.8,
     }),
@@ -21,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const seoPageEntries: MetadataRoute.Sitemap = seoPages.map(
     (page): MetadataRoute.Sitemap[number] => ({
       url: `${SITE_URL}/${page.slug}`,
-      lastModified,
+      lastModified: seoLastModified,
       changeFrequency: "monthly",
       priority: page.priority,
     }),
@@ -29,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const topicEntries: MetadataRoute.Sitemap = BLOG_TOPICS.map(
     (topic): MetadataRoute.Sitemap[number] => ({
       url: `${SITE_URL}${topic.href}`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "weekly",
       priority: 0.65,
     }),
@@ -38,55 +41,49 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "weekly" as const,
       priority: 1,
     },
     {
       url: `${SITE_URL}/about`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     },
     {
       url: `${SITE_URL}/blog`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/for-women-who-lift`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/recovery-aware-strength-training`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/apple-health-strength-training-app`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/train-around-injury`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}/garmin-strength-training-app`,
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
       url: `${SITE_URL}/faq`,
-      lastModified,
+      lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     },
