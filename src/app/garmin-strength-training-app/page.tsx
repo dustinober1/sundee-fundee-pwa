@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   title: "Garmin Strength Training App",
   description:
     "Garmin users can route recovery data into a smarter lifting workflow today, with direct Garmin support on the roadmap.",
+  robots: {
+    index: false,
+    follow: true,
+  },
   alternates: {
     canonical: "/garmin-strength-training-app",
   },
