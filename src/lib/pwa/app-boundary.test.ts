@@ -24,7 +24,7 @@ describe('app boundary verifier', () => {
     await expect(runVerifier(repoRoot)).resolves.toBeTruthy();
   });
 
-  test('rejects app importing public-site chrome (app-no-site-imports)', async () => {
+  test('rejects app importing public-site chrome from route shell (app-no-site-imports)', async () => {
     const repoRoot = process.cwd();
     const fixtureRoot = await fs.mkdtemp(path.join(repoRoot, '.tmp-app-boundary-'));
 
@@ -50,9 +50,13 @@ describe('app boundary verifier', () => {
         'utf8',
       );
 
+      await fs.mkdir(path.join(fixtureRoot, 'src', 'components', 'pwa', 'app-shell'), {
+        recursive: true,
+      });
+
       await fs.writeFile(
-        path.join(fixtureRoot, 'src', 'app', 'app', 'page.tsx'),
-        "import SiteHeader from '@/components/SiteHeader'\nexport default function Page(){return <div/>}\n",
+        path.join(fixtureRoot, 'src', 'components', 'pwa', 'app-shell', 'AppRouteShell.tsx'),
+        "import SiteHeader from '@/components/SiteHeader'\nexport function AppRouteShell({children}:{children:any}){return children}\n",
         'utf8',
       );
 

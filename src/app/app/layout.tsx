@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AppRouteShell } from "@/components/pwa/app-shell/AppRouteShell";
 
 export const metadata: Metadata = {
   title: "Training App",
@@ -12,5 +13,5 @@ export const metadata: Metadata = {
 export default function AppLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return children;
+  return <AppRouteShell>{children}</AppRouteShell>;
 }
