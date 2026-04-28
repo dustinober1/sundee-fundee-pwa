@@ -27,14 +27,21 @@ Start from `.env.example` for local setup.
 
 ```bash
 npm run dev        # local development
-npm run lint       # eslint
+npm run lint       # eslint (may include pre-existing Next.js <img> warnings)
 npm run typecheck  # tsc --noEmit
 npm run build      # Next production build
 npm run supabase:types # regenerate Supabase database types
 npm run preview    # OpenNext Cloudflare preview
 npm run deploy     # OpenNext Cloudflare deploy
 npm run verify:app-boundary # enforce site/app boundary contract (incl. local-only boundary docs)
+
+# Parity harness (iOS ↔ web replacement parity)
+npm run verify:parity-ledger         # validate docs/parity ledger contract + evidence hygiene
+npm run test -- src/lib/pwa/parity-ledger.test.ts
+npm run test:e2e -- tests/e2e/parity-app.spec.ts
 ```
+
+Parity artifacts live in `docs/parity/` and are enforced by `scripts/verify-parity-ledger.mjs` and tests.
 
 ## Local-only vs cloud sync
 
