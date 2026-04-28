@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -134,6 +135,27 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
                 </p>
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section className="bg-surface px-6 py-16">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="font-display text-3xl font-bold text-navy sm:text-4xl">
+              Put the topic into your next session.
+            </h2>
+            <p className="mt-4 text-muted">
+              Read the guide, then use the app when recovery, pain, or schedule
+              changes make the original plan wrong.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+              <Link
+                href={topic.productHref}
+                className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-6 font-medium text-navy transition hover:border-navy"
+              >
+                Learn more
+              </Link>
+              <AppStoreButtons utmCampaign="blog_topic" utmContent={topic.slug} />
+            </div>
           </div>
         </section>
       </main>
