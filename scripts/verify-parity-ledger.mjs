@@ -18,6 +18,10 @@ const REQUIRED_LEDGER_SECTIONS = [
   '## Requirements / classification traceability (required)',
 ];
 
+const REQUIRED_HARNESS_PATH = 'docs/parity/parity-verification-harness.md';
+
+const DISALLOWED_EVIDENCE_PATH_PREFIXES = ['.gsd/', '.planning/', '.audits/'];
+
 function stripCodeTicks(s) {
   return s.replace(/^`+|`+$/g, '').trim();
 }
@@ -87,6 +91,34 @@ async function readIfExists(filePath) {
   }
 }
 
+function findSectionRange(lines, headerText) {
+  const start = findLineIndex(lines, headerText);
+  if (start === -1) return null;
+
+  let end = lines.length;
+  for (let i = start + 1; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (/^#{1,6}\s+/.test(line)) {
+      end = i;
+      break;
+    }
+  }
+  return { start, end };
+}
+
+function extractFirstMarkdownLinkUrl(text) {
+  // Matches [label](url)
+  const m = text.match(/\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/i);
+  return m ? m[1] : null;
+}
+
+function hasDisallowedEvidencePath(text) {
+  const normalized = text.replace(/\\/g, '/');
+  return DISALLOWED_EVIDENCE_PATH_PREFIXES.some((p) =>
+    normalized.includes(p),
+  );
+}
+
 function verifyLedgerMarkdown(markdown, fileLabel) {
   const lines = markdown.split(/\r?\n/);
 
@@ -153,6 +185,13 @@ function verifyLedgerMarkdown(markdown, fileLabel) {
 
   const statusIdx = expectedHeaders.indexOf('web_status');
   const evidenceIdx = expectedHeaders.indexOf('evidence');
+  const risksIdx = expectedHeaders.indexOf('risks');
+  const capabilityIdx = expectedHeaders.indexOf('capability');
+
+  const highestRiskRange = findSectionRange(lines, '## Highest-risk gaps (required)');
+  const highestRiskText = highestRiskRange
+    ? lines.slice(highestRiskRange.start, highestRiskRange.end).join('\n')
+    : '';
 
   const problems = [];
   for (const r of rows) {
@@ -170,20 +209,73 @@ function verifyLedgerMarkdown(markdown, fileLabel) {
       );
     }
 
-    const evidence = stripCodeTicks(r.cells[evidenceIdx]);
+    const evidenceRaw = r.cells[evidenceIdx];
+    const evidence = stripCodeTicks(evidenceRaw);
     if (!evidence) {
       problems.push(`Line ${r.lineIndex}: missing evidence cell`);
+      continue;
+    }
+
+    if (hasDisallowedEvidencePath(evidenceRaw)) {
+      problems.push(
+        `Line ${r.lineIndex}: evidence references ignored/local-only path (disallowed): ${DISALLOWED_EVIDENCE_PATH_PREFIXES.join(', ')}`,
+      );
+    }
+
+    // High-risk evidence rule: require at least one tracked proof anchor (repo path or public URL).
+    // We intentionally don't require perfect semantics here; the goal is to block purely free-text evidence
+    // for high-risk claims without forbidding explanatory notes.
+    const capability = r.cells[capabilityIdx];
+    const risks = r.cells[risksIdx];
+    const isHighRisk = /\bhigh\b/i.test(risks) || highestRiskText.includes(capability);
+
+    if (isHighRisk) {
+      const hasUrl = Boolean(extractFirstMarkdownLinkUrl(evidenceRaw));
+      const hasRepoPath = /\b(?:src|app|public|tests|docs|README\.md)\b/.test(
+        evidenceRaw.replace(/\\/g, '/'),
+      );
+      if (!hasUrl && !hasRepoPath) {
+        problems.push(
+          `Line ${r.lineIndex}: high-risk row evidence must include a tracked repo path (src/, app/, public/, tests/, docs/, README.md) or a public URL`,
+        );
+      }
     }
   }
 
   if (problems.length) {
     fail(`${fileLabel} has malformed ledger rows`, problems);
   }
+
+  // Structural requirements inside the "Web-impossible / constraint-bound" section.
+  const registerRange = findSectionRange(
+    lines,
+    '## Web-impossible / constraint-bound items (required)',
+  );
+  if (!registerRange) {
+    fail(`${fileLabel} missing required section ## Web-impossible / constraint-bound items (required)`);
+  }
+
+  const registerText = lines
+    .slice(registerRange.start, registerRange.end)
+    .join('\n')
+    .toLowerCase();
+
+  const missingRegisterEntries = [];
+  if (!registerText.includes('healthkit')) missingRegisterEntries.push('HealthKit');
+  if (!registerText.includes('push')) missingRegisterEntries.push('push notifications');
+  if (!registerText.includes('background')) missingRegisterEntries.push('background execution/sync');
+
+  if (missingRegisterEntries.length) {
+    fail(`${fileLabel} register section is missing required capability classifications`, [
+      `Missing mentions: ${missingRegisterEntries.join(', ')}`,
+    ]);
+  }
 }
 
 async function main() {
   const repoRoot = process.cwd();
   const ledgerPath = path.join(repoRoot, 'docs/parity/ios-web-parity-ledger.md');
+  const harnessPath = path.join(repoRoot, REQUIRED_HARNESS_PATH);
   const webInventoryPath = path.join(
     repoRoot,
     'docs/parity/web-capability-inventory.md',
@@ -193,6 +285,15 @@ async function main() {
   if (!ledger) {
     fail('missing docs/parity/ios-web-parity-ledger.md');
   }
+
+  const harness = await readIfExists(harnessPath);
+  if (!harness) {
+    fail(`missing ${REQUIRED_HARNESS_PATH}`);
+  }
+  if (!harness.trim()) {
+    fail(`${REQUIRED_HARNESS_PATH} exists but is empty`);
+  }
+
   verifyLedgerMarkdown(ledger, 'ios-web-parity-ledger.md');
 
   const webInventory = await readIfExists(webInventoryPath);
