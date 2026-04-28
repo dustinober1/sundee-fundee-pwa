@@ -4,6 +4,7 @@ import { localDb } from "./local-db";
 import {
   createLocalId,
   getPreference,
+  getStoredDataMode,
   queueLocalMutation,
   saveDataMode,
   savePreference,
@@ -154,9 +155,19 @@ export async function getCloudDeviceId() {
 
 export async function setCloudSyncEnabled(enabled: boolean) {
   await savePreference(CLOUD_SYNC_ENABLED_KEY, enabled);
+
   if (enabled) {
     await Promise.all([getCloudDeviceId(), saveDataMode("cloud-sync")]);
+    return;
   }
+
+  // Prevent drift: turning sync off should also exit cloud-sync mode.
+  // If the user later re-enables sync, enableCloudSync() will set cloud mode again.
+  await saveDataMode("local-only");
+}
+
+export async function disableCloudSync() {
+  await setCloudSyncEnabled(false);
 }
 
 export async function enableCloudSync() {
@@ -707,6 +718,16 @@ function emptyResult(status: CloudSyncStatus, startedAt = nowIso()): CloudSyncRe
 
 export async function runCloudSync(): Promise<CloudSyncResult> {
   const startedAt = nowIso();
+
+  const mode = await getStoredDataMode();
+  if (mode !== "cloud-sync") {
+    const queued = await localDb.syncMutations.count();
+    return {
+      ...emptyResult("disabled", startedAt),
+      queued,
+      finishedAt: nowIso(),
+    };
+  }
 
   if (!isSupabaseBrowserConfigured()) {
     return emptyResult("not-configured", startedAt);

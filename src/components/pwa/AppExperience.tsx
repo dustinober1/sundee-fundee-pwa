@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { calculatePlates, estimatedOneRepMax, roundWeight } from "@/lib/pwa/calculations";
 import {
   calculateCycleStatus,
@@ -10,6 +10,7 @@ import {
   type PhaseRecommendation,
 } from "@/lib/pwa/cycle";
 import {
+  disableCloudSync,
   enableCloudSync,
   getCloudSyncMetadata,
   runCloudSync,
@@ -141,6 +142,7 @@ function recoveryLabel(score?: number) {
 
 export function AppExperience() {
   const [mode, setMode] = useState<DataMode | null>(null);
+  const storedModeRef = useRef<DataMode | null>(null);
   const [screen, setScreen] = useState<AppScreen>("today");
   const [online, setOnline] = useState(() =>
     typeof navigator === "undefined" ? true : navigator.onLine,
@@ -407,6 +409,7 @@ export function AppExperience() {
 
     const syncMode = async () => {
       const storedMode = await getStoredDataMode();
+      storedModeRef.current = storedMode;
       setMode(storedMode);
       await refreshLocalState();
       const state = await loadCloudState();
@@ -417,7 +420,7 @@ export function AppExperience() {
     const handleOnline = () => {
       setOnline(true);
       void loadCloudState().then((state) => {
-        if (state.enabled && state.connected) {
+        if (storedModeRef.current === "cloud-sync" && state.enabled && state.connected) {
           void syncIfReady();
         }
       });
@@ -438,6 +441,10 @@ export function AppExperience() {
     setBusy(true);
     try {
       await saveDataMode(nextMode);
+      if (nextMode === "local-only") {
+        await disableCloudSync();
+      }
+      storedModeRef.current = nextMode;
       setMode(nextMode);
       await refreshLocalState();
       await refreshCloudState();
