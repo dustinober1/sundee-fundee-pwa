@@ -4,6 +4,7 @@ const footerSections = [
   {
     title: "Explore",
     links: [
+      { href: "/app", label: "App" },
       { href: "/about", label: "About" },
       { href: "/workout-plans", label: "Plans" },
       { href: "/blog", label: "Blog" },
