@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
+import { PwaServiceWorker } from "@/components/pwa/PwaServiceWorker";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 const display = Playfair_Display({
@@ -25,6 +26,16 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_TITLE,
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: SITE_TITLE,
+  },
+  icons: {
+    icon: "/Logo.jpeg",
+    apple: "/Logo.jpeg",
+  },
   formatDetection: {
     telephone: false,
   },
@@ -52,6 +63,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-cream text-navy">
         {children}
+        <PwaServiceWorker />
         <Analytics />
       </body>
     </html>
