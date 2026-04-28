@@ -38,8 +38,8 @@ export const metadata: Metadata = {
 
 const relatedPostSlugs = [
   "apple-health-data-for-strength-training",
-  "why-recovery-beats-the-calendar",
-  "sleep-quality-strength-training-gains",
+  "apple-health-strength-training-recovery",
+  "apple-watch-hrv-strength-training",
 ] as const;
 
 const relatedPosts = relatedPostSlugs
@@ -80,7 +80,10 @@ export default function AppleHealthStrengthTrainingAppPage() {
                   actually feel, not just the plan you made last week.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <AppStoreButtons />
+                  <AppStoreButtons
+                    utmCampaign="product_landing"
+                    utmContent="apple_health"
+                  />
                   <a
                     href="#guides"
                     className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-8 font-medium text-navy transition hover:border-orange hover:text-orange"
@@ -242,7 +245,11 @@ export default function AppleHealthStrengthTrainingAppPage() {
                 Download the app and use the health data you already have.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons compact={false} />
+                <AppStoreButtons
+                  utmCampaign="product_landing"
+                  utmContent="apple_health"
+                  compact={false}
+                />
               </div>
             </div>
           </div>
