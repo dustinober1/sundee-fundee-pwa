@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 
 const relatedPostSlugs = [
   "training-around-injuries-without-losing-progress",
-  "breathing-bracing-lifting-technique",
+  "strength-training-around-minor-injuries",
   "warm-up-protocol-for-strength-training",
 ] as const;
 
@@ -77,7 +77,7 @@ export default function TrainAroundInjuryPage() {
                   problem so you keep momentum without pretending nothing changed.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <AppStoreButtons />
+                  <AppStoreButtons utmCampaign="product_landing" utmContent="injury" />
                   <a
                     href="#guides"
                     className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-8 font-medium text-navy transition hover:border-orange hover:text-orange"
@@ -237,7 +237,11 @@ export default function TrainAroundInjuryPage() {
                 Keep momentum while you protect the thing that needs attention.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons compact={false} />
+                <AppStoreButtons
+                  utmCampaign="product_landing"
+                  utmContent="injury"
+                  compact={false}
+                />
               </div>
             </div>
           </div>
