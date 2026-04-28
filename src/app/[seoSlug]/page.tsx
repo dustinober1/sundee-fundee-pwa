@@ -98,7 +98,7 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
               {page.intro}
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <AppStoreButtons />
+              <AppStoreButtons utmCampaign="seo_landing" utmContent={page.slug} />
               <a
                 href="#guide"
                 className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-8 font-medium text-navy transition hover:border-orange hover:text-orange"
@@ -192,7 +192,11 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
                 shape the next workout.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <AppStoreButtons compact={false} />
+                <AppStoreButtons
+                  utmCampaign="seo_landing"
+                  utmContent={page.slug}
+                  compact={false}
+                />
               </div>
             </div>
           </div>
