@@ -136,8 +136,6 @@ describe("local PWA repositories", () => {
     const active = await getActiveProgramSession();
     expect(active?.session?.sessionId).toBe("w1d1");
 
-    const beforeExerciseCount = await localDb.exercises.count();
-    const beforeMutationCount = await localDb.syncMutations.count();
     const beforeWorkoutCount = await localDb.workouts.count();
     const beforeWorkoutSetCount = await localDb.workoutSets.count();
 
