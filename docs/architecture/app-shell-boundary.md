@@ -17,8 +17,14 @@ This boundary directly supports:
 
 - **R002** — enforce a clear site/app separation inside one repo.
 - **R004** — keep the app portable so future Capacitor wrapping remains viable.
+- **R005** — local-only privacy guarantee depends on a hard local/cloud data boundary.
 - **D001** — single repo, explicit boundary rather than separate repos.
 - **D002** — portability strategy: domain logic and adapters stay platform-agnostic.
+- **D004** — local-only is enforced at the cloud-sync/data-boundary layer.
+
+Related contract:
+
+- `docs/architecture/local-only-data-boundary.md` — defines the local-only guarantee, import/export version policy, and verification commands.
 
 ## Ownership map
 

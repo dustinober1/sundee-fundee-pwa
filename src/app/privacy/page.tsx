@@ -56,13 +56,16 @@ export default function PrivacyPage() {
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
-                Local PWA Data
+                Local-only PWA Data
               </h3>
               <p className="mt-2 leading-relaxed text-muted">
                 If you use the Sundee Fundee PWA in local-only mode, workout,
                 cycle, recovery, program, and similar app data is stored in your
-                browser&apos;s local IndexedDB storage. We do not receive that
-                local-only data unless you choose to export it and send it to us.
+                browser&apos;s IndexedDB storage on your device. We do not receive
+                that local-only data unless you choose to export it and send it to us.
+                Local-only mode may still keep sync-related bookkeeping on-device
+                (for example, a local queue count), but it does not upload your
+                app data to our servers.
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">

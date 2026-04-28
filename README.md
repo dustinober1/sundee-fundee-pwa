@@ -33,8 +33,17 @@ npm run build      # Next production build
 npm run supabase:types # regenerate Supabase database types
 npm run preview    # OpenNext Cloudflare preview
 npm run deploy     # OpenNext Cloudflare deploy
-npm run verify:app-boundary # enforce site/app boundary contract
+npm run verify:app-boundary # enforce site/app boundary contract (incl. local-only boundary docs)
 ```
+
+## Local-only vs cloud sync
+
+- **Local-only**: no account required and **no cloud writes/uploads**. App data is stored on-device in browser IndexedDB.
+- **Cloud sync**: requires explicit opt-in (cloud-sync mode), Supabase env config, and account connection; then sync runs can upload/download data.
+
+Engineering contract & versioned import/export policy:
+
+- `docs/architecture/local-only-data-boundary.md`
 
 ## Project shape
 
