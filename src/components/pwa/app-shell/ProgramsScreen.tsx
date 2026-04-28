@@ -50,8 +50,9 @@ export function ProgramsScreen(props: {
 
         <div className="flex w-full flex-col gap-2 lg:max-w-xs">
           <button
-            type="submit"
-            form="program-session"
+            type={model.exercises ? "submit" : "button"}
+            form={model.exercises ? "program-session" : undefined}
+            onClick={model.exercises ? undefined : onPrimaryAction}
             disabled={model.primaryActionDisabled}
             className="h-12 rounded-lg bg-navy px-4 text-sm font-semibold text-cream transition-transform active:scale-[0.96] disabled:cursor-not-allowed disabled:opacity-60"
           >
