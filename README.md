@@ -39,9 +39,17 @@ npm run verify:app-boundary # enforce site/app boundary contract (incl. local-on
 npm run verify:parity-ledger         # validate docs/parity ledger contract + evidence hygiene
 npm run test -- src/lib/pwa/parity-ledger.test.ts
 npm run test:e2e -- tests/e2e/parity-app.spec.ts
+
+# Private testing launchability (public-but-unadvertised URL)
+# See docs/parity/private-testing-launchability.md
+npm run build
+npm run preview
+npm run deploy
 ```
 
 Parity artifacts live in `docs/parity/` and are enforced by `scripts/verify-parity-ledger.mjs` and tests.
+
+Private public-URL launchability contract (R011): `docs/parity/private-testing-launchability.md`.
 
 ## Local-only vs cloud sync
 
