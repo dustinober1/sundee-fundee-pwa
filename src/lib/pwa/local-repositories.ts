@@ -12,6 +12,9 @@ import {
   LiftRecordSchema,
   DataModeSchema,
   LocalDataExportSchema,
+  LOCAL_EXPORT_SCHEMA_VERSION,
+  parseLocalDataExport,
+  UnsupportedLocalExportSchemaVersionError,
   PeriodLogRecordSchema,
   PreferenceRecordSchema,
   ProgramEnrollmentRecordSchema,
@@ -709,7 +712,7 @@ export async function exportLocalData(): Promise<LocalDataExport> {
   ]);
 
   return LocalDataExportSchema.parse({
-    schemaVersion: 1,
+    schemaVersion: LOCAL_EXPORT_SCHEMA_VERSION,
     exportedAt: nowIso(),
     preferences,
     exercises,
@@ -728,7 +731,8 @@ export async function exportLocalData(): Promise<LocalDataExport> {
 }
 
 export async function importLocalData(exportedData: unknown) {
-  const data = LocalDataExportSchema.parse(exportedData);
+  // Fail closed on unknown schema versions before any IndexedDB writes.
+  const data = parseLocalDataExport(exportedData);
 
   await localDb.transaction("rw", localDb.tables, async () => {
     await Promise.all([

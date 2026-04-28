@@ -135,8 +135,24 @@ export const SyncMutationRecordSchema = z.object({
 });
 export type SyncMutationRecord = z.infer<typeof SyncMutationRecordSchema>;
 
+export const LOCAL_EXPORT_SCHEMA_VERSION = 1 as const;
+
+export class UnsupportedLocalExportSchemaVersionError extends Error {
+  readonly schemaVersion: unknown;
+
+  constructor(schemaVersion: unknown) {
+    super(
+      `Unsupported local export schemaVersion: ${String(schemaVersion)}. ` +
+        `This app supports schemaVersion ${LOCAL_EXPORT_SCHEMA_VERSION} only. ` +
+        `Update the app or add a migration before importing newer exports.`,
+    );
+    this.name = "UnsupportedLocalExportSchemaVersionError";
+    this.schemaVersion = schemaVersion;
+  }
+}
+
 export const LocalDataExportSchema = z.object({
-  schemaVersion: z.literal(1),
+  schemaVersion: z.literal(LOCAL_EXPORT_SCHEMA_VERSION),
   exportedAt: isoString,
   preferences: z.array(PreferenceRecordSchema),
   exercises: z.array(ExerciseRecordSchema),
@@ -153,3 +169,16 @@ export const LocalDataExportSchema = z.object({
   syncMutations: z.array(SyncMutationRecordSchema),
 });
 export type LocalDataExport = z.infer<typeof LocalDataExportSchema>;
+
+export function parseLocalDataExport(payload: unknown): LocalDataExport {
+  if (!payload || typeof payload !== "object") {
+    return LocalDataExportSchema.parse(payload);
+  }
+
+  const candidate = payload as { schemaVersion?: unknown };
+  if (candidate.schemaVersion !== LOCAL_EXPORT_SCHEMA_VERSION) {
+    throw new UnsupportedLocalExportSchemaVersionError(candidate.schemaVersion);
+  }
+
+  return LocalDataExportSchema.parse(payload);
+}

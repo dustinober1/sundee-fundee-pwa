@@ -63,6 +63,36 @@ describe("local PWA repositories", () => {
     await expect(getStoredDataMode()).resolves.toBe("local-only");
   });
 
+  it("rejects unsupported local export schema versions before any writes", async () => {
+    await createWorkout({ title: "Existing workout" });
+    const before = await countLocalRecords();
+
+    const payload = {
+      ...(await exportLocalData()),
+      schemaVersion: 2,
+      workouts: [],
+    };
+
+    await expect(importLocalData(payload)).rejects.toThrow(
+      /Unsupported local export schemaVersion/i,
+    );
+
+    expect(await countLocalRecords()).toEqual(before);
+  });
+
+  it("rejects malformed exports and preserves existing local records", async () => {
+    await createWorkout({ title: "Existing workout" });
+    const before = await countLocalRecords();
+
+    const payload = {
+      ...(await exportLocalData()),
+      workouts: "not-an-array",
+    };
+
+    await expect(importLocalData(payload)).rejects.toThrow();
+    expect(await countLocalRecords()).toEqual(before);
+  });
+
   it("creates a quick workout with exercise, set, lift, and sync mutations", async () => {
     await createQuickWorkout({
       exerciseName: "Back squat",

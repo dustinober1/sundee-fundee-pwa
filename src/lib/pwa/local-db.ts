@@ -1,4 +1,5 @@
 import Dexie, { type Table } from "dexie";
+import { LOCAL_EXPORT_SCHEMA_VERSION } from "./schema";
 import type {
   CycleSettingsRecord,
   DonationMetadataRecord,
@@ -33,6 +34,12 @@ export class SundeeFundeeLocalDb extends Dexie {
   constructor(name = "sundee-fundee-local") {
     super(name);
 
+    // NOTE: Dexie schema versioning and exported local data schema versioning are related but
+    // intentionally separate concerns. This DB is currently version(1), and the app also exports
+    // data as schemaVersion 1. If you bump either, do it intentionally:
+    // - add a Dexie migration via `this.version(N).upgrade(...)`
+    // - bump LOCAL_EXPORT_SCHEMA_VERSION and update parse/import compatibility rules
+    // Current export schema: v${LOCAL_EXPORT_SCHEMA_VERSION}
     this.version(1).stores({
       preferences: "key, updatedAt",
       exercises: "id, name, updatedAt, deletedAt, syncStatus",
