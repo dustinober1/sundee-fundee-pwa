@@ -38,8 +38,8 @@ export const metadata: Metadata = {
 
 const relatedPostSlugs = [
   "why-recovery-beats-the-calendar",
-  "deload-week-programming-strength-training",
-  "sleep-quality-strength-training-gains",
+  "low-readiness-score-strength-training",
+  "deload-week-sleep-soreness-training-history",
   "when-hrv-is-low-strength-training",
 ] as const;
 
@@ -81,7 +81,10 @@ export default function RecoveryAwareStrengthTrainingPage() {
                   forcing every week to look the same.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <AppStoreButtons />
+                  <AppStoreButtons
+                    utmCampaign="product_landing"
+                    utmContent="recovery"
+                  />
                   <a
                     href="#guides"
                     className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-8 font-medium text-navy transition hover:border-orange hover:text-orange"
@@ -243,7 +246,11 @@ export default function RecoveryAwareStrengthTrainingPage() {
                 Use the app when your body needs the plan to move with it.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons compact={false} />
+                <AppStoreButtons
+                  utmCampaign="product_landing"
+                  utmContent="recovery"
+                  compact={false}
+                />
               </div>
             </div>
           </div>
