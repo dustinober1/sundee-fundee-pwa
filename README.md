@@ -33,6 +33,7 @@ npm run build      # Next production build
 npm run supabase:types # regenerate Supabase database types
 npm run preview    # OpenNext Cloudflare preview
 npm run deploy     # OpenNext Cloudflare deploy
+npm run verify:app-boundary # enforce site/app boundary contract
 ```
 
 ## Project shape
