@@ -249,7 +249,7 @@ export default function Landing() {
               tracking.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <AppStoreButtons compact={false} />
+              <AppStoreButtons utmCampaign="home" compact={false} />
             </div>
           </div>
         </section>
@@ -306,7 +306,7 @@ export default function Landing() {
                 your readiness changes during the week.
               </p>
               <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons compact />
+                <AppStoreButtons utmCampaign="home" utmContent="blog_cta" compact />
               </div>
             </div>
           </div>
