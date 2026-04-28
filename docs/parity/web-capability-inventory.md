@@ -10,6 +10,8 @@
 
 ---
 
+See also: `docs/parity/parity-verification-harness.md` for what counts as acceptable evidence when promoting inventory findings into the parity ledger.
+
 ## Inventory
 
 | area | user job / capability | current web behavior | evidence | gaps / notes |

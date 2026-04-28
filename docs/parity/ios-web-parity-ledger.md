@@ -17,6 +17,8 @@ This project tracks **replacement parity**, not implementation parity.
 
 See decision **D003** in the decisions register.
 
+See also: `docs/parity/parity-verification-harness.md` for the evidence/status contract used by verifiers.
+
 ---
 
 ## Status vocabulary (must be exact)
