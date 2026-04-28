@@ -189,7 +189,7 @@ export default function AboutPage() {
               app is the product of that story.
             </p>
             <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-              <AppStoreButtons compact={false} />
+              <AppStoreButtons utmCampaign="about" compact={false} />
             </div>
           </div>
         </section>
