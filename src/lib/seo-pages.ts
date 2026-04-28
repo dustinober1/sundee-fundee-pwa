@@ -29,6 +29,8 @@ export type SeoPage = {
   priority: number;
 };
 
+export const SEO_PAGES_LAST_MODIFIED = "2026-04-27";
+
 const recoveryRelated: SeoPageLink[] = [
   {
     href: "/recovery-aware-strength-training",
@@ -90,14 +92,14 @@ const wearableRelated: SeoPageLink[] = [
     description: "Use health signals already available on iPhone.",
   },
   {
-    href: "/garmin-strength-training-app",
-    label: "Garmin strength training app",
-    description: "How Garmin recovery data can fit strength training.",
-  },
-  {
     href: "/blog/apple-health-data-for-strength-training",
     label: "Apple Health data for strength",
     description: "Which signals are useful for lifters.",
+  },
+  {
+    href: "/wearables-and-strength-training",
+    label: "Wearables and strength training",
+    description: "A hub for using health data without chasing every metric.",
   },
 ];
 
@@ -475,7 +477,7 @@ export const seoPages: SeoPage[] = [
       "a recovery topic hub",
       "This hub collects guides for lifters who want recovery to shape training decisions without making every workout dependent on a single metric.",
       "Sundee Fundee brings readiness, sleep, soreness, and training history into the same planning workflow. The aim is practical adjustment, not data overload.",
-      "Start with readiness if you need a daily decision, deload planning if fatigue is accumulating, or wearable data if you want to understand Apple Health and Garmin inputs.",
+      "Start with readiness if you need a daily decision, deload planning if fatigue is accumulating, or wearable data if you want to understand Apple Health and HRV inputs.",
       "Use the resources below to move from recovery theory to specific training choices.",
     ),
     faqs: faq("strength training recovery"),
@@ -538,16 +540,16 @@ export const seoPages: SeoPage[] = [
     slug: "wearables-and-strength-training",
     kind: "hub",
     eyebrow: "Wearables and Strength Training",
-    title: "Wearables and strength training: Apple Health, Garmin, and readiness",
+    title: "Wearables and strength training: Apple Health, HRV, and readiness",
     description:
       "A hub for using wearable recovery data in strength training without letting metrics replace judgment.",
     intro:
       "Wearables can be useful for strength training when they provide context for recovery and consistency. They are less useful when every metric becomes a rule.",
     sections: sections(
       "a wearables strength hub",
-      "This hub connects Apple Health, Garmin, HRV, sleep, and readiness topics for lifters who want data to support the training day.",
+      "This hub connects Apple Health, HRV, sleep, and readiness topics for lifters who want data to support the training day.",
       "Sundee Fundee uses wearable context as one input in a broader decision. Subjective readiness, training history, and the warm-up still matter.",
-      "Start with Apple Health if you train on iPhone, Garmin if you use that ecosystem, or readiness if you want the clearest daily decision point.",
+      "Start with Apple Health if you train on iPhone, or readiness if you want the clearest daily decision point.",
       "Use these resources to make wearable data practical for lifting rather than distracting.",
     ),
     faqs: faq("wearables and strength training"),
