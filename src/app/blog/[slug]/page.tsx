@@ -38,6 +38,7 @@ export async function generateMetadata({
       siteName: SITE_TITLE,
       title: post.title,
       description: post.description,
+      images: [SITE_OG_IMAGE_PATH],
       publishedTime: post.publishedAt,
       modifiedTime: postModifiedAt(post),
       authors: [post.author],
@@ -47,6 +48,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: [SITE_OG_IMAGE_PATH],
     },
   };
 }
@@ -154,7 +156,11 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                 >
                   Learn more
                 </Link>
-                <AppStoreButtons compact />
+                <AppStoreButtons
+                  utmCampaign="blog_post"
+                  utmContent={post.slug}
+                  compact
+                />
               </div>
             </div>
 
@@ -223,7 +229,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               Get recovery-aware training plans on iOS.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <AppStoreButtons />
+              <AppStoreButtons utmCampaign="blog_post" utmContent={post.slug} />
             </div>
           </div>
         </section>
