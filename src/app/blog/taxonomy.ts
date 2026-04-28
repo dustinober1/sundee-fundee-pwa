@@ -69,10 +69,10 @@ export const BLOG_TOPICS: BlogTopic[] = [
     slug: "wearables-health-data",
     label: "Wearables & Health Data",
     description:
-      "Translate Garmin-style recovery data, Apple Health signals, and wearable trends into gym decisions.",
+      "Translate Apple Health signals and wearable trends into gym decisions.",
     eyebrow: "Health data",
     href: "/blog/topic/wearables-health-data",
-    matchTags: ["garmin", "apple-health", "wearables", "hrv"],
+    matchTags: ["apple-health", "wearables", "hrv", "wearable-data"],
     productHref: "/apple-health-strength-training-app",
     ctaEyebrow: "Use health signals",
     ctaTitle: "Turn wearable data into training choices.",
