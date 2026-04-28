@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { AppComparison } from "@/components/AppComparison";
@@ -20,6 +21,7 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@/lib/site";
+import { workoutPlans } from "@/lib/workout-plans";
 import { formatDate, posts } from "./blog/posts";
 
 const latestPosts = posts.slice(0, 3);
@@ -195,6 +197,60 @@ export default function Landing() {
         </section>
 
         <TrainingLifestyleGallery />
+
+        <section className="px-6 py-24">
+          <div className="mx-auto max-w-6xl">
+            <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+              <div className="max-w-3xl">
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                  Printable strength plans
+                </p>
+                <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
+                  Start with a plan you can carry.
+                </h2>
+              </div>
+              <p className="max-w-xl text-muted">
+                Print a complete training block, take it to the gym, write down
+                what you actually did, then log the session in Sundee Fundee
+                when you are ready to adapt the next one.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-6 lg:grid-cols-3">
+              {workoutPlans.map((plan) => (
+                <Link
+                  key={plan.slug}
+                  href="/workout-plans"
+                  className="group overflow-hidden rounded-[2rem] border border-border bg-surface transition hover:border-orange/50"
+                >
+                  <div className="bg-navy/5 p-4">
+                    <Image
+                      src={plan.coverPath}
+                      alt={`${plan.title} cover`}
+                      width={612}
+                      height={792}
+                      className="rounded-[1.25rem] border border-border transition group-hover:scale-[1.01]"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange">
+                      {plan.pages} pages · {plan.weeks}
+                    </p>
+                    <h3 className="font-display mt-3 text-2xl font-semibold text-navy">
+                      {plan.shortTitle}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-muted">
+                      {plan.description}
+                    </p>
+                    <p className="mt-6 text-sm font-medium text-orange">
+                      View plans →
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <AppComparison />
 
