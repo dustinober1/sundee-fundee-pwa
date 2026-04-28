@@ -183,6 +183,10 @@ These commands are the **canonical harness entry points**.
 - E2E proof of key replacement flows (scoped):
   - `npm run test:e2e -- tests/e2e/parity-app.spec.ts`
 
+Implementation notes:
+- The Playwright config uses a deterministic local dev server on `http://127.0.0.1:3100`.
+- Artifacts (trace/screenshot/video) are recorded only on failure/retry to keep the repo clean.
+
 Notes:
 
 - Evidence must be reproducible and must not contain secrets or real personal/workout data.
