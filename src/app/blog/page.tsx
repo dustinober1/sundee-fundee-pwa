@@ -210,7 +210,7 @@ export default function BlogIndex() {
                 pain, cycle context, or schedule changes make the old plan wrong.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <AppStoreButtons compact />
+                <AppStoreButtons utmCampaign="blog_index" compact />
               </div>
             </div>
           </div>
