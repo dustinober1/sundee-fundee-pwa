@@ -53,7 +53,7 @@ export const WorkoutSetRecordSchema = BaseLocalRecordSchema.extend({
   workoutId: z.string().min(1),
   exerciseId: z.string().min(1),
   setIndex: z.number().int().nonnegative(),
-  reps: z.number().int().nonnegative(),
+  reps: z.number().int().positive(),
   weight: z.number().nonnegative(),
   unit: z.enum(["lb", "kg"]).default("lb"),
   rpe: z.number().min(0).max(10).nullable().optional(),

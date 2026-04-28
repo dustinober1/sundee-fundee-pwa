@@ -480,38 +480,167 @@ export async function getActiveProgramSession(): Promise<ActiveProgramSession | 
   };
 }
 
-export async function completeActiveProgramSession() {
+export type CompletedProgramSessionInput = {
+  sessionId: string;
+  performedAt: string;
+  exercises: Array<{
+    exerciseName: string;
+    sets: Array<{
+      reps: number;
+      weight: number;
+      unit?: "lb" | "kg";
+      rpe?: number | null;
+    }>;
+  }>;
+};
+
+export type CompletedProgramSessionSummary = {
+  workoutId: string;
+  completedSessionId: string;
+  completedSessionName: string;
+  persistedSetCount: number;
+  enrollmentStatus: ProgramEnrollmentRecord["status"];
+  nextSessionIndex: number;
+};
+
+export async function completeActiveProgramSession(performed: CompletedProgramSessionInput) {
   const active = await getActiveProgramSession();
   if (!active?.session) return null;
 
+  if (performed.sessionId !== active.session.sessionId) {
+    throw new Error("Performed session does not match active session");
+  }
+
   const timestamp = nowIso();
+  const performedAt = performed.performedAt || timestamp;
+
+  const trimmedExercises = performed.exercises.map((exercise) => ({
+    ...exercise,
+    exerciseName: (exercise.exerciseName ?? "").trim(),
+  }));
+
+  if (trimmedExercises.some((exercise) => !exercise.exerciseName)) {
+    throw new Error("Exercise name is required");
+  }
+
   const nextIndex = active.enrollment.currentSessionIndex + 1;
   const completed = nextIndex >= active.totalSessions;
+  const nextSessionIndex = Math.min(nextIndex, active.totalSessions - 1);
+
   const nextEnrollment = ProgramEnrollmentRecordSchema.parse({
     ...active.enrollment,
-    currentSessionIndex: Math.min(nextIndex, active.totalSessions - 1),
+    currentSessionIndex: nextSessionIndex,
     currentWeek: Math.min(
       active.program.weeks,
-      Math.floor(Math.min(nextIndex, active.totalSessions - 1) / active.program.sessionsPerWeek) + 1,
+      Math.floor(nextSessionIndex / active.program.sessionsPerWeek) + 1,
     ),
     status: completed ? "completed" : "active",
     updatedAt: timestamp,
     syncStatus: "queued",
   });
-  const workout = await createWorkout({
+
+  const workoutId = createLocalId("wrk");
+  const workout = WorkoutRecordSchema.parse({
+    id: workoutId,
     title: active.session.sessionName,
+    startedAt: performedAt,
+    completedAt: performedAt,
     status: "completed",
     source: "program",
-    completedAt: timestamp,
     notes: `${active.program.title} / ${active.session.focus}`,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+    deletedAt: null,
+    syncStatus: "queued",
+    userId: null,
   });
 
-  await localDb.transaction("rw", localDb.programEnrollments, localDb.syncMutations, async () => {
-    await localDb.programEnrollments.put(nextEnrollment);
-    await queueLocalMutation("program_enrollments", nextEnrollment.id, "upsert", nextEnrollment);
-  });
+  const workoutSets: WorkoutSetRecord[] = [];
+  let persistedSetCount = 0;
 
-  return { workout, enrollment: nextEnrollment, completedSession: active.session };
+  for (const [exerciseIndex, exercise] of trimmedExercises.entries()) {
+    const upserted = await upsertExercise({ name: exercise.exerciseName });
+
+    for (const [setIndex, set] of exercise.sets.entries()) {
+      const record = WorkoutSetRecordSchema.parse({
+        id: createLocalId("set"),
+        workoutId: workout.id,
+        exerciseId: upserted.id,
+        setIndex: exerciseIndex * 1000 + setIndex,
+        reps: set.reps,
+        weight: set.weight,
+        unit: set.unit ?? "lb",
+        rpe: set.rpe ?? null,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+        deletedAt: null,
+        syncStatus: "queued",
+        userId: null,
+      });
+      workoutSets.push(record);
+      persistedSetCount += 1;
+    }
+  }
+
+  await localDb.transaction(
+    "rw",
+    [
+      localDb.workouts,
+      localDb.workoutSets,
+      localDb.exercises,
+      localDb.lifts,
+      localDb.programEnrollments,
+      localDb.syncMutations,
+    ],
+    async () => {
+      await localDb.workouts.put(workout);
+      await queueLocalMutation("workouts", workout.id, "upsert", workout);
+
+      for (const set of workoutSets) {
+        await localDb.workoutSets.put(set);
+        await queueLocalMutation("workout_sets", set.id, "upsert", set);
+
+        const estimate = estimatedOneRepMax(set.weight, set.reps);
+        if (estimate) {
+          const existingLift = await localDb.lifts
+            .where("exerciseId")
+            .equals(set.exerciseId)
+            .first();
+          const best = Math.max(
+            existingLift?.bestEstimatedOneRepMax ?? 0,
+            Math.round(estimate * 10) / 10,
+          );
+          const lift = LiftRecordSchema.parse({
+            id: existingLift?.id ?? createLocalId("lft"),
+            exerciseId: set.exerciseId,
+            bestEstimatedOneRepMax: best,
+            unit: set.unit,
+            createdAt: existingLift?.createdAt ?? timestamp,
+            updatedAt: timestamp,
+            deletedAt: null,
+            syncStatus: "queued",
+            userId: null,
+          });
+          await localDb.lifts.put(lift);
+          await queueLocalMutation("lifts", lift.id, "upsert", lift);
+        }
+      }
+
+      await localDb.programEnrollments.put(nextEnrollment);
+      await queueLocalMutation("program_enrollments", nextEnrollment.id, "upsert", nextEnrollment);
+    },
+  );
+
+  const summary: CompletedProgramSessionSummary = {
+    workoutId: workout.id,
+    completedSessionId: active.session.sessionId,
+    completedSessionName: active.session.sessionName,
+    persistedSetCount,
+    enrollmentStatus: nextEnrollment.status,
+    nextSessionIndex: nextEnrollment.currentSessionIndex,
+  };
+
+  return { workout, enrollment: nextEnrollment, completedSession: active.session, summary };
 }
 
 export async function countLocalRecords() {

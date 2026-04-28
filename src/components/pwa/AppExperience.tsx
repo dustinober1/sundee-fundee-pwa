@@ -462,7 +462,21 @@ export function AppExperience() {
   async function handleProgramComplete() {
     setBusy(true);
     try {
-      await completeActiveProgramSession();
+      const active = await getActiveProgramSession();
+      if (active?.session) {
+        await completeActiveProgramSession({
+          sessionId: active.session.sessionId,
+          performedAt: new Date().toISOString(),
+          exercises: active.session.exercises.map((exercise: any) => ({
+            exerciseName: exercise.name ?? exercise.exercise,
+            sets: Array.from({ length: exercise.sets ?? 0 }).map(() => ({
+              reps: exercise.reps,
+              weight: 0,
+              unit: "lb" as const,
+            })),
+          })),
+        });
+      }
       await refreshLocalState();
       setScreen("today");
     } finally {
