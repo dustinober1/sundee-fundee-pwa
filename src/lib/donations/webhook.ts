@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import {
   createSupabaseAdminClient,
   isSupabaseAdminConfigured,
-} from "../pwa/supabase-server";
+} from "./supabase-admin";
 
 export type DonationRecordInput = {
   id: string;
