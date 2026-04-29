@@ -6,7 +6,7 @@ describe("blog content validation", () => {
     const loadedPosts = loadPosts({ todayIso: "2026-04-28" });
     const slugs = loadedPosts.map((post) => post.slug);
 
-    expect(loadedPosts).toHaveLength(26);
+    expect(loadedPosts).toHaveLength(27);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(
       loadedPosts.flatMap((post) => validateBlogPost(post, "2026-04-28")),
