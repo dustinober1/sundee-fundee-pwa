@@ -1,13 +1,13 @@
 ---
 name: cycle-aware-seo-blog-writer
-description: Draft a net-new, 1,200+ word SEO blog article for the Sundee Fundee web repo by analyzing the last 10 published blog JSON files in src/app/blog/content, identifying topical overlap to avoid, selecting a long-tail keyword angle with search intent in mind, enforcing an editorial cadence where every third article focuses on the menstrual cycle or related women's health performance topics, and then writing the article back in the same JSON format, committing it on the current branch, pushing that branch, and opening a pull request.
+description: Draft a net-new, 1,200+ word SEO blog article for the Sundee Fundee web repo by analyzing the last 10 published blog JSON files in src/app/blog/content, identifying topical overlap to avoid, selecting a long-tail keyword angle with search intent in mind, enforcing an editorial cadence where every third article focuses on the menstrual cycle or related women's health performance topics, and then writing the article back in the same JSON format, creating and switching to a PR-safe feature branch when needed, committing there, pushing that branch, and opening a pull request.
 ---
 
 # Cycle-Aware SEO Blog Writer
 
 ## Overview
 
-Analyze the latest blog JSON content in `src/app/blog/content/`, determine whether the next article must be cycle-focused, research a differentiated angle, produce a publication-ready article package, write the article in the repo's existing JSON schema, commit it on the current branch, push the branch, and open a pull request.
+Analyze the latest blog JSON content in `src/app/blog/content/`, determine whether the next article must be cycle-focused, research a differentiated angle, produce a publication-ready article package, write the article in the repo's existing JSON schema, create and switch to a PR-safe feature branch when needed, commit there, push the branch, and open a pull request.
 
 ## Workflow
 
@@ -29,7 +29,11 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
   - `git remote get-url origin`
   - `git branch --show-current`
 - If any command fails, stop immediately and report the exact blocker.
-- If the current branch is the default branch, stop and tell the user a PR requires a separate head branch. Do not commit directly to the default branch unless the user explicitly changes the requirement.
+- Determine the default branch with `git symbolic-ref refs/remotes/origin/HEAD` or an equivalent non-interactive command.
+- If the current branch is the default branch, automatically create and switch to a new branch before making any content changes.
+- Name the new branch with a deterministic blog prefix such as `blog/<yyyy-mm-dd>-<short-topic>` or `feat/blog-<short-topic>`.
+- After switching, confirm the new branch name and use it for the rest of the workflow.
+- Do not commit directly to the default branch unless the user explicitly changes the requirement.
 
 ## Discover Recent Content
 
@@ -123,7 +127,8 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 
 ## Commit, Push, and Open the PR
 
-- Use the current branch. Do not create or switch branches.
+- Use the current branch if it is already a non-default branch.
+- If preflight created a new branch, use that branch for all subsequent git, push, and PR steps.
 - Stage only the new article file and any directly related metadata file you created. Never stage unrelated changes.
 - Create a focused commit message such as `feat(blog): add article on <topic>`.
 - Push the current branch to `origin` first so it exists remotely.
