@@ -5,6 +5,7 @@ import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { INTERACTIVE_TYPE_LABELS } from "@/app/blog/discovery";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd } from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { formatDate, posts } from "../../posts";
@@ -126,10 +127,20 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
                     {getPrimaryTopic(post).label}
                   </span>
                 </div>
+                {post.updatedAt && post.updatedAt !== post.publishedAt ? (
+                  <p className="mt-3 text-xs font-medium uppercase tracking-[0.18em] text-orange">
+                    Updated {formatDate(post.updatedAt)}
+                  </p>
+                ) : null}
                 <h2 className="font-display mt-4 text-3xl font-semibold text-navy">
                   {post.title}
                 </h2>
                 <p className="mt-3 text-muted">{post.bestFor ?? post.description}</p>
+                {post.interactiveModules?.[0] ? (
+                  <p className="mt-4 text-xs font-medium uppercase tracking-[0.18em] text-muted">
+                    {INTERACTIVE_TYPE_LABELS[post.interactiveModules[0].type]}
+                  </p>
+                ) : null}
                 <p className="mt-6 text-sm font-medium text-orange">
                   Read article →
                 </p>

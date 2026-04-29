@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { AppStoreButtons } from "@/components/AppStoreButtons";
+import { BlogLibrary } from "@/components/blog/BlogLibrary";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -11,7 +12,6 @@ import {
   BLOG_TOPICS,
   getFeaturedPost,
   getPrimaryTopic,
-  getTopicPosts,
 } from "./taxonomy";
 
 export const metadata: Metadata = {
@@ -44,10 +44,23 @@ export default function BlogIndex() {
     b.publishedAt.localeCompare(a.publishedAt),
   );
   const featured = getFeaturedPost(sorted);
-  const topicSections = BLOG_TOPICS.map((topic) => ({
-    topic,
-    posts: getTopicPosts(sorted, topic.slug).slice(0, 3),
-  })).filter((section) => section.posts.length > 0);
+  const discoveryPosts = sorted.map((post) => {
+    const topic = getPrimaryTopic(post);
+
+    return {
+      slug: post.slug,
+      title: post.title,
+      description: post.description,
+      bestFor: post.bestFor,
+      publishedAt: post.publishedAt,
+      updatedAt: post.updatedAt,
+      readMinutes: post.readMinutes,
+      topicLabel: topic.label,
+      topicSlug: topic.slug,
+      articleIntent: post.articleIntent,
+      interactiveType: post.interactiveModules?.[0]?.type ?? "decision-guide",
+    };
+  });
 
   return (
     <>
@@ -145,57 +158,14 @@ export default function BlogIndex() {
               </div>
             </div>
 
-            <div className="mt-14 grid gap-10">
-              {topicSections.map(({ topic, posts: topicPosts }) => (
-                <section key={topic.slug} aria-labelledby={`${topic.slug}-heading`}>
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                    <div>
-                      <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
-                        {topic.eyebrow}
-                      </p>
-                      <h2
-                        id={`${topic.slug}-heading`}
-                        className="font-display mt-3 text-3xl font-bold text-navy"
-                      >
-                        {topic.label}
-                      </h2>
-                    </div>
-                    <Link
-                      href={topic.href}
-                      className="text-sm font-medium text-orange underline-offset-4 hover:underline"
-                    >
-                      View topic →
-                    </Link>
-                  </div>
-
-                  <div className="mt-6 grid gap-4 md:grid-cols-3">
-                    {topicPosts.map((post) => (
-                      <Link
-                        key={post.slug}
-                        href={`/blog/${post.slug}`}
-                        className="rounded-2xl border border-border bg-surface p-5 transition hover:border-navy"
-                      >
-                        <div className="flex flex-wrap items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted">
-                          <time dateTime={post.publishedAt}>
-                            {formatDate(post.publishedAt)}
-                          </time>
-                          <span aria-hidden="true">·</span>
-                          <span>{post.readMinutes} min</span>
-                        </div>
-                        <h3 className="font-display mt-3 text-2xl font-semibold leading-tight text-navy">
-                          {post.title}
-                        </h3>
-                        <p className="mt-3 text-sm leading-relaxed text-muted">
-                          {post.bestFor ?? post.description}
-                        </p>
-                        <p className="mt-5 text-sm font-medium text-orange">
-                          Read article →
-                        </p>
-                      </Link>
-                    ))}
-                  </div>
-                </section>
-              ))}
+            <div className="mt-14">
+              <BlogLibrary
+                posts={discoveryPosts}
+                topicOptions={BLOG_TOPICS.map((topic) => ({
+                  label: topic.label,
+                  slug: topic.slug,
+                }))}
+              />
             </div>
 
             <div className="mt-14 rounded-2xl border border-border bg-surface p-6 text-center">

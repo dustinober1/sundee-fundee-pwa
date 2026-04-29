@@ -2,13 +2,21 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { AppStoreButtons } from "@/components/AppStoreButtons";
+import { BlogInteractiveModule } from "@/components/blog/BlogInteractiveModule";
 import { JsonLd } from "@/components/JsonLd";
 import { Markdown } from "@/components/Markdown";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { absoluteUrl, buildBreadcrumbJsonLd } from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
-import { formatDate, getPost, posts, postModifiedAt } from "../posts";
+import {
+  formatDate,
+  getPost,
+  posts,
+  postModifiedAt,
+  type BlogInteractivePlacement,
+  type BlogPost,
+} from "../posts";
 import { getPostCta, getPrimaryTopic, getRelatedPosts } from "../taxonomy";
 
 type Params = Promise<{ slug: string }>;
@@ -53,6 +61,13 @@ export async function generateMetadata({
   };
 }
 
+function getModulesForPlacement(
+  post: BlogPost,
+  placement: BlogInteractivePlacement,
+) {
+  return post.interactiveModules?.filter((module) => module.placement === placement) ?? [];
+}
+
 export default async function BlogPostPage({ params }: { params: Params }) {
   const { slug } = await params;
   const post = getPost(slug);
@@ -61,6 +76,9 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   const topic = getPrimaryTopic(post);
   const cta = getPostCta(post);
   const relatedPosts = getRelatedPosts(post, posts, 3);
+  const introModules = getModulesForPlacement(post, "after-intro");
+  const bodyModules = getModulesForPlacement(post, "before-body");
+  const preCtaModules = getModulesForPlacement(post, "before-cta");
 
   return (
     <>
@@ -137,9 +155,41 @@ export default async function BlogPostPage({ params }: { params: Params }) {
               ) : null}
             </div>
 
+            {introModules.length ? (
+              <div className="mt-10">
+                {introModules.map((module) => (
+                  <BlogInteractiveModule
+                    key={`${post.slug}-${module.type}-${module.placement}`}
+                    module={module}
+                  />
+                ))}
+              </div>
+            ) : null}
+
             <div className="mt-10 border-t border-border pt-4">
+              {bodyModules.length ? (
+                <div className="mb-10">
+                  {bodyModules.map((module) => (
+                    <BlogInteractiveModule
+                      key={`${post.slug}-${module.type}-${module.placement}`}
+                      module={module}
+                    />
+                  ))}
+                </div>
+              ) : null}
               <Markdown content={post.body} />
             </div>
+
+            {preCtaModules.length ? (
+              <div className="mt-12">
+                {preCtaModules.map((module) => (
+                  <BlogInteractiveModule
+                    key={`${post.slug}-${module.type}-${module.placement}`}
+                    module={module}
+                  />
+                ))}
+              </div>
+            ) : null}
 
             <div className="mt-12 rounded-[2rem] border border-border bg-surface p-6">
               <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
