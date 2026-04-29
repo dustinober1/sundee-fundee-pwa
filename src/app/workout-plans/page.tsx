@@ -13,7 +13,7 @@ import { workoutPlans } from "@/lib/workout-plans";
 export const metadata: Metadata = {
   title: "Printable Strength Plans – Sundee Fundee",
   description:
-    "Download printable strength training plans from Sundee Fundee: beginner, dumbbell, and glutes/core/conditioning plans with gym log sheets.",
+    "Download printable strength training plans from Sundee Fundee, including The First Margarita, beginner, dumbbell, and glutes/core/conditioning plans with gym log sheets.",
   alternates: {
     canonical: "/workout-plans",
   },
@@ -126,7 +126,7 @@ export default function WorkoutPlansPage() {
             </div>
 
             <div className="relative min-h-[440px]">
-              {workoutPlans.map((plan, index) => (
+              {workoutPlans.slice(0, 3).map((plan, index) => (
                 <div
                   key={plan.slug}
                   className={[
@@ -170,7 +170,7 @@ export default function WorkoutPlansPage() {
               </p>
             </div>
 
-            <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {workoutPlans.map((plan) => (
                 <article
                   key={plan.slug}
