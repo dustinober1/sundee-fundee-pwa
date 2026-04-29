@@ -37,13 +37,6 @@ export function SiteHeader({
         </Link>
       ) : null}
       <Link
-        href="/app"
-        onClick={() => setOpen(false)}
-        className="text-sm font-medium text-navy hover:opacity-70"
-      >
-        App
-      </Link>
-      <Link
         href="/workout-plans"
         onClick={() => setOpen(false)}
         className="text-sm font-medium text-navy hover:opacity-70"
