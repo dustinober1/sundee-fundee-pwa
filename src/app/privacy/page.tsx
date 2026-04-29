@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const metadata: Metadata = {
   title: "Privacy Policy – Sundee Fundee",
   description:
-    "Privacy information for the Sundee Fundee website, PWA, optional cloud sync, donations, and linked iOS apps.",
+    "Privacy information for the Sundee Fundee website, donations, and linked iOS apps.",
   alternates: {
     canonical: "/privacy",
   },
@@ -32,7 +32,7 @@ export default function PrivacyPage() {
             <p className="mt-4 text-muted">Effective date: April 28, 2026</p>
             <p className="mt-6 text-lg text-muted">
               This policy explains how we handle information on the{" "}
-              <strong className="text-navy">Sundee Fundee</strong> website, PWA,
+              <strong className="text-navy">Sundee Fundee</strong> website,
               blog, support inbox, donation flow, affiliate links, and the iOS
               apps linked from this site.
             </p>
@@ -53,28 +53,6 @@ export default function PrivacyPage() {
                 If you email us, we receive the information you include in that
                 message, such as your email address and any details you send for
                 support or account help.
-              </p>
-
-              <h3 className="mt-6 font-display text-lg font-semibold text-navy">
-                Local-only PWA Data
-              </h3>
-              <p className="mt-2 leading-relaxed text-muted">
-                If you use the Sundee Fundee PWA in local-only mode, workout,
-                cycle, recovery, program, and similar app data is stored in your
-                browser&apos;s IndexedDB storage on your device. We do not receive
-                that local-only data unless you choose to export it and send it to us.
-                Local-only mode may still keep sync-related bookkeeping on-device
-                (for example, a local queue count), but it does not upload your
-                app data to our servers.
-              </p>
-
-              <h3 className="mt-6 font-display text-lg font-semibold text-navy">
-                Optional Cloud Sync
-              </h3>
-              <p className="mt-2 leading-relaxed text-muted">
-                If you opt into cloud sync, we use Supabase magic-link
-                authentication and store the app data you sync so it can be backed
-                up and restored across devices.
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
@@ -113,8 +91,6 @@ export default function PrivacyPage() {
               <ul className="mt-4 space-y-2 text-muted">
                 {[
                   "Operate the public website, blog, and linked product pages",
-                  "Provide local-first PWA features on your device",
-                  "Provide optional account-based cloud sync when you opt in",
                   "Process donations and related payment records",
                   "Respond to support, legal, or account-deletion requests",
                   "Provide and maintain the linked iOS app features",
@@ -151,10 +127,10 @@ export default function PrivacyPage() {
                 4. Third-Party Services
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
-                This site and PWA use third-party services including Supabase for
-                optional auth and cloud sync, Stripe for donations, the Apple App
-                Store, and, at times, affiliate retailers. Those services operate
-                under their own terms and privacy policies.
+                This site uses third-party services including Stripe for
+                donations, the Apple App Store, and, at times, affiliate
+                retailers. Those services operate under their own terms and
+                privacy policies.
               </p>
               <p className="mt-4 leading-relaxed text-muted">
                 If you click an affiliate link, the destination site may use its
@@ -171,12 +147,6 @@ export default function PrivacyPage() {
                 We retain information for as long as it is reasonably needed to
                 operate the site, support the linked apps, resolve disputes, or
                 meet legal obligations.
-              </p>
-              <p className="mt-4 leading-relaxed text-muted">
-                You can export or delete local PWA data from the app&apos;s data
-                controls. Deleting local data removes it from that browser. If
-                you have opted into cloud sync, contact support for account-level
-                deletion of synced data.
               </p>
               <p className="mt-4 leading-relaxed text-muted">
                 For deletion or privacy requests, contact{" "}
