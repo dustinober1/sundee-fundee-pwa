@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     url: "/workout-plans",
     title: "Printable Strength Plans – Sundee Fundee",
     description:
-      "Gym-ready training plans you can print, mark up, and log later in Sundee Fundee.",
+      "Gym-ready training plans you can print, mark up, and use on paper.",
     images: [workoutPlans[0].coverPath],
   },
 };
@@ -37,10 +37,10 @@ const faqItems = [
     answer:
       "Yes. Each PDF includes the full training block, weekly workouts, substitutions, tips, and paper log fields.",
   },
-  {
+      {
     question: "Do I need cycle tracking to use them?",
     answer:
-      "No. Cycle tracking is optional. Sundee Fundee can use it later if you want the plan to adapt around your body’s patterns.",
+      "No. Each printable plan stands on its own and can be used without cycle tracking.",
   },
   {
     question: "What if I do not have the exact equipment?",
@@ -48,9 +48,9 @@ const faqItems = [
       "Every workout includes substitution guidance for equipment limits, injury considerations, and variety.",
   },
   {
-    question: "Why print instead of only using the app?",
+    question: "Why use printable plans?",
     answer:
-      "Some people train better with paper in hand. The app is there when you are ready to log, track, and adapt.",
+      "Some people train better with paper in hand. These PDFs are built for printing, marking up, and carrying into the gym.",
   },
 ];
 
@@ -87,9 +87,8 @@ export default function WorkoutPlansPage() {
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
                 Download a polished training block, print it, take it to the
-                gym, and write down what you actually did. Later, log the
-                session in Sundee Fundee so your next workout can adapt to
-                progress, recovery, energy, soreness, and cycle tracking.
+                gym, and write down what you actually did. Each PDF includes
+                the structure, substitutions, and log fields you need on paper.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -102,7 +101,7 @@ export default function WorkoutPlansPage() {
                   href="#adaptive"
                   className="inline-flex h-12 items-center justify-center rounded-lg border border-border bg-surface px-8 font-medium text-navy transition hover:border-orange/50"
                 >
-                  Why the app helps
+                  Why paper works
                 </a>
               </div>
               <div className="mt-10 grid max-w-xl gap-3 sm:grid-cols-3">
@@ -227,35 +226,34 @@ export default function WorkoutPlansPage() {
             <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div>
                 <p className="text-sm font-medium uppercase tracking-[0.3em] text-gold">
-                  Paper first, app smarter
+                  Paper-first plans
                 </p>
                 <h2 className="font-display mt-4 text-4xl font-bold sm:text-5xl">
                   The PDF is the field notebook.
                 </h2>
               </div>
               <p className="max-w-xl text-cream/80">
-                Sundee Fundee is where those training notes become useful over
-                time.
+                Each PDF is designed to be useful without another tool open.
               </p>
             </div>
 
             <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {[
                 [
-                  "Log what happened",
-                  "Enter the weights, reps, substitutions, soreness, and effort you wrote down during the session.",
+                  "Track what happened",
+                  "Write down weights, reps, substitutions, soreness, and effort while you train.",
                 ],
                 [
-                  "Adapt the next day",
-                  "Use cycle tracking, recovery score, energy, soreness, and schedule changes to scale the next workout.",
+                  "Adjust the next day",
+                  "Use your paper notes to decide whether the next workout should stay normal, get lighter, or use substitutions.",
                 ],
                 [
                   "Keep the history",
-                  "Paper gets you through the workout. The app remembers your progress across blocks.",
+                  "Printed log sheets make it easy to keep a simple record across the full block.",
                 ],
                 [
                   "No paywall",
-                  "Plans and app features are available without subscription gating. Donations help keep it that way.",
+                  "Plans are available without subscription gating. Donations help keep it that way.",
                 ],
               ].map(([title, body]) => (
                 <div
