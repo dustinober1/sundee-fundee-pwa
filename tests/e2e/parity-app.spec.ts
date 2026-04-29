@@ -4,7 +4,7 @@ function firstExerciseFieldset(page: import("@playwright/test").Page) {
   return page.locator("form#program-session fieldset").first();
 }
 
-test.describe("/app local-only replacement path", () => {
+test.describe("/app replacement paths", () => {
   test.beforeEach(async ({ context }) => {
     // IndexedDB/localStorage state can leak between runs; force a clean browser context.
     await context.clearCookies();
@@ -12,6 +12,32 @@ test.describe("/app local-only replacement path", () => {
       window.localStorage.clear();
       window.sessionStorage.clear();
     });
+  });
+
+  test("surfaces the Supabase-enabled cloud sync sign-in path without showing missing-env warnings", async ({ page }) => {
+    await page.goto("/app");
+
+    await expect(page.getByRole("button", { name: "Keep data on this device." })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole("button", { name: "Back up across devices." })).toBeVisible({ timeout: 30_000 });
+
+    await page.getByRole("button", { name: "Back up across devices." }).click();
+
+    await expect(page.getByRole("heading", { name: "Today" })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText("Signed out")).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole("button", { name: "Data" })).toBeVisible({ timeout: 30_000 });
+
+    await page.getByRole("button", { name: "Data" }).click();
+
+    await expect(page.getByRole("heading", { name: "Cloud sync mode" })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole("heading", { name: "Signed out" })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole("link", { name: "Connect account" })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText("Add Supabase environment variables to enable cloud sync.")).toHaveCount(0);
+
+    await page.getByRole("link", { name: "Connect account" }).click();
+    await expect(page).toHaveURL(/\/auth\/sign-in$/, { timeout: 30_000 });
+    await expect(page.getByRole("heading", { name: "Send a private sign-in link." })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByLabel("Email")).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole("button", { name: "Send sign-in link" })).toBeVisible({ timeout: 30_000 });
   });
 
   test("can complete a bundled program session locally and see persisted counts after reload", async ({ page }) => {
