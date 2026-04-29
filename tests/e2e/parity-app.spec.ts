@@ -38,6 +38,19 @@ test.describe("/app replacement paths", () => {
     await expect(page.getByRole("heading", { name: "Send a private sign-in link." })).toBeVisible({ timeout: 30_000 });
     await expect(page.getByLabel("Email")).toBeVisible({ timeout: 30_000 });
     await expect(page.getByRole("button", { name: "Send sign-in link" })).toBeVisible({ timeout: 30_000 });
+
+    await page.getByRole("button", { name: "Email + password" }).click();
+    await expect(page.getByRole("heading", { name: "Sign in with email and password." })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByLabel("Password")).toBeVisible({ timeout: 30_000 });
+    await expect(page.locator("form").getByRole("button", { name: "Sign in" })).toBeVisible({ timeout: 30_000 });
+
+    await page.getByRole("button", { name: "Create account" }).click();
+    await expect(page.getByRole("heading", { name: "Create an account with email and password." })).toBeVisible({ timeout: 30_000 });
+    await expect(page.locator("form").getByRole("button", { name: "Create account" })).toBeVisible({ timeout: 30_000 });
+
+    await page.getByRole("button", { name: "Email link" }).click();
+    await expect(page.getByRole("heading", { name: "Send a private sign-up link." })).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByRole("button", { name: "Send sign-up link" })).toBeVisible({ timeout: 30_000 });
   });
 
   test("can complete a bundled program session locally and see persisted counts after reload", async ({ page }) => {
