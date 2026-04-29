@@ -18,9 +18,9 @@ export const workoutPlans: WorkoutPlan[] = [
     title: "The First Margarita Strength Program",
     shortTitle: "The First Margarita",
     description:
-      "An advanced 8-week strength block from the Sundee Fundee app, built around squat, bench, deadlift, Olympic-pull practice, and a final testing week.",
+      "An advanced 8-week strength block from the Sundee Fundee app, with weekly overviews and printable gym log pages for every session.",
     audience: "Advanced strength",
-    pages: 8,
+    pages: 34,
     weeks: "8 weeks",
     workouts: "24 workouts",
     equipment: "Full gym",

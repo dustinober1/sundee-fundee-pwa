@@ -413,7 +413,8 @@ def _cap_sets_for_log(sets: int) -> tuple[int, str | None]:
     if sets <= 4:
         return sets, None
     # Cap to 4 to match the printable log table. Note the extra work as optional.
-    return 4, f"Optional: add {sets - 4} extra set(s) if bar speed stays crisp."
+    extra = sets - 4
+    return 4, f"Optional: +{extra} set" + ("s" if extra != 1 else "")
 
 
 def build_workout_page(session: Session) -> Image.Image:
@@ -464,9 +465,8 @@ def build_workout_page(session: Session) -> Image.Image:
         ],
         "testing": [
             "If you cannot test: perform a heavy single (RPE 8-9) and stop.",
-            "If squats bother you: test front squat or box squat instead.",
-            "If bench bothers shoulders: test a close-grip or dumbbell press.",
-            "If pulls bother your back: test a trap-bar pull or Romanian deadlift.",
+            "Use alternatives if needed: front squat, close-grip press, trap-bar pull.",
+            "Stop the day when bar speed collapses or technique changes.",
         ],
     }
     subs = subs_map.get(session.focus, subs_map["deadlift"])
@@ -497,12 +497,12 @@ def build_workout_page(session: Session) -> Image.Image:
     col_done = CONTENT_L + 24
     col_id = CONTENT_L + 92
     col_ex = CONTENT_L + 162
-    col_target = CONTENT_L + 520
-    col_set1 = CONTENT_L + 650
-    col_set2 = CONTENT_L + 730
-    col_set3 = CONTENT_L + 810
-    col_set4 = CONTENT_L + 890
-    col_notes = CONTENT_L + 970
+    col_target = CONTENT_L + 515
+    col_set1 = CONTENT_L + 640
+    col_set2 = CONTENT_L + 705
+    col_set3 = CONTENT_L + 770
+    col_set4 = CONTENT_L + 835
+    col_notes = CONTENT_L + 900
 
     d.text((CONTENT_L + 18, table_y + 20), "DONE", font=F_TINY_BOLD, fill=WHITE)
     d.text((CONTENT_L + 88, table_y + 20), "ID", font=F_TINY_BOLD, fill=WHITE)
