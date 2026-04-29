@@ -1,5 +1,6 @@
 export type WorkoutPlan = {
   slug: string;
+  appProgramId: string;
   title: string;
   shortTitle: string;
   description: string;
@@ -15,10 +16,11 @@ export type WorkoutPlan = {
 export const workoutPlans: WorkoutPlan[] = [
   {
     slug: "first-margarita",
+    appProgramId: "first-margarita",
     title: "The First Margarita Strength Program",
     shortTitle: "The First Margarita",
     description:
-      "An advanced 8-week strength block from the Sundee Fundee app, with weekly overviews and printable gym log pages for every session.",
+      "An advanced 8-week printable base block with weekly overviews and gym log pages for every session. Use the app when you want adaptive logging and coaching.",
     audience: "Advanced strength",
     pages: 34,
     weeks: "8 weeks",
@@ -29,10 +31,11 @@ export const workoutPlans: WorkoutPlan[] = [
   },
   {
     slug: "beginner-strength",
+    appProgramId: "beginner-strength",
     title: "4-Week Beginner Strength Plan",
     shortTitle: "Beginner Strength",
     description:
-      "A confidence-building full-body block for newer lifters, with different workouts every week and printable set logs.",
+      "A confidence-building printable base block for newer lifters, with different workouts every week and simple set logs you can fill in by hand.",
     audience: "Newer lifters",
     pages: 22,
     weeks: "4 weeks",
@@ -43,10 +46,11 @@ export const workoutPlans: WorkoutPlan[] = [
   },
   {
     slug: "dumbbell-strength",
+    appProgramId: "dumbbell-strength",
     title: "6-Week Dumbbell Strength Plan",
     shortTitle: "Dumbbell Strength",
     description:
-      "A home-or-gym dumbbell block with lower, upper, unilateral, and full-body density days that change week by week.",
+      "A printable dumbbell base block for home or gym, organized around lower, upper, unilateral, and full-body density days.",
     audience: "Home or gym",
     pages: 32,
     weeks: "6 weeks",
@@ -57,10 +61,11 @@ export const workoutPlans: WorkoutPlan[] = [
   },
   {
     slug: "glutes-core-conditioning",
+    appProgramId: "glutes-core-conditioning",
     title: "8-Week Glutes, Core & Conditioning Plan",
     shortTitle: "Glutes, Core & Conditioning",
     description:
-      "A lower-body-emphasis block with glute-focused strength, core work, short finishers, substitutions, and a deload week.",
+      "A printable lower-body base block with glute-focused strength, core work, short finishers, and a deload week.",
     audience: "Lower-body focus",
     pages: 42,
     weeks: "8 weeks",
