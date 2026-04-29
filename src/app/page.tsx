@@ -211,8 +211,8 @@ export default function Landing() {
               </div>
               <p className="max-w-xl text-muted">
                 Print a complete training block, take it to the gym, write down
-                what you actually did, then log the session in Sundee Fundee
-                when you are ready to adapt the next one.
+                what you actually did, and use those notes to guide the next
+                session.
               </p>
             </div>
 
