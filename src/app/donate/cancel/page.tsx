@@ -38,10 +38,10 @@ export default function DonateCancelPage() {
                 Return to donate
               </Link>
               <Link
-                href="/app"
+                href="/workout-plans"
                 className="inline-flex h-11 items-center rounded-lg border border-border px-6 text-sm font-semibold text-navy hover:border-orange hover:text-orange"
               >
-                Open app
+                View plans
               </Link>
             </div>
           </div>
