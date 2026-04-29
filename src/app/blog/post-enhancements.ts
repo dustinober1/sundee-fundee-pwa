@@ -274,6 +274,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "warm-up-protocol-for-strength-training": {
     articleIntent: "protocol",
   },
+  "weekly-sets-per-muscle-group-women": {
+    articleIntent: "decision-guide",
+  },
   "when-hrv-is-low-strength-training": {
     articleIntent: "symptom-audit",
   },
