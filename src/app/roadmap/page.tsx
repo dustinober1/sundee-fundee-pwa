@@ -52,12 +52,6 @@ const liveItems: RoadmapItem[] = [
 
 const inProgressItems: RoadmapItem[] = [
   {
-    title: "Web Dashboard",
-    description:
-      "Access your training history, readiness trends, and program overview from a browser — no phone required.",
-    status: "in-progress",
-  },
-  {
     title: "Garmin Connect Integration",
     description:
       "Pull HRV and recovery data directly from Garmin wearables alongside Apple Health.",
