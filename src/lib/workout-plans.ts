@@ -14,6 +14,20 @@ export type WorkoutPlan = {
 
 export const workoutPlans: WorkoutPlan[] = [
   {
+    slug: "first-margarita",
+    title: "The First Margarita Strength Program",
+    shortTitle: "The First Margarita",
+    description:
+      "An advanced 8-week strength block from the Sundee Fundee app, built around squat, bench, deadlift, Olympic-pull practice, and a final testing week.",
+    audience: "Advanced strength",
+    pages: 8,
+    weeks: "8 weeks",
+    workouts: "24 workouts",
+    equipment: "Full gym",
+    pdfPath: "/workout-plans/the-first-margarita-strength-program.pdf",
+    coverPath: "/workout-plans/the-first-margarita-strength-program-cover.png",
+  },
+  {
     slug: "beginner-strength",
     title: "4-Week Beginner Strength Plan",
     shortTitle: "Beginner Strength",

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cycle-Aware SEO Writer"
+  short_description: "Draft JSON blog posts and open PRs"
+  default_prompt: "Use $cycle-aware-seo-blog-writer to analyze the latest blog JSON files in src/app/blog/content, draft the next 1,200+ word article in the same format, write it in-repo, push the current branch, and open a PR."
