@@ -13,7 +13,7 @@ import { workoutPlans } from "@/lib/workout-plans";
 export const metadata: Metadata = {
   title: "Printable Strength Plans – Sundee Fundee",
   description:
-    "Download printable strength training plans from Sundee Fundee, including The First Margarita, beginner, dumbbell, and glutes/core/conditioning plans with gym log sheets.",
+    "Download Sundee Fundee printable base strength plans with gym log sheets, then use the app for adaptive cycle-aware, recovery-aware, and pain-aware coaching.",
   alternates: {
     canonical: "/workout-plans",
   },
@@ -35,17 +35,17 @@ const faqItems = [
   {
     question: "Are these plans complete on their own?",
     answer:
-      "Yes. Each PDF includes the full training block, weekly workouts, substitutions, tips, and paper log fields.",
+      "Yes. Each PDF includes the fixed base training block, weekly workouts, simple substitution notes, tips, and paper log fields.",
   },
       {
     question: "Do I need cycle tracking to use them?",
     answer:
-      "No. Each printable plan stands on its own and can be used without cycle tracking.",
+      "No. The PDFs stand on their own. Cycle phase, recovery, pain, and injury adaptation happen in the Sundee Fundee app when you log and start workouts there.",
   },
   {
     question: "What if I do not have the exact equipment?",
     answer:
-      "Every workout includes substitution guidance for equipment limits, injury considerations, and variety.",
+      "Use the PDF as the base plan and make practical equipment swaps on paper. The app adds smarter substitutions when it has your equipment, pain, injury, recovery, and cycle context.",
   },
   {
     question: "Why use printable plans?",
@@ -87,8 +87,9 @@ export default function WorkoutPlansPage() {
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
                 Download a polished training block, print it, take it to the
-                gym, and write down what you actually did. Each PDF includes
-                the structure, substitutions, and log fields you need on paper.
+                gym, and write down what you actually did. Each PDF is a fixed
+                base plan and field notebook; the app is where workouts adapt
+                around cycle phase, recovery, pain, and injuries.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -164,9 +165,9 @@ export default function WorkoutPlansPage() {
                 </h2>
               </div>
               <p className="max-w-xl text-muted">
-                Each plan has different workouts every week, printable set logs,
-                stimulus notes, coaching tips, and substitutions for equipment
-                limits, injury considerations, or variety.
+                Each PDF matches a base program in the app. Print it for
+                offline training, then use Sundee Fundee later when you want
+                adaptive logging, coaching, and substitutions.
               </p>
             </div>
 
@@ -240,16 +241,16 @@ export default function WorkoutPlansPage() {
             <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {[
                 [
-                  "Track what happened",
-                  "Write down weights, reps, substitutions, soreness, and effort while you train.",
+                  "Use the base plan",
+                  "Write down weights, reps, substitutions, soreness, and effort while you train from the printed program.",
                 ],
                 [
-                  "Adjust the next day",
-                  "Use your paper notes to decide whether the next workout should stay normal, get lighter, or use substitutions.",
+                  "Let the app adapt",
+                  "When you start the matching program in Sundee Fundee, the app can adjust around cycle phase, recovery, pain, and injuries.",
                 ],
                 [
-                  "Keep the history",
-                  "Printed log sheets make it easy to keep a simple record across the full block.",
+                  "Fill it in later",
+                  "Printed log sheets make it easy to keep a simple record and enter the workout in the app after training.",
                 ],
                 [
                   "No paywall",
