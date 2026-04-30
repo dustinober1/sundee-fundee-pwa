@@ -252,6 +252,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "postpartum-return-to-lifting-timeline": {
     articleIntent: "timeline",
   },
+  "protein-timing-for-women-who-lift": {
+    articleIntent: "protocol",
+  },
   "rpe-training-autoregulation-strength": {
     articleIntent: "decision-guide",
   },
