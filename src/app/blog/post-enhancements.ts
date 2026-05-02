@@ -234,6 +234,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "low-readiness-score-strength-training": {
     articleIntent: "symptom-audit",
   },
+  "low-energy-availability-menstrual-cycle-strength-training": {
+    articleIntent: "symptom-audit",
+  },
   "menstrual-cycle-injury-risk-lifting": {
     articleIntent: "compare-options",
   },
