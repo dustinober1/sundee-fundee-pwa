@@ -216,6 +216,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "creatine-for-women-who-lift": {
     articleIntent: "compare-options",
   },
+  "rest-between-sets-for-women-strength-training": {
+    articleIntent: "protocol",
+  },
   "cycle-phase-peak-strength-testing": {
     articleIntent: "timeline",
   },
