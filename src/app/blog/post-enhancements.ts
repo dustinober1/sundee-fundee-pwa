@@ -264,6 +264,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "protein-timing-for-women-who-lift": {
     articleIntent: "protocol",
   },
+  "pms-strength-training-week-before-period": {
+    articleIntent: "decision-guide",
+  },
   "rpe-training-autoregulation-strength": {
     articleIntent: "decision-guide",
   },
