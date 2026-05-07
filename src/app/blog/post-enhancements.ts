@@ -283,6 +283,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "strength-plateau-women-who-lift": {
     articleIntent: "decision-guide",
   },
+  "strength-training-while-traveling-women": {
+    articleIntent: "protocol",
+  },
   "strength-training-during-period-modifications": {
     articleIntent: "decision-guide",
   },
