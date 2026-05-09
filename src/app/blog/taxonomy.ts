@@ -132,17 +132,26 @@ export function getRelatedPosts(
   limit = 3,
 ): BlogPost[] {
   const topic = getPrimaryTopic(post);
-  const sameTopic = allPosts.filter(
-    (candidate) =>
-      candidate.slug !== post.slug && getPrimaryTopic(candidate).slug === topic.slug,
-  );
-  const rest = allPosts.filter(
-    (candidate) =>
-      candidate.slug !== post.slug &&
-      !sameTopic.some((sameTopicPost) => sameTopicPost.slug === candidate.slug),
-  );
+  const sourceTags = new Set(post.tags);
 
-  return [...sameTopic, ...rest].slice(0, limit);
+  return allPosts
+    .filter((candidate) => candidate.slug !== post.slug)
+    .map((candidate) => {
+      const candidateTopic = getPrimaryTopic(candidate);
+      const sharedTags = candidate.tags.filter((tag) => sourceTags.has(tag)).length;
+      const score =
+        (candidateTopic.slug === topic.slug ? 100 : 0) +
+        sharedTags * 10 +
+        (candidate.articleIntent && candidate.articleIntent === post.articleIntent ? 20 : 0);
+
+      return { candidate, score };
+    })
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return b.candidate.publishedAt.localeCompare(a.candidate.publishedAt);
+    })
+    .slice(0, limit)
+    .map(({ candidate }) => candidate);
 }
 
 export function getPostCta(post: BlogPost): BlogTopic {

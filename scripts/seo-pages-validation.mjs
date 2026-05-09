@@ -32,10 +32,12 @@ function read(relativePath) {
 const registry = read("src/lib/seo-pages.ts");
 const route = read("src/app/[seoSlug]/page.tsx");
 const sitemap = read("src/app/sitemap.ts");
+const nextConfig = read("next.config.ts");
 const seo = read("src/lib/seo.ts");
 const footer = read("src/components/SiteFooter.tsx");
 const home = read("src/app/page.tsx");
 const faq = read("src/app/faq/page.tsx");
+const blogPostRoute = read("src/app/blog/[slug]/page.tsx");
 
 for (const slug of expectedSlugs) {
   assert.match(registry, new RegExp(`slug: "${slug}"`), `${slug} missing from SEO registry`);
@@ -46,11 +48,18 @@ assert.match(route, /generateStaticParams/, "SEO route should statically generat
 assert.match(route, /buildFaqPageJsonLd/, "SEO route should emit FAQPage schema");
 assert.match(route, /buildItemListJsonLd/, "SEO route should emit ItemList schema for hubs");
 assert.match(sitemap, /seoPages/, "Sitemap should include SEO registry pages");
+for (const path of ["/science", "/roadmap", "/donate", "/privacy", "/terms"]) {
+  assert.match(sitemap, new RegExp(`\\$\\{SITE_URL\\}${path}`), `Sitemap should include ${path}`);
+}
 assert.match(seo, /buildSoftwareApplicationJsonLd/, "SoftwareApplication schema helper missing");
 assert.match(seo, /buildFaqPageJsonLd/, "FAQPage schema helper missing");
 assert.match(seo, /buildItemListJsonLd/, "ItemList schema helper missing");
 assert.match(home, /buildSoftwareApplicationJsonLd/, "Homepage should emit SoftwareApplication schema");
 assert.match(faq, /buildFaqPageJsonLd/, "FAQ page should emit FAQPage schema");
 assert.match(footer, /strength-training-recovery/, "Footer should link topic/commercial SEO pages");
+assert.match(blogPostRoute, /opengraph-image/, "Blog posts should use generated Open Graph images");
+assert.match(blogPostRoute, /width:\s*1200/, "Blog Open Graph metadata should include image width");
+assert.match(nextConfig, /Cache-Control/, "Static asset cache headers should be configured");
+assert.match(nextConfig, /stale-while-revalidate=604800/, "Static asset cache headers should allow stale revalidation");
 
 console.log(`Validated ${expectedSlugs.length} SEO pages and schema integrations.`);

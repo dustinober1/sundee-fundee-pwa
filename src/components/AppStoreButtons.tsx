@@ -1,6 +1,6 @@
 "use client";
 
-import { APP_STORE_URL } from "@/lib/site";
+import { buildAppStoreUrl } from "@/lib/app-store-links";
 import { track } from "@vercel/analytics";
 
 type Props = {
@@ -8,22 +8,6 @@ type Props = {
   utmCampaign?: string;
   utmContent?: string;
 };
-
-function appStoreUrl({
-  utmCampaign,
-  utmContent,
-}: {
-  utmCampaign?: string;
-  utmContent?: string;
-}) {
-  const url = new URL(APP_STORE_URL);
-  url.searchParams.set("utm_source", "sundeefundee.com");
-  url.searchParams.set("utm_medium", "web");
-  url.searchParams.set("utm_term", "app_store");
-  if (utmCampaign) url.searchParams.set("utm_campaign", utmCampaign);
-  if (utmContent) url.searchParams.set("utm_content", utmContent);
-  return url.toString();
-}
 
 export function AppStoreButtons({
   compact = false,
@@ -36,7 +20,7 @@ export function AppStoreButtons({
 
   return (
     <a
-      href={appStoreUrl({ utmCampaign, utmContent })}
+      href={buildAppStoreUrl({ campaign: utmCampaign, content: utmContent })}
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => {
