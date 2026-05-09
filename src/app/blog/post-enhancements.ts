@@ -234,6 +234,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "garmin-recovery-data-for-lifters": {
     articleIntent: "metric-explainer",
   },
+  "heavy-periods-strength-training": {
+    articleIntent: "symptom-audit",
+  },
   "hormonal-birth-control-strength-training": {
     articleIntent: "compare-options",
   },
