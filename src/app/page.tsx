@@ -119,10 +119,15 @@ export default function Landing() {
                   Injury-adaptive plans, cycle tracking, and recovery-driven
                   workouts. Available on iOS.
                 </p>
-                <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+                <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                  <AppStoreButtons
+                    utmCampaign="home"
+                    utmContent="hero_primary"
+                    compact={false}
+                  />
                   <a
                     href="#compare"
-                    className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-8 font-medium text-cream transition hover:opacity-90"
+                    className="inline-flex h-12 items-center justify-center rounded-lg border border-border bg-surface px-8 font-medium text-navy transition hover:border-orange/50 hover:text-orange"
                   >
                     See What&apos;s Inside
                   </a>

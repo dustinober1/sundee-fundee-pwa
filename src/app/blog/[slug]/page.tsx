@@ -8,7 +8,7 @@ import { Markdown } from "@/components/Markdown";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { absoluteUrl, buildBreadcrumbJsonLd } from "@/lib/seo";
-import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { SITE_TITLE, SITE_URL } from "@/lib/site";
 import {
   formatDate,
   getPost,
@@ -34,6 +34,13 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return {};
   const url = `${SITE_URL}/blog/${slug}`;
+  const imageUrl = `${url}/opengraph-image`;
+  const socialImage = {
+    url: imageUrl,
+    width: 1200,
+    height: 630,
+    alt: post.title,
+  };
   return {
     title: post.title,
     description: post.description,
@@ -46,7 +53,7 @@ export async function generateMetadata({
       siteName: SITE_TITLE,
       title: post.title,
       description: post.description,
-      images: [SITE_OG_IMAGE_PATH],
+      images: [socialImage],
       publishedTime: post.publishedAt,
       modifiedTime: postModifiedAt(post),
       authors: [post.author],
@@ -56,7 +63,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: [SITE_OG_IMAGE_PATH],
+      images: [socialImage],
     },
   };
 }
@@ -73,6 +80,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   const post = getPost(slug);
   if (!post) notFound();
   const url = `${SITE_URL}/blog/${slug}`;
+  const imageUrl = `${url}/opengraph-image`;
   const topic = getPrimaryTopic(post);
   const cta = getPostCta(post);
   const relatedPosts = getRelatedPosts(post, posts, 3);
@@ -111,7 +119,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
             mainEntityOfPage: url,
             datePublished: post.publishedAt,
             dateModified: postModifiedAt(post),
-            image: absoluteUrl(SITE_OG_IMAGE_PATH),
+            image: imageUrl,
             keywords: post.tags.join(", "),
           },
         ]}

@@ -207,6 +207,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "apple-watch-hrv-strength-training": {
     articleIntent: "symptom-audit",
   },
+  "apple-watch-wrist-temperature-cycle-training": {
+    articleIntent: "metric-explainer",
+  },
   "breathing-bracing-lifting-technique": {
     articleIntent: "protocol",
   },
@@ -273,8 +276,14 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "rpe-training-autoregulation-strength": {
     articleIntent: "decision-guide",
   },
+  "shoulder-pain-bench-press-modifications": {
+    articleIntent: "checklist",
+  },
   "sleep-quality-strength-training-gains": {
     articleIntent: "compare-options",
+  },
+  "stress-and-strength-training-recovery": {
+    articleIntent: "symptom-audit",
   },
   "strength-training-app-for-women-recovery": {
     articleIntent: "decision-guide",
@@ -291,6 +300,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   },
   "strength-training-during-period-modifications": {
     articleIntent: "decision-guide",
+  },
+  "top-set-back-off-set-programming": {
+    articleIntent: "protocol",
   },
   "training-around-injuries-without-losing-progress": {
     articleIntent: "checklist",
