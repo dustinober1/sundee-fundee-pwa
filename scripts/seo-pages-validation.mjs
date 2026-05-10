@@ -38,6 +38,7 @@ const footer = read("src/components/SiteFooter.tsx");
 const home = read("src/app/page.tsx");
 const faq = read("src/app/faq/page.tsx");
 const blogPostRoute = read("src/app/blog/[slug]/page.tsx");
+const science = read("src/app/science/page.tsx");
 
 for (const slug of expectedSlugs) {
   assert.match(registry, new RegExp(`slug: "${slug}"`), `${slug} missing from SEO registry`);
@@ -51,11 +52,17 @@ assert.match(sitemap, /seoPages/, "Sitemap should include SEO registry pages");
 for (const path of ["/science", "/roadmap", "/donate", "/privacy", "/terms"]) {
   assert.match(sitemap, new RegExp(`\\$\\{SITE_URL\\}${path}`), `Sitemap should include ${path}`);
 }
+assert.match(sitemap, /url: `\$\{SITE_URL\}\/science`[\s\S]*?priority: 0\.75/, "Science sitemap priority should reflect the updated trust page");
 assert.match(seo, /buildSoftwareApplicationJsonLd/, "SoftwareApplication schema helper missing");
 assert.match(seo, /buildFaqPageJsonLd/, "FAQPage schema helper missing");
 assert.match(seo, /buildItemListJsonLd/, "ItemList schema helper missing");
 assert.match(home, /buildSoftwareApplicationJsonLd/, "Homepage should emit SoftwareApplication schema");
+assert.match(home, /href: "\/science"/, "Homepage should link to the science page");
 assert.match(faq, /buildFaqPageJsonLd/, "FAQ page should emit FAQPage schema");
+assert.match(science, /Readiness Score, Cycle-Aware Training & Injury-Aware Programming \| Sundee Fundee/, "Science page should use stronger search metadata");
+assert.match(science, /buildBreadcrumbJsonLd/, "Science page should emit breadcrumb schema");
+assert.match(science, /buildSoftwareApplicationJsonLd/, "Science page should emit software schema");
+assert.doesNotMatch(science, /buildFaqPageJsonLd/, "Science page should not rely on FAQPage schema");
 assert.match(footer, /strength-training-recovery/, "Footer should link topic/commercial SEO pages");
 assert.match(blogPostRoute, /opengraph-image/, "Blog posts should use generated Open Graph images");
 assert.match(blogPostRoute, /width:\s*1200/, "Blog Open Graph metadata should include image width");

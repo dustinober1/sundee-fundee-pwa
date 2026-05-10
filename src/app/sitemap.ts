@@ -97,7 +97,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}/science`,
       lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
-      priority: 0.65,
+      priority: 0.75,
     },
     {
       url: `${SITE_URL}/roadmap`,
