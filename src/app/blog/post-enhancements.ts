@@ -237,6 +237,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "garmin-recovery-data-for-lifters": {
     articleIntent: "metric-explainer",
   },
+  "glp-1-strength-training-keep-muscle": {
+    articleIntent: "compare-options",
+  },
   "heavy-periods-strength-training": {
     articleIntent: "symptom-audit",
   },
@@ -248,6 +251,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   },
   "low-energy-availability-menstrual-cycle-strength-training": {
     articleIntent: "symptom-audit",
+  },
+  "lower-back-pain-deadlift-modifications": {
+    articleIntent: "checklist",
   },
   "menstrual-cycle-injury-risk-lifting": {
     articleIntent: "compare-options",
@@ -268,6 +274,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
     articleIntent: "timeline",
   },
   "protein-timing-for-women-who-lift": {
+    articleIntent: "protocol",
+  },
+  "protein-low-appetite-women-who-lift": {
     articleIntent: "protocol",
   },
   "pms-strength-training-week-before-period": {
@@ -297,6 +306,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   },
   "strength-training-while-traveling-women": {
     articleIntent: "protocol",
+  },
+  "strength-training-women-over-40": {
+    articleIntent: "timeline",
   },
   "strength-training-during-period-modifications": {
     articleIntent: "decision-guide",

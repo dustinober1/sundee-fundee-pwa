@@ -5,7 +5,7 @@ import { loadPosts, validateBlogPost } from "./posts";
 
 describe("blog content validation", () => {
   it("loads all blog posts with valid dates and interactive metadata", () => {
-    const loadedPosts = loadPosts({ todayIso: "2026-05-09" });
+    const loadedPosts = loadPosts({ todayIso: "2026-05-10" });
     const slugs = loadedPosts.map((post) => post.slug);
     const contentDir = path.join(process.cwd(), "src/app/blog/content");
     const expectedCount = fs
@@ -15,7 +15,7 @@ describe("blog content validation", () => {
     expect(loadedPosts).toHaveLength(expectedCount);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(
-      loadedPosts.flatMap((post) => validateBlogPost(post, "2026-05-09")),
+      loadedPosts.flatMap((post) => validateBlogPost(post, "2026-05-10")),
     ).toEqual([]);
     expect(slugs).toEqual(
       expect.arrayContaining([
@@ -28,15 +28,15 @@ describe("blog content validation", () => {
   });
 
   it("rejects a future publish date", () => {
-    const [post] = loadPosts({ todayIso: "2026-05-09" });
+    const [post] = loadPosts({ todayIso: "2026-05-10" });
     const invalidPost = {
       ...post,
-      publishedAt: "2026-05-10",
-      updatedAt: "2026-05-10",
+      publishedAt: "2026-05-11",
+      updatedAt: "2026-05-11",
     };
 
-    expect(validateBlogPost(invalidPost, "2026-05-09")).toContain(
-      "publishedAt 2026-05-10 cannot be after 2026-05-09",
+    expect(validateBlogPost(invalidPost, "2026-05-10")).toContain(
+      "publishedAt 2026-05-11 cannot be after 2026-05-10",
     );
   });
 });
