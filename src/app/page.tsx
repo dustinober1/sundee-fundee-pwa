@@ -38,6 +38,11 @@ const paths = [
     body: "Use readiness, sleep, and fatigue to change the session before the week breaks down.",
   },
   {
+    href: "/science",
+    title: "The Science",
+    body: "See how readiness, cycle context, Apple Health signals, and injury flags shape a workout.",
+  },
+  {
     href: "/train-around-injury",
     title: "Train Around Injury",
     body: "Keep the habit alive when pain or irritation changes what your body can handle.",

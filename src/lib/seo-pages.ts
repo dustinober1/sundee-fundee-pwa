@@ -33,6 +33,11 @@ export const SEO_PAGES_LAST_MODIFIED = "2026-04-27";
 
 const recoveryRelated: SeoPageLink[] = [
   {
+    href: "/science#readiness-score",
+    label: "Science behind readiness",
+    description: "See how readiness inputs become training changes.",
+  },
+  {
     href: "/recovery-aware-strength-training",
     label: "Recovery-aware strength training",
     description: "See how readiness changes the training day.",
@@ -50,6 +55,11 @@ const recoveryRelated: SeoPageLink[] = [
 ];
 
 const womenRelated: SeoPageLink[] = [
+  {
+    href: "/science#cycle-aware-training",
+    label: "Science behind cycle-aware training",
+    description: "See how optional cycle context fits the broader model.",
+  },
   {
     href: "/for-women-who-lift",
     label: "For women who lift",
@@ -69,6 +79,11 @@ const womenRelated: SeoPageLink[] = [
 
 const injuryRelated: SeoPageLink[] = [
   {
+    href: "/science#injury-aware-programming",
+    label: "Science behind injury routing",
+    description: "See how pain flags affect exercise selection and load.",
+  },
+  {
     href: "/train-around-injury",
     label: "Train around injury",
     description: "Keep training decisions conservative when pain changes the plan.",
@@ -86,6 +101,11 @@ const injuryRelated: SeoPageLink[] = [
 ];
 
 const wearableRelated: SeoPageLink[] = [
+  {
+    href: "/science#readiness-score",
+    label: "Science behind Apple Health signals",
+    description: "See how wearable context feeds readiness decisions.",
+  },
   {
     href: "/apple-health-strength-training-app",
     label: "Apple Health strength training app",

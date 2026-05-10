@@ -84,6 +84,12 @@ export default function TrainAroundInjuryPage() {
                   >
                     Read the injury guides
                   </a>
+                  <Link
+                    href="/science#injury-aware-programming"
+                    className="inline-flex h-12 items-center justify-center rounded-lg border border-border bg-surface px-8 font-medium text-navy transition hover:border-orange hover:text-orange"
+                  >
+                    Science behind this
+                  </Link>
                 </div>
               </div>
 
