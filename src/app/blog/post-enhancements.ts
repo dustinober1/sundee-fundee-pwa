@@ -267,6 +267,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "one-rep-max-testing-timing-and-protocol": {
     articleIntent: "timeline",
   },
+  "ovulation-pain-strength-training": {
+    articleIntent: "decision-guide",
+  },
   "perimenopause-strength-training-programming": {
     articleIntent: "timeline",
   },
