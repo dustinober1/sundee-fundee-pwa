@@ -32,6 +32,7 @@ export async function generateMetadata({
   const page = getSeoPage(seoSlug);
   if (!page) return {};
   const url = `${SITE_URL}/${page.slug}`;
+  const ogImage = page.ogImage ?? SITE_OG_IMAGE_PATH;
 
   return {
     title: page.eyebrow,
@@ -45,13 +46,13 @@ export async function generateMetadata({
       siteName: SITE_TITLE,
       title: page.eyebrow,
       description: page.description,
-      images: [SITE_OG_IMAGE_PATH],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: page.eyebrow,
       description: page.description,
-      images: [SITE_OG_IMAGE_PATH],
+      images: [ogImage],
     },
   };
 }

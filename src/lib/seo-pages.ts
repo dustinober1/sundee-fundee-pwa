@@ -27,6 +27,7 @@ export type SeoPage = {
   faqs: SeoPageFaq[];
   related: SeoPageLink[];
   priority: number;
+  ogImage?: string;
 };
 
 export const SEO_PAGES_LAST_MODIFIED = "2026-05-13";
@@ -197,16 +198,38 @@ export const seoPages: SeoPage[] = [
       "A practical guide to choosing a strength training app for women, with recovery, cycle context, injury-aware choices, and progress tracking.",
     intro:
       "The best strength training app for women should do more than list exercises. It should help you train consistently while accounting for recovery, life stress, cycle context, pain flags, and the progress you are trying to build over months.",
-    sections: sections(
-      "a women-focused strength app",
-      "Many lifting apps assume the plan should run exactly as written. That can work for simple logging, but it is less useful when sleep, soreness, cycle phase, or an irritated joint changes the decision you need to make before training.",
-      "Sundee Fundee gives women who lift a recovery-aware way to plan the next session. It keeps the emphasis on strength, but adds context so you can choose a heavy day, a normal day, or a more conservative version of the workout.",
-      "Choose an app that separates useful adaptation from vague motivation. The app should show the planned work, explain when a change is reasonable, and keep your progress history easy to understand.",
-      "Start here if you are comparing app categories and want a strength tool that respects recovery without turning training into guesswork.",
-    ),
+    sections: [
+      {
+        title: "Why women need an adaptive strength app",
+        body: [
+          "Most lifting apps follow a rigid calendar, assuming you are the same person every Tuesday. But women who lift know that recovery, stress, cycle symptoms, and even sleep quality change what is actually appropriate for today's session.",
+          "A smarter strength app should help you make the right choice before the first set, whether that means sticking to the plan, modifying a movement for an irritated joint, or choosing a lighter volume when readiness is low.",
+        ],
+      },
+      {
+        title: "How Sundee Fundee adapts to you",
+        body: [
+          "Sundee Fundee was built to bring recovery context directly into the training day. By logging readiness signals and optional cycle context, the app gives you a clear suggestion: push, hold, modify, or recover.",
+          "It's not about doing less; it's about doing the work that builds strength today without creating the fatigue that breaks the plan tomorrow.",
+        ],
+      },
+      {
+        title: "Features for serious training",
+        body: [
+          "Look for more than just a logbook. You need injury-aware substitutions, clear progress tracking for PRs, and a workflow that respects your privacy—especially when it comes to health and cycle data.",
+          "The best tools stay out of the way when you're moving well and provide conservative, practical guidance when pain or fatigue change the requirements.",
+        ],
+      },
+      {
+        title: "Starting your strength journey",
+        body: [
+          "Whether you are comparing top-rated apps or looking for a free alternative that respects the science of recovery, start with the guides below. Each resource is written to help women lift with more awareness and better long-term results.",
+        ],
+      },
+    ],
     faqs: faq("a strength training app for women"),
     related: womenRelated,
-    priority: 0.86,
+    priority: 0.95,
   },
   {
     slug: "best-apple-health-strength-training-app",
@@ -217,16 +240,38 @@ export const seoPages: SeoPage[] = [
       "Learn what to look for in a strength training app that uses Apple Health signals like sleep, HRV, and activity trends.",
     intro:
       "Apple Health can collect useful signals for lifters, but the value comes from turning those signals into better training decisions. A good strength app should make Apple Health data practical, not overwhelming.",
-    sections: sections(
-      "an Apple Health strength app",
-      "HRV, resting heart rate, sleep, and activity trends can help explain why a session feels different than expected. The app still needs to translate those signals into a reasonable strength-training adjustment.",
-      "Sundee Fundee reads Apple Health context with your permission and uses it alongside subjective readiness and training history. The result is a session that can adapt without requiring you to interpret every chart manually.",
-      "Look for clear permissions, plain explanations, and a training workflow where health data supports the workout instead of distracting from it.",
-      "Use this page when you want Apple Health to inform lifting decisions while keeping strength training as the main job.",
-    ),
+    sections: [
+      {
+        title: "Using Apple Health for strength training",
+        body: [
+          "Apple Health captures a wealth of data—HRV, resting heart rate, sleep trends, and active energy—that most lifters ignore. But when these signals are combined, they provide a powerful look at your body's ability to handle the next hard workout.",
+          "An Apple Health-integrated app should do more than just read your steps. It should translate those deep health metrics into actionable training advice that helps you decide when to push for a PR and when to take a deload.",
+        ],
+      },
+      {
+        title: "The role of HRV and sleep in lifting",
+        body: [
+          "Heart Rate Variability (HRV) is one of the most reliable indicators of nervous system stress. When HRV is high, your body is likely ready for the high-intensity work required for strength gains. When it drops significantly, it's often a sign that you need more recovery time.",
+          "By pulling this data automatically through Apple Health, Sundee Fundee removes the guesswork. You don't have to be a data scientist to lift smarter; you just need your app to respect the signals your watch is already capturing.",
+        ],
+      },
+      {
+        title: "Privacy and your health data",
+        body: [
+          "Health data is personal. Any app reading from Apple Health should prioritize on-device processing and clear permissions. You should always be in control of which metrics are used to calculate your readiness score.",
+          "We believe in using data to support your goals without compromising your privacy. That's why cycle data stays on your device and only the minimum necessary readiness context is used to guide your program.",
+        ],
+      },
+      {
+        title: "How to choose an integrated app",
+        body: [
+          "Look for an app that uses Apple Health as context, not as a rigid rule. The best strength apps combine your subjective feel with objective wearable data to give you the most accurate starting point for every session.",
+        ],
+      },
+    ],
     faqs: faq("an Apple Health strength training app"),
     related: wearableRelated,
-    priority: 0.84,
+    priority: 0.92,
   },
   {
     slug: "strength-training-app-alternatives",
@@ -716,20 +761,29 @@ export const seoPages: SeoPage[] = [
       "A resource hub for women who lift, covering strength plans, recovery, optional cycle context, and app-supported progression.",
     intro:
       "Strength training for women deserves the same serious programming conversation as any other lifting goal, with added room for recovery, cycle context, and individual constraints when they matter.",
-    sections: sections(
-      "a women’s strength training hub",
-      "This hub collects pages for women who want useful strength structure without generic advice or rigid assumptions.",
-      "Sundee Fundee supports lifting through readiness, optional cycle tracking, pain flags, and progress logging. It is built to keep the training decision clear.",
-      "Start with the strength plan if you need structure, cycle-aware training if you want optional context, or app selection if you are comparing tools.",
-      "Use this hub as the main path into women-focused strength content on the site.",
-    ),
+    sections: [
+      {
+        title: "Moving beyond generic advice",
+        body: [
+          "Most women's fitness material focuses on vague motivation or 'toning' routines. But real strength gains come from consistent, progressive overload and a deep understanding of how your body responds to stress.",
+          "We believe in programming that respects the physiological realities women face, providing enough structure to drive progress and enough flexibility to survive the weeks where recovery is a struggle.",
+        ],
+      },
+      {
+        title: "The Sundee Fundee approach",
+        body: [
+          "Sundee Fundee was designed by lifters for lifters. It treats cycle phase as useful context rather than a rigid rule, allowing you to push when energy is high and pull back when your body needs a more conservative session.",
+          "By combining subjective check-ins with objective readiness data, the app helps you navigate the training day with confidence, ensuring each session moves you toward your long-term goals.",
+        ],
+      },
+    ],
     faqs: faq("strength training for women"),
     related: [
       { href: "/strength-training-plan-for-women", label: "Strength plan for women", description: "Adaptable structure for lifting." },
       { href: "/best-strength-training-app-for-women", label: "Best strength app for women", description: "What to look for in an app." },
       ...womenRelated,
     ],
-    priority: 0.84,
+    priority: 0.9,
   },
   {
     slug: "lifting-with-injuries",
@@ -749,10 +803,10 @@ export const seoPages: SeoPage[] = [
     ),
     faqs: faq("lifting with injuries"),
     related: [
-      { href: "/strength-training-after-injury", label: "Strength training after injury", description: "Conservative return-to-training planning." },
+      { href: "/strength-training-after-injury", label: "Strength training after injury", description: "Conservative return-to-lifting planning." },
       ...injuryRelated,
     ],
-    priority: 0.8,
+    priority: 0.88,
   },
   {
     slug: "wearables-and-strength-training",
@@ -775,7 +829,7 @@ export const seoPages: SeoPage[] = [
       { href: "/best-apple-health-strength-training-app", label: "Best Apple Health strength app", description: "Choose an Apple Health-aware app." },
       ...wearableRelated,
     ],
-    priority: 0.8,
+    priority: 0.88,
   },
   {
     slug: "cycle-aware-training",
@@ -799,7 +853,7 @@ export const seoPages: SeoPage[] = [
       { href: "/strength-training-during-period", label: "Training during your period", description: "Flexible workout expectations." },
       ...womenRelated,
     ],
-    priority: 0.8,
+    priority: 0.88,
   },
 ];
 

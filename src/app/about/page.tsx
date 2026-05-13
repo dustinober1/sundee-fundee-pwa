@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { AppStoreButtons } from "@/components/AppStoreButtons";
+import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildBreadcrumbJsonLd } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -19,6 +22,14 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          buildBreadcrumbJsonLd([
+            { name: "Home", url: SITE_URL },
+            { name: "About", url: `${SITE_URL}/about` },
+          ]),
+        ]}
+      />
       <SiteHeader showHomeLink showDownloadButtons />
 
       <main className="flex flex-1 flex-col">

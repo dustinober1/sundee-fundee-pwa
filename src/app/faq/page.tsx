@@ -3,7 +3,8 @@ import Link from "next/link";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { buildFaqPageJsonLd } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, buildFaqPageJsonLd } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -165,7 +166,15 @@ function FaqAccordion({ item }: { item: FaqItem }) {
 export default function FaqPage() {
   return (
     <>
-      <JsonLd data={[buildFaqPageJsonLd(faqJsonLdItems)]} />
+      <JsonLd
+        data={[
+          buildBreadcrumbJsonLd([
+            { name: "Home", url: SITE_URL },
+            { name: "FAQ", url: `${SITE_URL}/faq` },
+          ]),
+          buildFaqPageJsonLd(faqJsonLdItems),
+        ]}
+      />
       <SiteHeader showHomeLink showDownloadButtons />
 
       <main className="flex flex-1 flex-col">
