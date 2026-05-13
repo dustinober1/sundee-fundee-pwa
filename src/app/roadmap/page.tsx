@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "Roadmap – Sundee Fundee",
+  title: "Roadmap",
   description:
     "What's live in Sundee Fundee, what's actively being built, and what's planned next. Updated regularly.",
   alternates: {

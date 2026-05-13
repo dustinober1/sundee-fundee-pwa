@@ -6,12 +6,14 @@ import { SiteHeader } from "@/components/SiteHeader";
 import {
   absoluteUrl,
   buildBreadcrumbJsonLd,
+  buildFaqPageJsonLd,
   buildItemListJsonLd,
+  buildWorkoutPlanJsonLd,
 } from "@/lib/seo";
 import { workoutPlans } from "@/lib/workout-plans";
 
 export const metadata: Metadata = {
-  title: "Printable Strength Plans – Sundee Fundee",
+  title: "Printable Strength Plans",
   description:
     "Download Sundee Fundee printable base strength plans with gym log sheets, then use the app for adaptive cycle-aware, recovery-aware, and pain-aware coaching.",
   alternates: {
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/workout-plans",
-    title: "Printable Strength Plans – Sundee Fundee",
+    title: "Printable Strength Plans",
     description:
       "Gym-ready training plans you can print, mark up, and use on paper.",
     images: [workoutPlans[0].coverPath],
@@ -70,6 +72,15 @@ export default function WorkoutPlansPage() {
               url: absoluteUrl(plan.pdfPath),
               description: plan.description,
             })),
+          ),
+          buildFaqPageJsonLd(faqItems),
+          ...workoutPlans.map((plan) =>
+            buildWorkoutPlanJsonLd({
+              name: plan.title,
+              description: plan.description,
+              url: absoluteUrl(plan.pdfPath),
+              image: absoluteUrl(plan.coverPath),
+            }),
           ),
         ]}
       />
@@ -213,7 +224,7 @@ export default function WorkoutPlansPage() {
                       download
                       className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-orange px-6 font-medium text-cream transition hover:opacity-90"
                     >
-                      Download PDF
+                      Download {plan.shortTitle} PDF
                     </a>
                   </div>
                 </article>

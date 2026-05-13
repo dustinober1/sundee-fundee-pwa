@@ -111,18 +111,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.45,
     },
-    {
-      url: `${SITE_URL}/privacy`,
-      lastModified: siteLastModified,
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/terms`,
-      lastModified: siteLastModified,
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-    },
     ...seoPageEntries,
     ...topicEntries,
     ...postEntries,

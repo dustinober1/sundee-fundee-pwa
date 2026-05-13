@@ -40,4 +40,26 @@ describe("blog content validation", () => {
       "publishedAt 2026-05-13 cannot be after 2026-05-12",
     );
   });
+
+  it("keeps priority legacy articles substantial enough for search", () => {
+    const postsBySlug = new Map(
+      loadPosts({ todayIso: "2026-05-12" }).map((post) => [post.slug, post]),
+    );
+    const prioritySlugs = [
+      "when-hrv-is-low-strength-training",
+      "garmin-recovery-data-for-lifters",
+      "apple-health-data-for-strength-training",
+      "training-around-injuries-without-losing-progress",
+      "strength-training-around-minor-injuries",
+    ];
+
+    for (const slug of prioritySlugs) {
+      const post = postsBySlug.get(slug);
+      expect(post, `${slug} should exist`).toBeDefined();
+      const wordCount = post?.body.split(/\s+/).filter(Boolean).length ?? 0;
+      expect(wordCount, `${slug} should be at least 1,000 words`).toBeGreaterThanOrEqual(
+        1000,
+      );
+    }
+  });
 });

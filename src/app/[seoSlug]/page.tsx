@@ -10,11 +10,14 @@ import {
   buildFaqPageJsonLd,
   buildItemListJsonLd,
   buildSoftwareApplicationJsonLd,
+  buildWebPageJsonLd,
 } from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { getSeoPage, seoPages } from "@/lib/seo-pages";
 
 type Params = Promise<{ seoSlug: string }>;
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return seoPages.map((page) => ({ seoSlug: page.slug }));
@@ -78,6 +81,11 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
             { name: "Home", url: SITE_URL },
             { name: page.eyebrow, url },
           ]),
+          buildWebPageJsonLd({
+            name: page.title,
+            description: page.description,
+            url,
+          }),
           buildFaqPageJsonLd(page.faqs),
           buildSoftwareApplicationJsonLd(),
           ...(itemList ? [itemList] : []),

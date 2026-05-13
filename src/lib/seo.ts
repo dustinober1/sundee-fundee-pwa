@@ -31,6 +31,11 @@ export function buildWebsiteJsonLd() {
     "@type": "WebSite",
     name: SITE_TITLE,
     url: SITE_URL,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/blog?query={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
@@ -51,6 +56,62 @@ export function buildSoftwareApplicationJsonLd() {
     },
     description:
       "Recovery-aware strength training for iPhone, with readiness, injury-aware training choices, cycle-aware context, and progress tracking.",
+  };
+}
+
+export function buildWebPageJsonLd({
+  name,
+  description,
+  url,
+}: {
+  name: string;
+  description: string;
+  url: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name,
+    description,
+    url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
+  };
+}
+
+export function buildWorkoutPlanJsonLd({
+  name,
+  description,
+  url,
+  image,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  image: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name,
+    description,
+    url,
+    image,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
+    isAccessibleForFree: true,
+    encodingFormat: "application/pdf",
   };
 }
 

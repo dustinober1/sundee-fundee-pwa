@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "Thank You – Sundee Fundee",
+  title: "Thank You",
   description: "Thank you for supporting Sundee Fundee.",
   robots: {
     index: false,

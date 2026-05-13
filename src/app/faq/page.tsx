@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { buildFaqPageJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "FAQ – Sundee Fundee",
+  title: "FAQ",
   description:
     "Answers to common questions about Sundee Fundee — Apple Health sync, Garmin, data export, cycle tracking, subscriptions, and more.",
   alternates: {

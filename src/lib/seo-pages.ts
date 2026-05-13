@@ -29,7 +29,7 @@ export type SeoPage = {
   priority: number;
 };
 
-export const SEO_PAGES_LAST_MODIFIED = "2026-04-27";
+export const SEO_PAGES_LAST_MODIFIED = "2026-05-13";
 
 const recoveryRelated: SeoPageLink[] = [
   {
@@ -273,6 +273,129 @@ export const seoPages: SeoPage[] = [
     priority: 0.84,
   },
   {
+    slug: "free-strength-training-app-for-women",
+    kind: "comparison",
+    eyebrow: "Free Strength Training App",
+    title: "Free strength training app for women who want adaptable workouts",
+    description:
+      "Compare what a free strength training app for women should include: workout logging, recovery context, injury-aware changes, and no subscription pressure.",
+    intro:
+      "A free strength training app for women should still respect the way real training weeks change. Price matters, but the bigger question is whether the app helps you choose the next useful session when recovery, soreness, schedule, or pain changes the plan.",
+    sections: sections(
+      "a free strength training app",
+      "Many free lifting apps are useful as logs but stop short of planning. That is fine if all you need is a notebook. It is weaker when you want a session that can adapt without hiding the practical features behind a subscription.",
+      "Sundee Fundee is built as a free iPhone app with donations as support, not as a paywall around core training decisions. The workflow keeps readiness, pain flags, cycle context, and progress history close to the workout.",
+      "Look for transparent pricing, useful logging, visible workout history, and guidance that stays available after the first week. A free app should not punish consistency by locking the next important training decision.",
+      "Use this page if you are comparing free strength apps and want the no-subscription option to still be serious enough for long-term lifting.",
+    ),
+    faqs: faq("a free strength training app for women"),
+    related: [
+      { href: "/donate", label: "Support the free app", description: "Help keep the app free without subscriptions or ads." },
+      { href: "/best-strength-training-app-for-women", label: "Best strength app for women", description: "Compare the wider app category." },
+      { href: "/strength-training-log-for-women", label: "Strength training log", description: "Track sessions with recovery context." },
+      ...womenRelated,
+    ],
+    priority: 0.86,
+  },
+  {
+    slug: "strength-training-log-for-women",
+    kind: "feature",
+    eyebrow: "Strength Training Log",
+    title: "Strength training log for women with recovery context",
+    description:
+      "Use a strength training log that tracks sets, reps, readiness, pain flags, cycle context, and progress without losing the training decision.",
+    intro:
+      "A strength training log for women should do more than store numbers. The useful log connects what you lifted with how ready you were, what hurt, what changed, and what the next session should learn from it.",
+    sections: sections(
+      "a strength training log",
+      "Sets, reps, and load are the base layer. They tell you what happened, but they do not explain why a session felt strong, flat, or constrained. Recovery and context make the log easier to use later.",
+      "Sundee Fundee keeps the workout record connected to readiness, pain notes, optional cycle context, and program structure. That gives the next session more information than a blank list of exercises.",
+      "Look for quick entry, clear history, lift-specific progress, notes that stay attached to the workout, and an app that does not make logging harder than training.",
+      "Use this guide if you want a training log that supports decisions instead of becoming a separate admin task after the workout.",
+    ),
+    faqs: faq("a strength training log for women"),
+    related: [
+      { href: "/strength-training-pr-tracker", label: "Strength PR tracker", description: "Connect records to training history." },
+      { href: "/free-strength-training-app-for-women", label: "Free strength app", description: "Compare the no-subscription option." },
+      { href: "/blog/top-set-back-off-set-programming", label: "Top set and back-off sets", description: "Learn a simple logging structure." },
+      ...womenRelated,
+    ],
+    priority: 0.82,
+  },
+  {
+    slug: "hrv-strength-training-app",
+    kind: "feature",
+    eyebrow: "HRV Strength Training App",
+    title: "HRV strength training app for readiness-based lifting",
+    description:
+      "Learn how an HRV strength training app should turn heart rate variability into practical lifting choices without overreacting to one metric.",
+    intro:
+      "An HRV strength training app is useful only when HRV changes the training decision in a reasonable way. The goal is not to obey one number; it is to use HRV as recovery context beside sleep, soreness, stress, and the warm-up.",
+    sections: sections(
+      "an HRV strength training app",
+      "HRV can flag strain, but it is noisy enough that a single reading should not decide the whole week. Lifters need an app that notices trends and translates them into a session adjustment.",
+      "Sundee Fundee uses HRV as one readiness input rather than the whole system. When HRV is low, the app can help choose between normal training, reduced volume, technique work, or a more conservative session.",
+      "Look for trend awareness, plain explanations, subjective check-ins, and training options that preserve the purpose of the day without pretending HRV is a diagnosis.",
+      "Use this page if wearable recovery data is part of your lifting routine and you want it to become actionable without becoming the coach.",
+    ),
+    faqs: faq("an HRV strength training app"),
+    related: [
+      { href: "/blog/when-hrv-is-low-strength-training", label: "When HRV is low", description: "What to change before lifting." },
+      { href: "/readiness-score-strength-training", label: "Readiness score", description: "Use recovery context in the daily decision." },
+      { href: "/best-recovery-strength-training-app", label: "Recovery strength app", description: "Compare recovery-aware app features." },
+      ...recoveryRelated,
+    ],
+    priority: 0.84,
+  },
+  {
+    slug: "fitbod-alternative-for-women",
+    kind: "comparison",
+    eyebrow: "Fitbod Alternative",
+    title: "Fitbod alternative for women who want recovery-aware strength training",
+    description:
+      "Compare Fitbod-style workout generation with a recovery-aware strength training app built around readiness, pain flags, optional cycle context, and progress.",
+    intro:
+      "A Fitbod alternative for women should not just generate another workout. It should help you decide what kind of workout makes sense today, especially when recovery, cycle symptoms, soreness, or pain changes the original plan.",
+    sections: sections(
+      "a Fitbod alternative",
+      "Workout generators can be convenient, but lifters often need more than exercise variety. The session should account for readiness and constraints without losing the larger strength direction.",
+      "Sundee Fundee focuses on recovery-aware planning for iPhone. The app keeps the strength decision centered while adding optional cycle context, pain flags, and workout history to the session.",
+      "Look for clear programming intent, conservative substitutions, transparent recovery logic, and a log that makes progress easier to review over time.",
+      "Use this comparison when Fitbod-style generation feels too generic and you want a women-focused strength workflow with stronger context.",
+    ),
+    faqs: faq("a Fitbod alternative for women"),
+    related: [
+      { href: "/strength-training-app-alternatives", label: "Strength app alternatives", description: "Compare logging, planning, and adaptive app types." },
+      { href: "/best-strength-training-app-for-women", label: "Best strength app for women", description: "See the broader selection criteria." },
+      { href: "/recovery-aware-strength-training", label: "Recovery-aware training", description: "How the Sundee Fundee approach works." },
+    ],
+    priority: 0.82,
+  },
+  {
+    slug: "hevy-alternative-for-strength-training",
+    kind: "comparison",
+    eyebrow: "Hevy Alternative",
+    title: "Hevy alternative for strength training with adaptive planning",
+    description:
+      "Compare a Hevy-style workout logger with a strength training app that adds readiness, recovery context, pain-aware changes, and planning support.",
+    intro:
+      "A Hevy alternative for strength training should be clear about whether it is mainly a log or a training decision tool. Logging matters, but many lifters also need help choosing the right version of today's workout.",
+    sections: sections(
+      "a Hevy alternative",
+      "A clean workout log is valuable when the plan is already settled. It becomes less complete when the hardest part is deciding whether to push, hold steady, substitute, or reduce volume.",
+      "Sundee Fundee keeps logging connected to adaptive planning. Readiness, training history, pain flags, and optional cycle context can all shape the next session while still preserving a clear record.",
+      "Look for fast workout entry, useful history, app-supported progression, and a decision workflow that stays practical when the plan changes.",
+      "Use this page if you like the idea of simple logging but want a strength app that also helps interpret the day in front of you.",
+    ),
+    faqs: faq("a Hevy alternative for strength training"),
+    related: [
+      { href: "/strength-training-log-for-women", label: "Strength training log", description: "Track sessions with context." },
+      { href: "/strength-training-pr-tracker", label: "PR tracker", description: "Keep records connected to training decisions." },
+      { href: "/strength-training-app-alternatives", label: "Strength app alternatives", description: "Compare app categories." },
+    ],
+    priority: 0.8,
+  },
+  {
     slug: "readiness-score-strength-training",
     kind: "feature",
     eyebrow: "Readiness Score",
@@ -463,6 +586,81 @@ export const seoPages: SeoPage[] = [
     faqs: faq("a recovery-based workout plan"),
     related: recoveryRelated,
     priority: 0.82,
+  },
+  {
+    slug: "two-day-strength-training-plan-for-women",
+    kind: "program",
+    eyebrow: "Two-Day Strength Plan",
+    title: "Two-day strength training plan for women who need flexible structure",
+    description:
+      "A practical two-day strength training plan for women, built around full-body sessions, recovery-aware progression, and realistic weekly schedules.",
+    intro:
+      "A two-day strength training plan for women works best when each session has a clear job. With fewer weekly workouts, the plan needs enough full-body structure to build strength and enough flexibility to survive busy weeks.",
+    sections: sections(
+      "a two-day strength plan",
+      "Two lifting days can be enough for progress when the program covers squat, hinge, push, pull, core, and carries across the week. The mistake is treating two days as random workouts instead of a compact training block.",
+      "Sundee Fundee can keep a two-day plan organized while using readiness and pain flags to adjust the session. If recovery is low, the app can preserve the pattern while reducing the stress of the day.",
+      "Look for full-body sessions, simple progression, repeatable exercises, and a log that makes it obvious whether the plan is moving forward.",
+      "Use this page if your schedule can support two serious lifting days and you want those days to be planned instead of improvised.",
+    ),
+    faqs: faq("a two-day strength training plan for women"),
+    related: [
+      { href: "/blog/two-day-strength-training-plan-women", label: "Two-day plan guide", description: "Read the detailed article version." },
+      { href: "/workout-plans", label: "Printable strength plans", description: "Download paper training blocks." },
+      { href: "/strength-training-plan-for-women", label: "Strength plan for women", description: "Plan flexible weekly structure." },
+      ...womenRelated,
+    ],
+    priority: 0.84,
+  },
+  {
+    slug: "perimenopause-strength-training",
+    kind: "program",
+    eyebrow: "Perimenopause Strength Training",
+    title: "Perimenopause strength training with recovery-aware programming",
+    description:
+      "Plan strength training in perimenopause with flexible expectations around sleep, symptoms, recovery, consistency, and progressive overload.",
+    intro:
+      "Perimenopause strength training should keep the goal serious while making room for more variable recovery. Sleep changes, stress, symptoms, and energy swings can affect the training day without making strength work any less valuable.",
+    sections: sections(
+      "perimenopause strength training",
+      "The useful target is consistent progressive strength work with room to adjust. Some weeks can support normal progression; others need changes to volume, intensity, or exercise selection.",
+      "Sundee Fundee gives the workout a readiness layer so the plan can respond to sleep, soreness, stress, pain, and training history. Optional cycle context can be used when it is helpful without forcing fixed phase rules.",
+      "Look for conservative progression, clear strength patterns, recovery notes, and an app that treats symptoms as context instead of a reason to abandon training.",
+      "Use this page if you want a strength plan that stays ambitious while acknowledging that recovery can be less predictable in perimenopause.",
+    ),
+    faqs: faq("perimenopause strength training"),
+    related: [
+      { href: "/blog/perimenopause-strength-training-programming", label: "Perimenopause programming", description: "Read a deeper programming guide." },
+      { href: "/blog/strength-training-women-over-40", label: "Women over 40", description: "Strength resources for midlife lifters." },
+      { href: "/strength-training-recovery", label: "Recovery hub", description: "Browse recovery-aware guides." },
+      ...womenRelated,
+    ],
+    priority: 0.82,
+  },
+  {
+    slug: "postpartum-strength-training-app",
+    kind: "program",
+    eyebrow: "Postpartum Strength App",
+    title: "Postpartum strength training app for conservative return-to-lifting",
+    description:
+      "Use a conservative postpartum strength training app workflow that supports readiness, gradual progression, movement notes, and professional guidance.",
+    intro:
+      "A postpartum strength training app should be conservative, clear, and honest about its limits. It can help organize workouts and progression, but it should not replace medical clearance, pelvic floor care, or individualized coaching when those are needed.",
+    sections: sections(
+      "a postpartum strength app",
+      "The early return to lifting is not just a smaller version of the old program. It often needs more attention to symptoms, fatigue, sleep, pressure management, and exercise selection.",
+      "Sundee Fundee can support conservative planning by keeping readiness, pain notes, and training history attached to the workout. The app can help reduce stress or change exercise selection when the original plan is not appropriate.",
+      "Look for gradual progression, easy notes, cautious language, and room to follow clinician or coach guidance. Avoid any app that promises a fixed postpartum timeline for every lifter.",
+      "Use this page if you want app-supported organization for a careful return to strength training after pregnancy.",
+    ),
+    faqs: faq("a postpartum strength training app"),
+    related: [
+      { href: "/blog/postpartum-return-to-lifting-timeline", label: "Postpartum return timeline", description: "Read the detailed return-to-lifting guide." },
+      { href: "/strength-training-after-injury", label: "Conservative return planning", description: "Use careful progression after constraints." },
+      { href: "/train-around-injury", label: "Train around injury", description: "Keep constraints visible in the session." },
+      ...injuryRelated,
+    ],
+    priority: 0.8,
   },
   {
     slug: "strength-training-during-period",

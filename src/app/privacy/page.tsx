@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy – Sundee Fundee",
+  title: "Privacy Policy",
   description:
     "Privacy information for the Sundee Fundee website, donations, and linked iOS apps.",
   alternates: {

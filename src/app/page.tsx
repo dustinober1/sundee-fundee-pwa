@@ -58,6 +58,21 @@ const paths = [
     body: "Compare what matters when choosing an adaptive strength app.",
   },
   {
+    href: "/free-strength-training-app-for-women",
+    title: "Free Strength Training App for Women",
+    body: "Find a no-subscription strength app that still respects recovery, pain, and progress.",
+  },
+  {
+    href: "/strength-training-log-for-women",
+    title: "Strength Training Log for Women",
+    body: "Track sets, recovery context, and progress without turning lifting into spreadsheet work.",
+  },
+  {
+    href: "/hrv-strength-training-app",
+    title: "HRV Strength Training App",
+    body: "Use HRV as one recovery signal when deciding whether to push, repeat, or modify.",
+  },
+  {
     href: "/readiness-score-strength-training",
     title: "Readiness Score Strength Training",
     body: "Use recovery context to decide how today’s workout should change.",
@@ -293,7 +308,7 @@ export default function Landing() {
                     {path.body}
                   </p>
                   <p className="mt-6 text-sm font-medium text-orange">
-                    Learn more →
+                    Explore {path.title} →
                   </p>
                 </Link>
               ))}

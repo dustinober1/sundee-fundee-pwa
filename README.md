@@ -20,6 +20,10 @@ persistence can optionally use Supabase with `NEXT_PUBLIC_SUPABASE_URL` and
 server-only `SUPABASE_SERVICE_ROLE_KEY`. Start from `.env.example` for local
 setup.
 
+Google Search Console verification can be added with
+`NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`; the root layout will emit the matching
+verification meta tag when the value is present.
+
 ## Commands
 
 ```bash
@@ -27,6 +31,7 @@ npm run dev        # local development
 npm run lint       # eslint (may include pre-existing Next.js <img> warnings)
 npm run typecheck  # tsc --noEmit
 npm run build      # Next production build
+npm run test:seo   # sitemap, schema, robots, and SEO route checks
 npm run preview    # OpenNext Cloudflare preview
 npm run deploy     # OpenNext Cloudflare deploy
 ```

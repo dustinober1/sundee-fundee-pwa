@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "About Us – Sundee Fundee",
+  title: "About Us",
   description:
     "How Sundee Fundee started in Culpeper, Virginia and why Dustin and Elizabeth built a recovery-aware training app for women.",
   alternates: {

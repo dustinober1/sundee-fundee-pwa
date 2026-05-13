@@ -25,14 +25,14 @@ export const metadata: Metadata = {
     type: "website",
     url: `${SITE_URL}/blog`,
     siteName: SITE_TITLE,
-    title: "Blog · Sundee Fundee",
+    title: "Blog",
     description:
       "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
     images: [SITE_OG_IMAGE_PATH],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog · Sundee Fundee",
+    title: "Blog",
     description:
       "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
     images: [SITE_OG_IMAGE_PATH],

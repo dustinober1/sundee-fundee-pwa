@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "Terms of Use – Sundee Fundee",
+  title: "Terms of Use",
   description:
     "Terms covering the Sundee Fundee website, blog content, outbound links, and linked iOS apps.",
   alternates: {

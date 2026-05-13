@@ -1,19 +1,18 @@
+import Image from "next/image";
+
 const galleryImages = [
   {
-    src: "/lifestyle-videos/hiker.mp4",
-    poster: "/lifestyle-videos/hiker-poster.jpg",
+    src: "/lifestyle-videos/hiker-poster.jpg",
     alt: "Hiker during golden hour",
     gradient: "from-navy/10 to-orange/10",
   },
   {
-    src: "/lifestyle-videos/kettlebell.mp4",
-    poster: "/lifestyle-videos/kettlebell-poster.jpg",
+    src: "/lifestyle-videos/kettlebell-poster.jpg",
     alt: "Kettlebell training macro shot",
     gradient: "from-orange/10 to-navy/10",
   },
   {
-    src: "/lifestyle-videos/woman-gym.mp4",
-    poster: "/lifestyle-videos/woman-gym-poster.jpg",
+    src: "/lifestyle-videos/woman-gym-poster.jpg",
     alt: "Woman training in gym",
     gradient: "from-navy/10 to-gold/10 sm:col-span-2 lg:col-span-1",
   },
@@ -42,15 +41,12 @@ export function TrainingLifestyleGallery() {
               key={image.src}
               className={`relative aspect-[4/3] overflow-hidden rounded-2xl bg-gradient-to-br ${image.gradient}`}
             >
-              <video
+              <Image
                 src={image.src}
-                poster={image.poster}
-                aria-label={image.alt}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
+                alt={image.alt}
+                width={960}
+                height={720}
+                sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
                 className="h-full w-full object-cover"
               />
             </div>

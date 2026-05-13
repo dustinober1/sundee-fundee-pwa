@@ -21,6 +21,8 @@ import { getPostCta, getPrimaryTopic, getRelatedPosts } from "../taxonomy";
 
 type Params = Promise<{ slug: string }>;
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
@@ -75,6 +77,21 @@ function getModulesForPlacement(
   return post.interactiveModules?.filter((module) => module.placement === placement) ?? [];
 }
 
+function productCtaLabel(href: string) {
+  switch (href) {
+    case "/recovery-aware-strength-training":
+      return "Explore recovery-aware strength training";
+    case "/train-around-injury":
+      return "Explore injury-aware training";
+    case "/for-women-who-lift":
+      return "Explore training for women who lift";
+    case "/apple-health-strength-training-app":
+      return "Explore Apple Health strength training";
+    default:
+      return "Explore Sundee Fundee";
+  }
+}
+
 export default async function BlogPostPage({ params }: { params: Params }) {
   const { slug } = await params;
   const post = getPost(slug);
@@ -87,6 +104,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   const introModules = getModulesForPlacement(post, "after-intro");
   const bodyModules = getModulesForPlacement(post, "before-body");
   const preCtaModules = getModulesForPlacement(post, "before-cta");
+  const wordCount = post.body.split(/\s+/).filter(Boolean).length;
 
   return (
     <>
@@ -119,8 +137,15 @@ export default async function BlogPostPage({ params }: { params: Params }) {
             mainEntityOfPage: url,
             datePublished: post.publishedAt,
             dateModified: postModifiedAt(post),
-            image: imageUrl,
+            image: {
+              "@type": "ImageObject",
+              url: imageUrl,
+              width: 1200,
+              height: 630,
+            },
+            inLanguage: "en-US",
             keywords: post.tags.join(", "),
+            wordCount,
           },
         ]}
       />
@@ -212,7 +237,7 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                   href={cta.productHref}
                   className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-6 font-medium text-navy transition hover:border-navy"
                 >
-                  Learn more
+                  {productCtaLabel(cta.productHref)}
                 </Link>
                 <AppStoreButtons
                   utmCampaign="blog_post"

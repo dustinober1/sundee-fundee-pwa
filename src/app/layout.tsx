@@ -4,6 +4,9 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 
+const googleSiteVerification =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+
 const display = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
@@ -26,8 +29,7 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   applicationName: SITE_TITLE,
   icons: {
-    icon: "/Logo.jpeg",
-    apple: "/Logo.jpeg",
+    icon: "/favicon.ico",
   },
   formatDetection: {
     telephone: false,
@@ -37,6 +39,9 @@ export const metadata: Metadata = {
       "application/rss+xml": `${SITE_URL}/rss.xml`,
     },
   },
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
 };
 
 export const viewport: Viewport = {

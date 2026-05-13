@@ -18,6 +18,10 @@ const footerSections = [
       { href: "/strength-training-recovery", label: "Recovery" },
       { href: "/lifting-with-injuries", label: "Injuries" },
       { href: "/wearables-and-strength-training", label: "Wearables" },
+      { href: "/free-strength-training-app-for-women", label: "Free App" },
+      { href: "/hrv-strength-training-app", label: "HRV App" },
+      { href: "/fitbod-alternative-for-women", label: "Fitbod Alternative" },
+      { href: "/hevy-alternative-for-strength-training", label: "Hevy Alternative" },
     ],
   },
   {
@@ -68,7 +72,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-border/80 pt-4 text-xs text-muted/80 md:mt-10 md:pt-5">
+        <div className="mt-8 border-t border-border/80 pt-4 text-xs text-muted md:mt-10 md:pt-5">
           <p>© 2026 Sundee Fundee. All rights reserved.</p>
         </div>
       </div>

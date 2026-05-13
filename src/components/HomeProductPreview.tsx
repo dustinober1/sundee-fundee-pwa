@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
 
 const screens = [
   {
@@ -38,12 +35,8 @@ const screens = [
   },
 ] as const;
 
-type ScreenKey = (typeof screens)[number]["key"];
-
 export function HomeProductPreview() {
-  const [active, setActive] = useState<ScreenKey>("dashboard");
-  const current =
-    screens.find((screen) => screen.key === active) ?? screens[0];
+  const current = screens[0];
 
   return (
     <div className="relative mx-auto w-full max-w-[460px]">
@@ -54,9 +47,9 @@ export function HomeProductPreview() {
             <p className="text-[0.65rem] font-medium uppercase tracking-[0.28em] text-orange">
               Actual app screen
             </p>
-            <h3 className="font-display mt-2 text-2xl font-semibold text-navy">
+            <p className="font-display mt-2 text-2xl font-semibold text-navy">
               {current.label}
-            </h3>
+            </p>
           </div>
           <span className="rounded-full border border-navy/10 bg-white px-3 py-1.5 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-muted">
             iPhone 16 Pro
@@ -80,7 +73,7 @@ export function HomeProductPreview() {
                 alt={current.alt}
                 width={1320}
                 height={2868}
-                priority={active === "dashboard"}
+                priority
                 sizes="(min-width: 1024px) 420px, 92vw"
                 className="h-auto w-full"
               />
@@ -90,27 +83,25 @@ export function HomeProductPreview() {
 
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
           {screens.map((screen) => {
-            const isActive = screen.key === active;
+            const isActive = screen.key === current.key;
 
             return (
-              <button
+              <span
                 key={screen.key}
-                type="button"
-                onClick={() => setActive(screen.key)}
-                className={`rounded-[1.15rem] border px-3 py-3 text-left transition ${
+                className={`rounded-[1.15rem] border px-3 py-3 text-left ${
                   isActive
                     ? "border-orange/30 bg-orange/10 shadow-[0_10px_25px_rgba(242,115,25,0.12)]"
-                    : "border-navy/10 bg-white hover:border-navy/20"
+                    : "border-navy/10 bg-white"
                 }`}
               >
-                <p
-                  className={`text-[0.65rem] font-medium uppercase tracking-[0.2em] ${
+                <span
+                  className={`block text-[0.65rem] font-medium uppercase tracking-[0.2em] ${
                     isActive ? "text-orange" : "text-muted"
                   }`}
                 >
                   {screen.label}
-                </p>
-              </button>
+                </span>
+              </span>
             );
           })}
         </div>

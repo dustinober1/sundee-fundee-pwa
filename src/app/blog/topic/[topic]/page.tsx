@@ -19,6 +19,8 @@ import {
 
 type Params = Promise<{ topic: string }>;
 
+export const dynamicParams = false;
+
 function isBlogTopicSlug(value: string): value is BlogTopicSlug {
   return BLOG_TOPICS.some((topic) => topic.slug === value);
 }
@@ -46,13 +48,13 @@ export async function generateMetadata({
       type: "website",
       url: `${SITE_URL}${topic.href}`,
       siteName: SITE_TITLE,
-      title: `${topic.label} Articles · Sundee Fundee`,
+      title: `${topic.label} Articles`,
       description: topic.description,
       images: [SITE_OG_IMAGE_PATH],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${topic.label} Articles · Sundee Fundee`,
+      title: `${topic.label} Articles`,
       description: topic.description,
       images: [SITE_OG_IMAGE_PATH],
     },
@@ -163,7 +165,7 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
                 href={topic.productHref}
                 className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-6 font-medium text-navy transition hover:border-navy"
               >
-                Learn more
+                Explore {topic.label.toLowerCase()}
               </Link>
               <AppStoreButtons utmCampaign="blog_topic" utmContent={topic.slug} />
             </div>
