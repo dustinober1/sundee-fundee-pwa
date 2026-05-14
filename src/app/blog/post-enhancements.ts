@@ -273,6 +273,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "ovulation-pain-strength-training": {
     articleIntent: "decision-guide",
   },
+  "period-fatigue-strength-training": {
+    articleIntent: "symptom-audit",
+  },
   "perimenopause-strength-training-programming": {
     articleIntent: "timeline",
   },
