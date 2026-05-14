@@ -264,6 +264,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "menstrual-cycle-recovery-metrics-wearables": {
     articleIntent: "metric-explainer",
   },
+  "missed-workouts-strength-training": {
+    articleIntent: "decision-guide",
+  },
   "one-rep-max-testing-timing-and-protocol": {
     articleIntent: "timeline",
   },
