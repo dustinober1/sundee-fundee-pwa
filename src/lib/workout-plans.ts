@@ -1,6 +1,6 @@
 export type WorkoutPlan = {
   slug: string;
-  appProgramId: string;
+  appProgramId: string | null;
   title: string;
   shortTitle: string;
   description: string;
@@ -14,6 +14,21 @@ export type WorkoutPlan = {
 };
 
 export const workoutPlans: WorkoutPlan[] = [
+  {
+    slug: "russian-squat-program",
+    appProgramId: null,
+    title: "6-Week Russian Squat Program",
+    shortTitle: "Russian Squat",
+    description:
+      "A printable six-week squat peaking block with the full classic session table, load-planning notes, and room to log your actual bar weight by hand.",
+    audience: "Experienced barbell lifters",
+    pages: 4,
+    weeks: "6 weeks",
+    workouts: "18 sessions",
+    equipment: "Squat rack + barbell",
+    pdfPath: "/workout-plans/6-week-russian-squat-program.pdf",
+    coverPath: "/workout-plans/6-week-russian-squat-program-cover.png",
+  },
   {
     slug: "first-margarita",
     appProgramId: "first-margarita",

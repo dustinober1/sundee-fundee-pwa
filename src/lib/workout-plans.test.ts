@@ -9,16 +9,23 @@ const v16AppProgramIds = new Set([
 ]);
 
 describe("workout plan catalog", () => {
-  it("matches the v1.6 app program catalog", () => {
-    expect(workoutPlans).toHaveLength(4);
-    expect(new Set(workoutPlans.map((plan) => plan.appProgramId))).toEqual(
-      v16AppProgramIds,
+  it("keeps app-linked plans aligned and allows web-only printables", () => {
+    expect(workoutPlans).toHaveLength(5);
+
+    const appLinkedIds = new Set(
+      workoutPlans
+        .map((plan) => plan.appProgramId)
+        .filter((planId): planId is string => planId !== null),
     );
 
+    expect(appLinkedIds).toEqual(v16AppProgramIds);
+
     for (const plan of workoutPlans) {
-      expect(v16AppProgramIds.has(plan.appProgramId)).toBe(true);
       expect(plan.pdfPath).toMatch(/^\/workout-plans\/.+\.pdf$/);
       expect(plan.coverPath).toMatch(/^\/workout-plans\/.+\.png$/);
+      if (plan.appProgramId !== null) {
+        expect(v16AppProgramIds.has(plan.appProgramId)).toBe(true);
+      }
     }
   });
 });
