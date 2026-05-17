@@ -279,6 +279,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "period-fatigue-strength-training": {
     articleIntent: "symptom-audit",
   },
+  "pms-bloating-strength-training": {
+    articleIntent: "checklist",
+  },
   "strength-training-when-you-have-a-cold": {
     articleIntent: "decision-guide",
   },
