@@ -240,6 +240,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "deload-week-sleep-soreness-training-history": {
     articleIntent: "decision-guide",
   },
+  "double-progression-strength-training-women": {
+    articleIntent: "protocol",
+  },
   "garmin-recovery-data-for-lifters": {
     articleIntent: "metric-explainer",
   },
