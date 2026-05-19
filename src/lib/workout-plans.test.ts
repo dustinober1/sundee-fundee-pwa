@@ -6,11 +6,12 @@ const v16AppProgramIds = new Set([
   "beginner-strength",
   "dumbbell-strength",
   "glutes-core-conditioning",
+  "100-push-ups",
 ]);
 
 describe("workout plan catalog", () => {
   it("keeps app-linked plans aligned and allows web-only printables", () => {
-    expect(workoutPlans).toHaveLength(5);
+    expect(workoutPlans).toHaveLength(6);
 
     const appLinkedIds = new Set(
       workoutPlans

@@ -15,6 +15,21 @@ export type WorkoutPlan = {
 
 export const workoutPlans: WorkoutPlan[] = [
   {
+    slug: "100-push-ups",
+    appProgramId: "100-push-ups",
+    title: "8-Week 100 Push-Ups Program",
+    shortTitle: "100 Push-Ups",
+    description:
+      "A bodyweight-only printable plan that builds push-up volume, shoulder balance, and trunk control toward one final max-rep test.",
+    audience: "Bodyweight endurance",
+    pages: 10,
+    weeks: "8 weeks",
+    workouts: "24 workouts",
+    equipment: "Bodyweight only",
+    pdfPath: "/workout-plans/8-week-100-push-ups-program.pdf",
+    coverPath: "/workout-plans/8-week-100-push-ups-program-cover.png",
+  },
+  {
     slug: "russian-squat-program",
     appProgramId: null,
     title: "6-Week Russian Squat Program",
