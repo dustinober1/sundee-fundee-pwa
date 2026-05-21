@@ -5,7 +5,7 @@ import { loadPosts, validateBlogPost } from "./posts";
 
 describe("blog content validation", () => {
   it("loads all blog posts with valid dates and interactive metadata", () => {
-    const loadedPosts = loadPosts({ todayIso: "2026-05-19" });
+    const loadedPosts = loadPosts({ todayIso: "2026-05-20" });
     const slugs = loadedPosts.map((post) => post.slug);
     const contentDir = path.join(process.cwd(), "src/app/blog/content");
     const expectedCount = fs
@@ -15,7 +15,7 @@ describe("blog content validation", () => {
     expect(loadedPosts).toHaveLength(expectedCount);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(
-      loadedPosts.flatMap((post) => validateBlogPost(post, "2026-05-19")),
+      loadedPosts.flatMap((post) => validateBlogPost(post, "2026-05-20")),
     ).toEqual([]);
     expect(slugs).toEqual(
       expect.arrayContaining([
@@ -31,21 +31,21 @@ describe("blog content validation", () => {
   });
 
   it("rejects a future publish date", () => {
-    const [post] = loadPosts({ todayIso: "2026-05-19" });
+    const [post] = loadPosts({ todayIso: "2026-05-20" });
     const invalidPost = {
       ...post,
-      publishedAt: "2026-05-20",
-      updatedAt: "2026-05-20",
+      publishedAt: "2026-05-21",
+      updatedAt: "2026-05-21",
     };
 
-    expect(validateBlogPost(invalidPost, "2026-05-19")).toContain(
-      "publishedAt 2026-05-20 cannot be after 2026-05-19",
+    expect(validateBlogPost(invalidPost, "2026-05-20")).toContain(
+      "publishedAt 2026-05-21 cannot be after 2026-05-20",
     );
   });
 
   it("keeps priority legacy articles substantial enough for search", () => {
     const postsBySlug = new Map(
-      loadPosts({ todayIso: "2026-05-19" }).map((post) => [post.slug, post]),
+      loadPosts({ todayIso: "2026-05-20" }).map((post) => [post.slug, post]),
     );
     const prioritySlugs = [
       "when-hrv-is-low-strength-training",
