@@ -5,7 +5,7 @@ import { loadPosts, validateBlogPost } from "./posts";
 
 describe("blog content validation", () => {
   it("loads all blog posts with valid dates and interactive metadata", () => {
-    const loadedPosts = loadPosts({ todayIso: "2026-05-20" });
+    const loadedPosts = loadPosts({ todayIso: "2026-05-21" });
     const slugs = loadedPosts.map((post) => post.slug);
     const contentDir = path.join(process.cwd(), "src/app/blog/content");
     const expectedCount = fs
@@ -15,13 +15,14 @@ describe("blog content validation", () => {
     expect(loadedPosts).toHaveLength(expectedCount);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(
-      loadedPosts.flatMap((post) => validateBlogPost(post, "2026-05-20")),
+      loadedPosts.flatMap((post) => validateBlogPost(post, "2026-05-21")),
     ).toEqual([]);
     expect(slugs).toEqual(
       expect.arrayContaining([
         "two-day-strength-training-plan-women",
         "choose-starting-weights-strength-training-women",
         "double-progression-strength-training-women",
+        "strength-training-after-bad-sleep",
         "stress-and-strength-training-recovery",
         "shoulder-pain-bench-press-modifications",
         "apple-watch-wrist-temperature-cycle-training",
@@ -31,21 +32,21 @@ describe("blog content validation", () => {
   });
 
   it("rejects a future publish date", () => {
-    const [post] = loadPosts({ todayIso: "2026-05-20" });
+    const [post] = loadPosts({ todayIso: "2026-05-21" });
     const invalidPost = {
       ...post,
-      publishedAt: "2026-05-21",
-      updatedAt: "2026-05-21",
+      publishedAt: "2026-05-22",
+      updatedAt: "2026-05-22",
     };
 
-    expect(validateBlogPost(invalidPost, "2026-05-20")).toContain(
-      "publishedAt 2026-05-21 cannot be after 2026-05-20",
+    expect(validateBlogPost(invalidPost, "2026-05-21")).toContain(
+      "publishedAt 2026-05-22 cannot be after 2026-05-21",
     );
   });
 
   it("keeps priority legacy articles substantial enough for search", () => {
     const postsBySlug = new Map(
-      loadPosts({ todayIso: "2026-05-20" }).map((post) => [post.slug, post]),
+      loadPosts({ todayIso: "2026-05-21" }).map((post) => [post.slug, post]),
     );
     const prioritySlugs = [
       "when-hrv-is-low-strength-training",
