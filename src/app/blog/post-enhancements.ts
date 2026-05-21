@@ -315,6 +315,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "sleep-quality-strength-training-gains": {
     articleIntent: "compare-options",
   },
+  "spotting-after-lifting-strength-training": {
+    articleIntent: "symptom-audit",
+  },
   "stress-and-strength-training-recovery": {
     articleIntent: "symptom-audit",
   },
