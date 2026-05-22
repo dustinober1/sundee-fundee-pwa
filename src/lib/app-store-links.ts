@@ -1,6 +1,7 @@
-import { APP_STORE_URL } from "./site";
+import { getSundeeApp, type SundeeAppSlug } from "./apps";
 
 type BuildAppStoreUrlOptions = {
+  appSlug?: SundeeAppSlug;
   campaign?: string;
   content?: string;
 };
@@ -18,8 +19,12 @@ function normalizeCampaignToken(parts: Array<string | undefined>) {
   return (normalized || "web").slice(0, MAX_CAMPAIGN_TOKEN_LENGTH);
 }
 
-export function buildAppStoreUrl({ campaign, content }: BuildAppStoreUrlOptions = {}) {
-  const url = new URL(APP_STORE_URL);
+export function buildAppStoreUrl({
+  appSlug = "sundee-fundee",
+  campaign,
+  content,
+}: BuildAppStoreUrlOptions = {}) {
+  const url = new URL(getSundeeApp(appSlug).appStoreUrl);
   url.searchParams.set("utm_source", "sundeefundee.com");
   url.searchParams.set("utm_medium", "web");
   url.searchParams.set("utm_term", "app_store");

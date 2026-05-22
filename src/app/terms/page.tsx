@@ -2,11 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { sundeeApps } from "@/lib/apps";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
   description:
-    "Terms covering the Sundee Fundee website, blog content, outbound links, and linked iOS apps.",
+    "Terms covering the Sundee Fundee website, blog content, outbound links, and Sundee iOS apps.",
   alternates: {
     canonical: "/terms",
   },
@@ -30,11 +31,11 @@ export default function TermsPage() {
             <h1 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
               Terms of Use
             </h1>
-            <p className="mt-4 text-muted">Effective date: April 19, 2026</p>
+            <p className="mt-4 text-muted">Effective date: May 22, 2026</p>
             <p className="mt-6 text-lg text-muted">
               These terms govern your use of the{" "}
               <strong className="text-navy">Sundee Fundee</strong> website, blog,
-              linked iOS apps, and related content or support services.
+              Sundee iOS apps, and related content or support services.
             </p>
           </div>
         </section>
@@ -57,9 +58,20 @@ export default function TermsPage() {
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 Sundee Fundee provides public website content, training-related
-                articles, outbound App Store links, and branded iOS fitness apps
-                when available.
+                articles, outbound App Store links, branded iOS fitness apps,
+                and small paid utility apps.
               </p>
+              <ul className="mt-5 space-y-3 text-muted">
+                {sundeeApps.map((app) => (
+                  <li key={app.slug} className="flex gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
+                    <span>
+                      <strong className="text-navy">{app.name}</strong>:{" "}
+                      {app.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </section>
 
             <section className="border-t border-border pt-10">
@@ -73,8 +85,10 @@ export default function TermsPage() {
                 <p className="mt-2 leading-relaxed text-muted">
                   Training guidance, educational material, and app features are
                   provided for informational and fitness purposes only. You are
-                  responsible for deciding whether any exercise, program, or
-                  recommendation is appropriate for you.
+                  responsible for deciding whether any exercise, route, ruck,
+                  program, or recommendation is appropriate for you. Stop if you
+                  feel pain, dizziness, or unsafe symptoms, and consult a
+                  qualified professional when needed.
                 </p>
               </div>
             </section>
@@ -99,7 +113,27 @@ export default function TermsPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                5. Intellectual Property
+                5. Utility App Disclaimers
+              </h2>
+              <div className="mt-4 space-y-4 leading-relaxed text-muted">
+                <p>
+                  Load That Bar provides plate-loading calculations for
+                  convenience. You are responsible for checking the bar, collars,
+                  plates, units, equipment condition, and gym safety before
+                  lifting.
+                </p>
+                <p>
+                  Sundee 3D Print Cost provides cost and quote estimates based on
+                  the inputs you enter. It does not guarantee actual material
+                  usage, print success, energy costs, labor costs, taxes, fees, or
+                  profit.
+                </p>
+              </div>
+            </section>
+
+            <section className="border-t border-border pt-10">
+              <h2 className="font-display text-2xl font-bold text-navy">
+                6. Intellectual Property
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 The Sundee Fundee name, branding, site content, design, and
@@ -110,23 +144,33 @@ export default function TermsPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                6. External Services and Purchases
+                7. External Services, Purchases, and Refunds
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 This site may link to the Apple App Store, affiliate retailers, or
                 other third-party services. Any purchase, download, or use of those
                 services is governed by the third party&apos;s own terms and policies.
               </p>
+              <p className="mt-4 leading-relaxed text-muted">
+                Paid downloads and any in-app purchases are processed by Apple.
+                Apple handles payment, tax, refund, Family Sharing, and account
+                rules for App Store purchases. Refund requests should be made
+                through Apple&apos;s purchase support flow.
+              </p>
             </section>
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                7. Privacy
+                8. Privacy and EULA
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 Your use of these services is also subject to our{" "}
                 <Link href="/privacy" className="text-orange hover:underline">
                   Privacy Policy
+                </Link>
+                {" "}and{" "}
+                <Link href="/eula" className="text-orange hover:underline">
+                  EULA
                 </Link>
                 .
               </p>
@@ -134,7 +178,7 @@ export default function TermsPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                8. Limitation of Liability
+                9. Limitation of Liability
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 To the fullest extent permitted by law, Sundee Fundee is not
@@ -146,7 +190,7 @@ export default function TermsPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                9. Disclaimer of Warranties
+                10. Disclaimer of Warranties
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 The services are provided &quot;as is&quot; and &quot;as available&quot; without
@@ -158,7 +202,7 @@ export default function TermsPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                10. Changes
+                11. Changes
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 We may update these terms from time to time. Continued use after an
@@ -168,7 +212,7 @@ export default function TermsPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                11. Contact
+                12. Contact
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 Questions about these terms can be sent to{" "}

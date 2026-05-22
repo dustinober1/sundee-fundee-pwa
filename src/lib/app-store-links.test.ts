@@ -62,4 +62,25 @@ describe("buildAppStoreUrl", () => {
     expect(url.searchParams.get("ct")).toHaveLength(30);
     expect(url.searchParams.get("mt")).toBe("11");
   });
+
+  it("builds attributed App Store URLs for side apps", async () => {
+    delete process.env.NEXT_PUBLIC_APP_STORE_PROVIDER_TOKEN;
+    delete process.env.NEXT_PUBLIC_APP_STORE_MEDIA_TYPE_TOKEN;
+    const { buildAppStoreUrl } = await loadModule();
+
+    const url = new URL(
+      buildAppStoreUrl({
+        appSlug: "load-that-bar",
+        campaign: "apps",
+        content: "side_card",
+      }),
+    );
+
+    expect(url.origin + url.pathname).toBe(
+      "https://apps.apple.com/us/app/load-that-bar/id6769888435",
+    );
+    expect(url.searchParams.get("utm_source")).toBe("sundeefundee.com");
+    expect(url.searchParams.get("utm_campaign")).toBe("apps");
+    expect(url.searchParams.get("utm_content")).toBe("side_card");
+  });
 });

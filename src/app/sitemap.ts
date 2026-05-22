@@ -94,6 +94,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: `${SITE_URL}/apps`,
+      lastModified: siteLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.55,
+    },
+    {
       url: `${SITE_URL}/science`,
       lastModified: siteLastModified,
       changeFrequency: "monthly" as const,

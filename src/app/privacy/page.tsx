@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { sundeeApps } from "@/lib/apps";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy information for the Sundee Fundee website, donations, and linked iOS apps.",
+    "Privacy information for the Sundee Fundee website, donations, and Sundee iOS apps.",
   alternates: {
     canonical: "/privacy",
   },
@@ -29,12 +31,12 @@ export default function PrivacyPage() {
             <h1 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
               Privacy Policy
             </h1>
-            <p className="mt-4 text-muted">Effective date: April 28, 2026</p>
+            <p className="mt-4 text-muted">Effective date: May 22, 2026</p>
             <p className="mt-6 text-lg text-muted">
               This policy explains how we handle information on the{" "}
               <strong className="text-navy">Sundee Fundee</strong> website,
-              blog, support inbox, donation flow, affiliate links, and the iOS
-              apps linked from this site.
+              blog, support inbox, donation flow, outbound links, and the
+              Sundee iOS apps linked from this site.
             </p>
           </div>
         </section>
@@ -43,7 +45,27 @@ export default function PrivacyPage() {
           <div className="mx-auto max-w-3xl space-y-12">
             <section>
               <h2 className="font-display text-2xl font-bold text-navy">
-                1. Information We Receive
+                1. Covered Apps
+              </h2>
+              <p className="mt-4 leading-relaxed text-muted">
+                This policy covers this website and the following Sundee apps:
+              </p>
+              <ul className="mt-5 space-y-3 text-muted">
+                {sundeeApps.map((app) => (
+                  <li key={app.slug} className="flex gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
+                    <span>
+                      <strong className="text-navy">{app.name}</strong>:{" "}
+                      {app.privacySummary}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="border-t border-border pt-10">
+              <h2 className="font-display text-2xl font-bold text-navy">
+                2. Information We Receive
               </h2>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
@@ -65,12 +87,33 @@ export default function PrivacyPage() {
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
-                iOS App Data
+                Sundee Fundee App Data
               </h3>
               <p className="mt-2 leading-relaxed text-muted">
-                If you use the Sundee Fundee iOS apps, we may process account,
-                training, recovery, or similar in-app data needed to provide those
-                app features.
+                Sundee Fundee may use health and fitness data, training logs,
+                recovery context, contact information, and account identifiers
+                needed to provide app features such as training plans, progress
+                tracking, account access, and sync.
+              </p>
+
+              <h3 className="mt-6 font-display text-lg font-semibold text-navy">
+                Sundee Ruck Tracker App Data
+              </h3>
+              <p className="mt-2 leading-relaxed text-muted">
+                Sundee Ruck Tracker may use health and fitness data, precise
+                location, contact information, and account identifiers to track
+                rucks, save workouts, support clubs and events, and provide app
+                functionality.
+              </p>
+
+              <h3 className="mt-6 font-display text-lg font-semibold text-navy">
+                Load That Bar and Sundee 3D Print Cost
+              </h3>
+              <p className="mt-2 leading-relaxed text-muted">
+                Load That Bar and Sundee 3D Print Cost do not collect personal
+                data in the app. Apple may process App Store purchase, download,
+                device, account, and refund information under Apple&apos;s own
+                terms and privacy policies.
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
@@ -86,14 +129,15 @@ export default function PrivacyPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                2. How We Use Information
+                3. How We Use Information
               </h2>
               <ul className="mt-4 space-y-2 text-muted">
                 {[
                   "Operate the public website, blog, and linked product pages",
                   "Process donations and related payment records",
                   "Respond to support, legal, or account-deletion requests",
-                  "Provide and maintain the linked iOS app features",
+                  "Provide and maintain the Sundee Fundee and Sundee Ruck Tracker app features",
+                  "Support paid App Store utility apps when users ask for help",
                   "Review aggregate referral or affiliate performance",
                 ].map((item) => (
                   <li key={item} className="flex gap-3">
@@ -106,7 +150,7 @@ export default function PrivacyPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                3. What We Do Not Do
+                4. What We Do Not Do
               </h2>
               <ul className="mt-4 space-y-2 text-muted">
                 {[
@@ -124,7 +168,7 @@ export default function PrivacyPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                4. Third-Party Services
+                5. Third-Party Services
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 This site uses third-party services including Stripe for
@@ -141,12 +185,13 @@ export default function PrivacyPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                5. Retention and Deletion
+                6. Retention and Deletion
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 We retain information for as long as it is reasonably needed to
-                operate the site, support the linked apps, resolve disputes, or
-                meet legal obligations.
+                operate the site, support the linked apps, process purchases or
+                donations through third-party providers, resolve disputes, or meet
+                legal obligations.
               </p>
               <p className="mt-4 leading-relaxed text-muted">
                 For deletion or privacy requests, contact{" "}
@@ -162,17 +207,34 @@ export default function PrivacyPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                6. Children&apos;s Privacy
+                7. Children&apos;s Privacy
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
-                Our services are not directed to children under 17, and we do not
+                Our services are not directed to children under 13, and we do not
                 knowingly collect personal information from children.
               </p>
             </section>
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                7. Changes to This Policy
+                8. App Terms and EULA
+              </h2>
+              <p className="mt-4 leading-relaxed text-muted">
+                Your use of the Sundee apps is also subject to our{" "}
+                <Link href="/terms" className="text-orange hover:underline">
+                  Terms
+                </Link>{" "}
+                and{" "}
+                <Link href="/eula" className="text-orange hover:underline">
+                  EULA
+                </Link>
+                .
+              </p>
+            </section>
+
+            <section className="border-t border-border pt-10">
+              <h2 className="font-display text-2xl font-bold text-navy">
+                9. Changes to This Policy
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 We may update this policy from time to time. When we do, we will
@@ -182,7 +244,7 @@ export default function PrivacyPage() {
 
             <section className="border-t border-border pt-10">
               <h2 className="font-display text-2xl font-bold text-navy">
-                8. Contact
+                10. Contact
               </h2>
               <p className="mt-4 leading-relaxed text-muted">
                 Questions about this policy can be sent to{" "}
