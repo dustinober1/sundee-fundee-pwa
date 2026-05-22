@@ -29,10 +29,12 @@ const footerSections = [
   {
     title: "Support",
     links: [
+      { href: "/apps", label: "Apps" },
       { href: "/donate", label: "Support" },
       { href: "/roadmap", label: "Roadmap" },
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms" },
+      { href: "/eula", label: "EULA" },
     ],
   },
 ] as const;
