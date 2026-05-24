@@ -261,6 +261,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "low-energy-availability-menstrual-cycle-strength-training": {
     articleIntent: "symptom-audit",
   },
+  "lift-weights-with-period-cramps": {
+    articleIntent: "decision-guide",
+  },
   "lower-back-pain-deadlift-modifications": {
     articleIntent: "checklist",
   },
