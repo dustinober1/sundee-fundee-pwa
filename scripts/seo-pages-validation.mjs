@@ -112,10 +112,16 @@ assert.match(blogTopicRoute, /dynamicParams\s*=\s*false/, "Blog topic route shou
 assert.match(blogTopicRoute, /getTopicHub/, "Blog topic route should render topic hub content");
 assert.match(blogTopicRoute, /relatedTools/, "Blog topic route should link related tools");
 assert.match(trainingToolsRegistry, /export const trainingTools/, "Training tool registry should export trainingTools");
+assert.match(trainingToolsRegistry, /calculateReadinessRecommendation/, "Training tool registry should export readiness recommendation logic");
+assert.match(trainingToolsRegistry, /calculateEstimatedOneRepMax/, "Training tool registry should export estimated one rep max logic");
+assert.match(trainingToolsRegistry, /classifyDeloadNeed/, "Training tool registry should export deload classification logic");
 assert.match(toolsIndexRoute, /trainingTools\.map/, "Tools index route should render registered tools");
 assert.match(toolDetailRoute, /generateStaticParams/, "Tool detail route should statically generate registered tools");
 assert.match(toolDetailRoute, /dynamicParams\s*=\s*false/, "Tool detail route should 404 unknown tool slugs");
 assert.match(toolDetailRoute, /getTrainingTool/, "Tool detail route should load tools from the registry");
+assert.match(toolDetailRoute, /buildWebPageJsonLd/, "Tool detail route should emit WebPage schema");
+assert.match(toolDetailRoute, /buildSoftwareApplicationJsonLd/, "Tool detail route should emit SoftwareApplication schema");
+assert.match(toolDetailRoute, /ReadinessScoreCalculator/, "Tool detail route should render the readiness calculator component");
 assert.match(workoutPlanRoute, /generateStaticParams/, "Workout plan detail route should statically generate plan pages");
 assert.match(workoutPlanRoute, /dynamicParams\s*=\s*false/, "Workout plan detail route should 404 unknown plan slugs");
 assert.match(workoutPlanRoute, /buildFaqPageJsonLd/, "Workout plan detail route should emit FAQPage schema");

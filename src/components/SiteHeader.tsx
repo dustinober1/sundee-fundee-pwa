@@ -52,6 +52,13 @@ export function SiteHeader({
         Blog
       </Link>
       <Link
+        href="/tools"
+        onClick={() => setOpen(false)}
+        className="text-sm font-medium text-navy hover:opacity-70"
+      >
+        Tools
+      </Link>
+      <Link
         href="/science"
         onClick={() => setOpen(false)}
         className="text-sm font-medium text-navy hover:opacity-70"
