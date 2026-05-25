@@ -50,7 +50,7 @@ export type SeoPage = {
   ogImage?: string;
 };
 
-export const SEO_PAGES_LAST_MODIFIED = "2026-05-13";
+export const SEO_PAGES_LAST_MODIFIED = "2026-05-24";
 
 const recoveryRelated: SeoPageLink[] = [
   {

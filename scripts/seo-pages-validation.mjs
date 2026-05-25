@@ -56,7 +56,32 @@ const proxy = read("src/proxy.ts");
 const toolsIndexRoute = read("src/app/tools/page.tsx");
 const toolDetailRoute = read("src/app/tools/[tool]/page.tsx");
 const trainingToolsRegistry = read("src/lib/training-tools.ts");
-const seoPageQualityTest = read("src/lib/seo-pages-quality.test.ts");
+
+const highIntentSlugs = [
+  "best-strength-training-app-for-women",
+  "best-apple-health-strength-training-app",
+  "strength-training-app-alternatives",
+  "best-recovery-strength-training-app",
+  "free-strength-training-app-for-women",
+  "strength-training-log-for-women",
+  "hrv-strength-training-app",
+  "fitbod-alternative-for-women",
+  "hevy-alternative-for-strength-training",
+  "readiness-score-strength-training",
+  "cycle-based-strength-training",
+  "injury-friendly-workout-planner",
+  "strength-training-pr-tracker",
+  "deload-week-planner",
+];
+
+function getSeoPageBlock(slug) {
+  const slugToken = `slug: "${slug}"`;
+  const start = registry.indexOf(slugToken);
+  assert.notEqual(start, -1, `${slug} missing from SEO registry`);
+
+  const nextStart = registry.indexOf('\n  {\n    slug: "', start + slugToken.length);
+  return registry.slice(start, nextStart === -1 ? undefined : nextStart);
+}
 
 for (const slug of expectedSlugs) {
   assert.match(registry, new RegExp(`slug: "${slug}"`), `${slug} missing from SEO registry`);
@@ -67,9 +92,17 @@ assert.match(registry, /comparisonRows\?: SeoPageComparisonRow\[]/, "SEO registr
 assert.match(registry, /workflowSteps\?: SeoPageWorkflowStep\[]/, "SEO registry should support workflow steps");
 assert.match(registry, /proofBlocks\?: SeoPageProofBlock\[]/, "SEO registry should support proof blocks");
 assert.match(registry, /relatedTools\?: SeoPageLink\[]/, "SEO registry should support related tool links");
-assert.match(seoPageQualityTest, /adds rich sections to all high-intent comparison and feature pages/, "SEO page quality test should enforce rich sections across high-intent comparison and feature pages");
+assert.match(registry, /export const SEO_PAGES_LAST_MODIFIED = "2026-05-24"/, "SEO page last-modified date should reflect the richer SEO page update");
+for (const slug of highIntentSlugs) {
+  const block = getSeoPageBlock(slug);
+  assert.match(block, /comparisonRows:\s*comparisonRows\(/, `${slug} should define comparison rows`);
+  assert.match(block, /workflowSteps:\s*workflowSteps\(/, `${slug} should define workflow steps`);
+  assert.match(block, /proofBlocks:\s*proofBlocks\(/, `${slug} should define proof blocks`);
+  assert.match(block, /relatedTools:\s*\[/, `${slug} should link at least one related tool`);
+}
 assert.match(route, /generateStaticParams/, "SEO route should statically generate registry pages");
 assert.match(route, /dynamicParams\s*=\s*false/, "SEO route should 404 unknown slugs");
+assert.match(route, /title:\s*page\.title/, "SEO route metadata should use the query-targeted page title");
 assert.match(route, /page\.comparisonRows\.map/, "SEO route should render comparison rows");
 assert.match(route, /page\.workflowSteps\.map/, "SEO route should render workflow steps");
 assert.match(route, /page\.proofBlocks\.map/, "SEO route should render proof blocks");
@@ -92,6 +125,8 @@ assert.match(workoutPlanRoute, /url:\s*absoluteUrl\(plan\.pdfPath\)/, "Workout p
 assert.match(route, /buildFaqPageJsonLd/, "SEO route should emit FAQPage schema");
 assert.match(route, /buildWebPageJsonLd/, "SEO route should emit page-specific WebPage schema");
 assert.match(route, /buildItemListJsonLd/, "SEO route should emit ItemList schema for hubs");
+assert.match(route, /openGraph:\s*{[\s\S]*title:\s*page\.title/, "SEO route Open Graph metadata should use the page title");
+assert.match(route, /twitter:\s*{[\s\S]*title:\s*page\.title/, "SEO route Twitter metadata should use the page title");
 assert.match(sitemap, /seoPages/, "Sitemap should include SEO registry pages");
 assert.match(sitemap, /trainingTools/, "Sitemap should include training tool routes");
 assert.match(sitemap, /workoutPlans/, "Sitemap should include workout plan detail routes");

@@ -35,7 +35,7 @@ export async function generateMetadata({
   const ogImage = page.ogImage ?? SITE_OG_IMAGE_PATH;
 
   return {
-    title: page.eyebrow,
+    title: page.title,
     description: page.description,
     alternates: {
       canonical: `/${page.slug}`,
@@ -44,13 +44,13 @@ export async function generateMetadata({
       type: "website",
       url,
       siteName: SITE_TITLE,
-      title: page.eyebrow,
+      title: page.title,
       description: page.description,
       images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
-      title: page.eyebrow,
+      title: page.title,
       description: page.description,
       images: [ogImage],
     },
