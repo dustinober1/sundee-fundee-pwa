@@ -67,7 +67,7 @@ assert.match(registry, /comparisonRows\?: SeoPageComparisonRow\[]/, "SEO registr
 assert.match(registry, /workflowSteps\?: SeoPageWorkflowStep\[]/, "SEO registry should support workflow steps");
 assert.match(registry, /proofBlocks\?: SeoPageProofBlock\[]/, "SEO registry should support proof blocks");
 assert.match(registry, /relatedTools\?: SeoPageLink\[]/, "SEO registry should support related tool links");
-assert.match(seoPageQualityTest, /adds rich sections to the priority high-intent SEO pages/, "SEO page quality test should enforce priority page richness");
+assert.match(seoPageQualityTest, /adds rich sections to all high-intent comparison and feature pages/, "SEO page quality test should enforce rich sections across high-intent comparison and feature pages");
 assert.match(route, /generateStaticParams/, "SEO route should statically generate registry pages");
 assert.match(route, /dynamicParams\s*=\s*false/, "SEO route should 404 unknown slugs");
 assert.match(route, /page\.comparisonRows\.map/, "SEO route should render comparison rows");

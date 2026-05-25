@@ -446,6 +446,48 @@ export const seoPages: SeoPage[] = [
       "Use this guide to understand where recovery-aware planning fits among generic strength training app options.",
     ),
     faqs: faq("a strength training app alternative"),
+    comparisonRows: comparisonRows(
+      [
+        "Primary value",
+        "Centers the training decision itself so the app helps when you need to push, repeat, modify, or recover.",
+        "Usually specializes in either logging or exercise libraries, leaving the daily decision to you.",
+      ],
+      [
+        "Recovery awareness",
+        "Brings readiness, soreness, and pain flags into the same workflow as the plan.",
+        "May track workouts well but keep recovery context outside the logic of the session.",
+      ],
+      [
+        "Fit for changing weeks",
+        "Keeps the block coherent when sleep, stress, schedule, or symptoms force a different version of the workout.",
+        "Can work well on stable weeks but become brittle when the original plan no longer fits the day.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Define what problem the app must solve",
+        "Decide whether you need a logbook, a program library, or a planner that can reinterpret the day before you compare categories.",
+      ],
+      [
+        "Compare the decision layer",
+        "Check whether each app actually helps with push, hold, modify, or recover choices instead of only recording completed work.",
+      ],
+      [
+        "Choose the app that matches unstable weeks",
+        "If recovery and constraints change often, favor the option that keeps the plan useful when the calendar version no longer makes sense.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "This route already frames the category split clearly",
+        "The page distinguishes workout logs, libraries, habit trackers, and adaptive planners, which is the right semantic frame for an alternatives page.",
+      ],
+      [
+        "The linked cluster reinforces the planning position",
+        "Its related links already point into recovery-aware and women-focused decision pages, so the richer comparison content stays aligned with the existing internal linking.",
+      ],
+    ),
+    relatedTools: [readinessToolLink],
     related: [
       { href: "/best-strength-training-app-for-women", label: "Best strength app for women", description: "A category guide for women who lift." },
       { href: "/best-recovery-strength-training-app", label: "Best recovery strength app", description: "Compare recovery-aware training features." },
@@ -927,6 +969,48 @@ export const seoPages: SeoPage[] = [
       "Use this page if you want cycle-aware training that stays practical and individualized.",
     ),
     faqs: faq("cycle-based strength training"),
+    comparisonRows: comparisonRows(
+      [
+        "How phase information is used",
+        "Uses cycle phase as one planning clue that can support but not dominate the workout decision.",
+        "Often treats phase labels as a rulebook that predicts performance too rigidly.",
+      ],
+      [
+        "Relationship to daily readiness",
+        "Keeps symptoms, sleep, stress, and soreness in the same conversation as phase context.",
+        "Can separate cycle tracking from the broader recovery picture and miss what the athlete feels today.",
+      ],
+      [
+        "Programming flexibility",
+        "Allows normal progression when the athlete feels good and conservative changes when symptoms or recovery say otherwise.",
+        "May pre-write the whole month around phases even when lived experience does not match the template.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Look for your own repeating patterns",
+        "Use cycle tracking to notice whether certain phases or symptoms reliably affect training, not to assume a universal rule applies.",
+      ],
+      [
+        "Cross-check with daily recovery",
+        "Compare phase context to sleep, soreness, and motivation so you can tell whether the day really needs a change.",
+      ],
+      [
+        "Adjust only what the day requires",
+        "Change volume, movement selection, or expectations when symptoms matter, and keep the plan intact when they do not.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "The page already rejects rigid rules",
+        "Its base copy explicitly says cycle context should support strength programming without overruling lived experience, which makes the richer gate semantically appropriate.",
+      ],
+      [
+        "The surrounding women-focused pages match the same stance",
+        "Internal links across the cycle-aware cluster consistently favor conservative, individualized use over deterministic phase promises.",
+      ],
+    ),
+    relatedTools: [cycleToolLink],
     related: womenRelated,
     priority: 0.78,
   },
@@ -1009,6 +1093,48 @@ export const seoPages: SeoPage[] = [
       "Use this page if you want tracking that supports training decisions instead of turning every session into a scoreboard.",
     ),
     faqs: faq("a strength training PR tracker"),
+    comparisonRows: comparisonRows(
+      [
+        "What a PR tracker measures",
+        "Keeps records tied to readiness and session quality so progress is interpreted in context.",
+        "Usually records the number cleanly but leaves the athlete to remember why that day succeeded or failed.",
+      ],
+      [
+        "Testing versus training",
+        "Supports the idea that PRs are part of a block and should be judged against recovery and program timing.",
+        "Can make every heavy day feel like a scoreboard event rather than one step in the training process.",
+      ],
+      [
+        "Usefulness for next-session planning",
+        "Helps decide whether to repeat, progress, or back off after a big lift based on the full workout story.",
+        "Shows historical highs but offers little help interpreting what the next session should do with them.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Log the record with context",
+        "Capture whether the PR happened on a well-recovered day, after a reduced session, or during a fatigued week so the number stays meaningful.",
+      ],
+      [
+        "Separate progress from impulse testing",
+        "Review whether the record fits the plan or whether you are testing too often relative to recovery and block quality.",
+      ],
+      [
+        "Use the PR to guide the next block",
+        "Let the result shape future loading, repetition targets, or readiness expectations instead of celebrating it in isolation.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "This page already positions PRs inside the training story",
+        "The current copy says records matter beside readiness and consistency, which makes the richer quality gate a good semantic fit.",
+      ],
+      [
+        "Related routes support context-rich progress tracking",
+        "Its internal links already connect PRs to program planning and recovery-aware progression rather than to pure max-chasing.",
+      ],
+    ),
+    relatedTools: [oneRepMaxToolLink],
     related: [
       { href: "/strength-training-app-alternatives", label: "Strength app alternatives", description: "Compare planning and logging app categories." },
       { href: "/beginner-strength-training-plan", label: "Beginner strength plan", description: "Build progress with simple structure." },
@@ -1033,6 +1159,48 @@ export const seoPages: SeoPage[] = [
       "Use this page to think through deloads as part of long-term strength progress.",
     ),
     faqs: faq("a deload week planner"),
+    comparisonRows: comparisonRows(
+      [
+        "How a deload is triggered",
+        "Uses readiness, fatigue trends, and repeated performance friction to decide when a lighter week belongs.",
+        "Often waits until motivation crashes or the athlete guesses a deload is overdue.",
+      ],
+      [
+        "What changes during the week",
+        "Frames deloads around lower stress while preserving technique work and training rhythm.",
+        "Can reduce work vaguely without showing how volume, intensity, or exercise choice should shift.",
+      ],
+      [
+        "Relationship to the broader block",
+        "Treats the deload as part of long-term progression instead of as a detour or punishment.",
+        "May position the deload as a reset button with little connection to the block that created the fatigue.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Watch for accumulated fatigue",
+        "Review readiness dips, soreness, motivation, and repeated performance stalls before deciding whether the block needs lower stress.",
+      ],
+      [
+        "Plan the deload structure",
+        "Choose how to cut volume, intensity, or exercise demand while keeping the week useful for technique and habit continuity.",
+      ],
+      [
+        "Use the lighter week to set up the next push",
+        "Treat the deload as a bridge into the next productive training block, not as an isolated week with no carryover.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "The route already defines deloads as a training tool",
+        "Its existing copy says a deload is not a punishment, which supports a richer feature gate centered on deliberate fatigue management.",
+      ],
+      [
+        "Recovery-aware internal links keep it grounded",
+        "The page already points into readiness and recovery resources that explain why and when a lighter week should happen.",
+      ],
+    ),
+    relatedTools: [deloadToolLink, readinessToolLink],
     related: [
       { href: "/blog/deload-week-programming-strength-training", label: "Deload week programming", description: "A deeper guide to deload timing." },
       { href: "/readiness-score-strength-training", label: "Readiness score", description: "Use readiness to time training changes." },
