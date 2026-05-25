@@ -897,7 +897,7 @@ export const seoPages: SeoPage[] = [
     eyebrow: "Readiness Score",
     title: "Readiness score for strength training decisions",
     description:
-      "Use readiness context to decide when to push, repeat, modify, or pull back in strength training.",
+      "Use readiness context, sleep, soreness, stress, and training history to decide when to push, repeat, modify, or pull back in strength training.",
     intro:
       "A readiness score is most useful when it changes what you do in the gym. For strength training, that means connecting recovery context to load, volume, exercise choice, and expectations for the day.",
     sections: sections(
@@ -1021,7 +1021,7 @@ export const seoPages: SeoPage[] = [
     eyebrow: "Injury-Friendly Workout Planner",
     title: "Injury-friendly workout planner for conservative training choices",
     description:
-      "Plan workouts around pain flags and limitations while keeping training decisions conservative and organized.",
+      "Plan workouts around pain flags, movement limits, and substitution needs while keeping training decisions conservative, organized, and easier to repeat.",
     intro:
       "An injury-friendly workout planner should not promise to fix pain. Its job is to help you organize training choices when a movement, joint, or pattern needs extra caution.",
     sections: sections(
@@ -1149,7 +1149,7 @@ export const seoPages: SeoPage[] = [
     eyebrow: "Deload Week Planner",
     title: "Deload week planner for strength training",
     description:
-      "Use readiness, performance trends, and training stress to plan deload weeks without guessing.",
+      "Use readiness, performance trends, soreness, and training stress to plan deload weeks without guessing or waiting for performance to stall.",
     intro:
       "A deload week is a training tool, not a punishment. The right planner helps you reduce stress at the right time while keeping the habit and technique work intact.",
     sections: sections(
@@ -1436,7 +1436,7 @@ export const seoPages: SeoPage[] = [
     eyebrow: "Recovery Hub",
     title: "Strength training recovery guides and app resources",
     description:
-      "A hub for recovery-aware strength training, readiness scores, deload weeks, HRV, sleep, and workout planning.",
+      "A hub for recovery-aware strength training, readiness scores, deload timing, HRV, sleep, soreness, and workout planning that stays practical.",
     intro:
       "Recovery is one of the most useful lenses for strength training because it connects the plan on paper to the athlete doing the work today.",
     sections: sections(
@@ -1517,7 +1517,7 @@ export const seoPages: SeoPage[] = [
     eyebrow: "Wearables and Strength Training",
     title: "Wearables and strength training: Apple Health, HRV, and readiness",
     description:
-      "A hub for using wearable recovery data in strength training without letting metrics replace judgment.",
+      "A hub for using wearable recovery data in strength training without letting metrics replace judgment, training history, or real-world recovery context.",
     intro:
       "Wearables can be useful for strength training when they provide context for recovery and consistency. They are less useful when every metric becomes a rule.",
     sections: sections(

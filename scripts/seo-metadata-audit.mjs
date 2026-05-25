@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+import vm from "node:vm";
+import ts from "typescript";
 
 const root = process.cwd();
-const genericTitles = new Set(["Blog", "FAQ", "Apps", "Roadmap"]);
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), "utf8");
@@ -12,60 +13,153 @@ function fail(message) {
   throw new Error(message);
 }
 
-function scoreTitle(title) {
-  const normalized = title.trim();
-  const issues = [];
+function loadTsModule(relativePath) {
+  const source = read(relativePath);
+  const { outputText } = ts.transpileModule(source, {
+    compilerOptions: {
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2022,
+    },
+    fileName: relativePath,
+  });
 
-  if (genericTitles.has(normalized)) issues.push("generic");
-  if (normalized.length < 30) issues.push("too short");
-  if (normalized.length > 70) issues.push("too long");
-
-  return {
-    ok: issues.length === 0,
-    issues,
-    length: normalized.length,
+  const module = { exports: {} };
+  const context = {
+    module,
+    exports: module.exports,
+    require(specifier) {
+      fail(`Unexpected runtime dependency while loading ${relativePath}: ${specifier}`);
+    },
   };
+
+  vm.runInNewContext(outputText, context, { filename: relativePath });
+  return module.exports;
 }
 
-function scoreDescription(description) {
-  const normalized = description.trim();
-  const issues = [];
-
-  if (normalized.length < 110) issues.push("too short");
-  if (normalized.length > 170) issues.push("too long");
-
-  return {
-    ok: issues.length === 0,
-    issues,
-    length: normalized.length,
-  };
+function createSource(relativePath, scriptKind) {
+  return ts.createSourceFile(
+    relativePath,
+    read(relativePath),
+    ts.ScriptTarget.Latest,
+    true,
+    scriptKind,
+  );
 }
 
-function assertLiteralAbsent(source, literal, context) {
-  if (source.includes(literal)) {
-    fail(`${context} still contains generic metadata literal ${literal}.`);
-  }
-}
-
-function getRequiredMatch(source, pattern, context) {
-  const match = source.match(pattern);
-
-  if (!match) {
-    fail(`Could not find ${context}.`);
+function getPropertyName(name) {
+  if (ts.isIdentifier(name) || ts.isStringLiteral(name)) {
+    return name.text;
   }
 
-  return match[1];
+  return null;
 }
 
-function auditMetadata(label, title, description) {
-  const titleResult = scoreTitle(title);
+function unwrapExpression(expression) {
+  let current = expression;
+
+  while (
+    ts.isAsExpression(current) ||
+    ts.isTypeAssertionExpression(current) ||
+    ts.isParenthesizedExpression(current) ||
+    ts.isSatisfiesExpression(current)
+  ) {
+    current = current.expression;
+  }
+
+  return current;
+}
+
+function getStringLiteralValue(expression) {
+  const value = unwrapExpression(expression);
+
+  if (ts.isStringLiteral(value) || ts.isNoSubstitutionTemplateLiteral(value)) {
+    return value.text;
+  }
+
+  return null;
+}
+
+function getObjectProperty(objectLiteral, propertyName) {
+  for (const property of objectLiteral.properties) {
+    if (!ts.isPropertyAssignment(property)) continue;
+    if (getPropertyName(property.name) !== propertyName) continue;
+    return property.initializer;
+  }
+
+  return null;
+}
+
+function getExportedConstObject(sourceFile, exportName) {
+  for (const statement of sourceFile.statements) {
+    if (!ts.isVariableStatement(statement)) continue;
+    const hasExport = statement.modifiers?.some(
+      (modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+    );
+    if (!hasExport) continue;
+
+    for (const declaration of statement.declarationList.declarations) {
+      if (!ts.isIdentifier(declaration.name)) continue;
+      if (declaration.name.text !== exportName || !declaration.initializer) continue;
+
+      const value = unwrapExpression(declaration.initializer);
+      if (!ts.isObjectLiteralExpression(value)) {
+        fail(`${exportName} must be an object literal.`);
+      }
+
+      return value;
+    }
+  }
+
+  fail(`Could not find exported const ${exportName}.`);
+}
+
+function getExportedConstArray(sourceFile, exportName) {
+  for (const statement of sourceFile.statements) {
+    if (!ts.isVariableStatement(statement)) continue;
+    const hasExport = statement.modifiers?.some(
+      (modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+    );
+    if (!hasExport) continue;
+
+    for (const declaration of statement.declarationList.declarations) {
+      if (!ts.isIdentifier(declaration.name)) continue;
+      if (declaration.name.text !== exportName || !declaration.initializer) continue;
+
+      const value = unwrapExpression(declaration.initializer);
+      if (!ts.isArrayLiteralExpression(value)) {
+        fail(`${exportName} must be an array literal.`);
+      }
+
+      return value;
+    }
+  }
+
+  fail(`Could not find exported const ${exportName}.`);
+}
+
+function getRequiredString(objectLiteral, propertyName, context) {
+  const initializer = getObjectProperty(objectLiteral, propertyName);
+  if (!initializer) {
+    fail(`${context} is missing ${propertyName}.`);
+  }
+
+  const value = getStringLiteralValue(initializer);
+  if (value === null) {
+    fail(`${context} ${propertyName} must be a string literal.`);
+  }
+
+  return value;
+}
+
+function auditMetadata(label, title, description, scoring) {
+  const titleResult = scoring.scoreTitle(title);
   if (!titleResult.ok) {
     fail(
       `${label} title failed metadata audit (${titleResult.issues.join(", ")}): "${title}"`,
     );
   }
 
-  const descriptionResult = scoreDescription(description);
+  const descriptionResult = scoring.scoreMetaDescription(description);
   if (!descriptionResult.ok) {
     fail(
       `${label} description failed metadata audit (${descriptionResult.issues.join(", ")}): "${description}"`,
@@ -73,77 +167,68 @@ function auditMetadata(label, title, description) {
   }
 }
 
-const blogPage = read("src/app/blog/page.tsx");
-const blogTopicPage = read("src/app/blog/topic/[topic]/page.tsx");
-const topicHubs = read("src/lib/topic-hubs.ts");
-const seoPages = read("src/lib/seo-pages.ts");
+const scoring = loadTsModule("src/lib/metadata-quality.ts");
+const blogPageSource = createSource("src/app/blog/page.tsx", ts.ScriptKind.TSX);
+const topicHubSource = createSource("src/lib/topic-hubs.ts", ts.ScriptKind.TS);
+const seoPagesSource = createSource("src/lib/seo-pages.ts", ts.ScriptKind.TS);
 
-assertLiteralAbsent(blogPage, 'title: "Blog"', "Blog index");
-assertLiteralAbsent(blogPage, 'title: "FAQ"', "Blog index");
-assertLiteralAbsent(blogPage, 'title: "Apps"', "Blog index");
-if (!/title:\s*hub\.metaTitle/.test(blogTopicPage)) {
-  fail("Blog topic route metadata should use hub.metaTitle.");
-}
-
-if (!/description:\s*hub\.metaDescription/.test(blogTopicPage)) {
-  fail("Blog topic route metadata should use hub.metaDescription.");
-}
-
-if (/title:\s*`\$\{topic\.label\} Articles`/.test(blogTopicPage)) {
-  fail("Blog topic route metadata still uses a generic topic title.");
-}
-
+const blogMetadata = getExportedConstObject(blogPageSource, "metadata");
 auditMetadata(
   "Blog index",
-  getRequiredMatch(blogPage, /title: "([^"]+)"/, "blog metadata title"),
-  getRequiredMatch(
-    blogPage,
-    /description:\s*"([^"]+)"/,
-    "blog metadata description",
-  ),
+  getRequiredString(blogMetadata, "title", "Blog metadata"),
+  getRequiredString(blogMetadata, "description", "Blog metadata"),
+  scoring,
 );
 
-const topicTitles = [...topicHubs.matchAll(/metaTitle: "([^"]+)"/g)].map(
-  (match) => match[1],
-);
-const topicDescriptions = [
-  ...topicHubs.matchAll(/metaDescription:\s*"([^"]+)"/g),
-].map((match) => match[1]);
+const topicHubEntries = getExportedConstArray(topicHubSource, "topicHubs").elements
+  .map((element) => unwrapExpression(element))
+  .filter(ts.isObjectLiteralExpression)
+  .map((hub) => ({
+    slug: getRequiredString(hub, "slug", "Topic hub"),
+    title: getRequiredString(hub, "metaTitle", "Topic hub"),
+    description: getRequiredString(hub, "metaDescription", "Topic hub"),
+  }));
 
-if (topicTitles.length === 0 || topicDescriptions.length === 0) {
+if (topicHubEntries.length === 0) {
   fail("Topic hub metadata definitions are missing.");
 }
 
-if (topicTitles.length !== topicDescriptions.length) {
-  fail("Topic hub metadata title/description counts do not match.");
+for (const hub of topicHubEntries) {
+  auditMetadata(`Topic hub ${hub.slug}`, hub.title, hub.description, scoring);
 }
 
-topicTitles.forEach((title, index) => {
-  auditMetadata(`Topic hub ${index + 1}`, title, topicDescriptions[index]);
-});
+const seoPageEntries = getExportedConstArray(seoPagesSource, "seoPages").elements
+  .map((element) => unwrapExpression(element))
+  .filter(ts.isObjectLiteralExpression)
+  .map((page) => {
+    const slug = getRequiredString(page, "slug", "SEO page");
+    const titleInitializer =
+      getObjectProperty(page, "metaTitle") ?? getObjectProperty(page, "title");
 
-const seoPageEntries = [
-  ...seoPages.matchAll(
-    /slug: "([^"]+)"[\s\S]*?\n\s+(?:metaTitle|title): "([^"]+)"/g,
-  ),
-].map((match) => ({
-  slug: match[1],
-  title: match[2],
-}));
+    if (!titleInitializer) {
+      fail(`SEO page ${slug} is missing title metadata.`);
+    }
+
+    const title = getStringLiteralValue(titleInitializer);
+    if (title === null) {
+      fail(`SEO page ${slug} title metadata must be a string literal.`);
+    }
+
+    return {
+      slug,
+      title,
+      description: getRequiredString(page, "description", `SEO page ${slug}`),
+    };
+  });
 
 if (seoPageEntries.length === 0) {
   fail("No SEO page metadata entries were found.");
 }
 
 for (const entry of seoPageEntries) {
-  const result = scoreTitle(entry.title);
-  if (!result.ok) {
-    fail(
-      `SEO page ${entry.slug} has weak metadata title (${result.issues.join(", ")}): "${entry.title}"`,
-    );
-  }
+  auditMetadata(`SEO page ${entry.slug}`, entry.title, entry.description, scoring);
 }
 
 console.log(
-  `Metadata audit passed for blog index, ${topicTitles.length} topic hubs, and ${seoPageEntries.length} SEO pages.`,
+  `Metadata audit passed for blog index, ${topicHubEntries.length} topic hubs, and ${seoPageEntries.length} SEO pages.`,
 );
