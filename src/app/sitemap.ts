@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { postModifiedAt, posts } from "./blog/posts";
 import { SITE_URL } from "@/lib/site";
 import { SEO_PAGES_LAST_MODIFIED, seoPages } from "@/lib/seo-pages";
+import { trainingTools } from "@/lib/training-tools";
 import { BLOG_TOPICS } from "./blog/taxonomy";
 
 function toDate(iso: string) {
@@ -37,6 +38,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.65,
     }),
   );
+  const toolEntries: MetadataRoute.Sitemap = trainingTools.map(
+    (tool): MetadataRoute.Sitemap[number] => ({
+      url: `${SITE_URL}${tool.href}`,
+      lastModified: siteLastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    }),
+  );
 
   const entries: MetadataRoute.Sitemap = [
     {
@@ -62,6 +71,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
       priority: 0.85,
+    },
+    {
+      url: `${SITE_URL}/tools`,
+      lastModified: siteLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     },
     {
       url: `${SITE_URL}/for-women-who-lift`,
@@ -119,6 +134,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...seoPageEntries,
     ...topicEntries,
+    ...toolEntries,
     ...postEntries,
   ];
 

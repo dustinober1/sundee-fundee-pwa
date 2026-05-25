@@ -52,6 +52,9 @@ const blogPostRoute = read("src/app/blog/[slug]/page.tsx");
 const blogTopicRoute = read("src/app/blog/topic/[topic]/page.tsx");
 const science = read("src/app/science/page.tsx");
 const proxy = read("src/proxy.ts");
+const toolsIndexRoute = read("src/app/tools/page.tsx");
+const toolDetailRoute = read("src/app/tools/[tool]/page.tsx");
+const trainingToolsRegistry = read("src/lib/training-tools.ts");
 
 for (const slug of expectedSlugs) {
   assert.match(registry, new RegExp(`slug: "${slug}"`), `${slug} missing from SEO registry`);
@@ -62,10 +65,19 @@ assert.match(route, /generateStaticParams/, "SEO route should statically generat
 assert.match(route, /dynamicParams\s*=\s*false/, "SEO route should 404 unknown slugs");
 assert.match(blogPostRoute, /dynamicParams\s*=\s*false/, "Blog post route should 404 unknown slugs");
 assert.match(blogTopicRoute, /dynamicParams\s*=\s*false/, "Blog topic route should 404 unknown topics");
+assert.match(blogTopicRoute, /getTopicHub/, "Blog topic route should render topic hub content");
+assert.match(blogTopicRoute, /relatedTools/, "Blog topic route should link related tools");
+assert.match(trainingToolsRegistry, /export const trainingTools/, "Training tool registry should export trainingTools");
+assert.match(toolsIndexRoute, /trainingTools\.map/, "Tools index route should render registered tools");
+assert.match(toolDetailRoute, /generateStaticParams/, "Tool detail route should statically generate registered tools");
+assert.match(toolDetailRoute, /dynamicParams\s*=\s*false/, "Tool detail route should 404 unknown tool slugs");
+assert.match(toolDetailRoute, /getTrainingTool/, "Tool detail route should load tools from the registry");
 assert.match(route, /buildFaqPageJsonLd/, "SEO route should emit FAQPage schema");
 assert.match(route, /buildWebPageJsonLd/, "SEO route should emit page-specific WebPage schema");
 assert.match(route, /buildItemListJsonLd/, "SEO route should emit ItemList schema for hubs");
 assert.match(sitemap, /seoPages/, "Sitemap should include SEO registry pages");
+assert.match(sitemap, /trainingTools/, "Sitemap should include training tool routes");
+assert.match(sitemap, /`\$\{SITE_URL\}\/tools`/, "Sitemap should include the tools index route");
 for (const path of ["/science", "/roadmap", "/donate"]) {
   assert.match(sitemap, new RegExp(`\\$\\{SITE_URL\\}${path}`), `Sitemap should include ${path}`);
 }

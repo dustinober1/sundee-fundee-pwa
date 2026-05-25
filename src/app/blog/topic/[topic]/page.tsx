@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { INTERACTIVE_TYPE_LABELS } from "@/app/blog/discovery";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd } from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
+import { getTopicHub } from "@/lib/topic-hubs";
 import { formatDate, posts } from "../../posts";
 import {
   BLOG_TOPICS,
@@ -38,9 +39,10 @@ export async function generateMetadata({
   if (!isBlogTopicSlug(topicParam)) return {};
 
   const topic = getBlogTopic(topicParam);
+  const hub = getTopicHub(topic.slug);
   return {
-    title: `${topic.label} Articles`,
-    description: topic.description,
+    title: hub.metaTitle,
+    description: hub.metaDescription,
     alternates: {
       canonical: topic.href,
     },
@@ -48,14 +50,14 @@ export async function generateMetadata({
       type: "website",
       url: `${SITE_URL}${topic.href}`,
       siteName: SITE_TITLE,
-      title: `${topic.label} Articles`,
-      description: topic.description,
+      title: hub.metaTitle,
+      description: hub.metaDescription,
       images: [SITE_OG_IMAGE_PATH],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${topic.label} Articles`,
-      description: topic.description,
+      title: hub.metaTitle,
+      description: hub.metaDescription,
       images: [SITE_OG_IMAGE_PATH],
     },
   };
@@ -66,6 +68,7 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
   if (!isBlogTopicSlug(topicParam)) notFound();
 
   const topic = getBlogTopic(topicParam);
+  const hub = getTopicHub(topic.slug);
   const topicPosts = getTopicPosts(posts, topic.slug);
   const url = `${SITE_URL}${topic.href}`;
 
@@ -78,6 +81,13 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
             { name: "Blog", url: `${SITE_URL}/blog` },
             { name: topic.label, url },
           ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: hub.title,
+            url,
+            description: hub.metaDescription,
+          },
           buildItemListJsonLd(
             `${topic.label} Articles`,
             topicPosts.map((post) => ({
@@ -108,6 +118,96 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
             <p className="mt-6 max-w-2xl text-lg text-muted">
               {topic.description}
             </p>
+            <p className="mt-8 max-w-3xl text-base leading-8 text-muted">
+              {hub.intro}
+            </p>
+          </div>
+        </section>
+
+        <section className="px-6 pb-12">
+          <div className="mx-auto max-w-4xl">
+            <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+              <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                Start here
+              </p>
+              <div className="mt-6 grid gap-4 md:grid-cols-3">
+                {hub.startHereLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-xl border border-border bg-white p-5 transition hover:border-navy"
+                  >
+                    <h2 className="font-display text-xl font-semibold text-navy">
+                      {link.label}
+                    </h2>
+                    <p className="mt-3 text-sm text-muted">{link.description}</p>
+                    <p className="mt-4 text-sm font-medium text-orange">
+                      Read article →
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-6 pb-12">
+          <div className="mx-auto grid max-w-4xl gap-6">
+            {hub.sections.map((section) => (
+              <article
+                key={section.title}
+                className="rounded-2xl border border-border bg-surface p-6 sm:p-8"
+              >
+                <h2 className="font-display text-3xl font-semibold text-navy">
+                  {section.title}
+                </h2>
+                <div className="mt-4 grid gap-4 text-base leading-8 text-muted">
+                  {section.body.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="px-6 pb-12">
+          <div className="mx-auto grid max-w-4xl gap-6 lg:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+              <h2 className="font-display text-2xl font-semibold text-navy">
+                Related SEO pages
+              </h2>
+              <div className="mt-5 grid gap-4">
+                {hub.relatedSeoPages.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-xl border border-border bg-white p-5 transition hover:border-navy"
+                  >
+                    <h3 className="text-lg font-semibold text-navy">{link.label}</h3>
+                    <p className="mt-2 text-sm text-muted">{link.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8">
+              <h2 className="font-display text-2xl font-semibold text-navy">
+                Related tools
+              </h2>
+              <div className="mt-5 grid gap-4">
+                {hub.relatedTools.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-xl border border-border bg-white p-5 transition hover:border-navy"
+                  >
+                    <h3 className="text-lg font-semibold text-navy">{link.label}</h3>
+                    <p className="mt-2 text-sm text-muted">{link.description}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -153,16 +253,18 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
 
         <section className="bg-surface px-6 py-16">
           <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+              {hub.productCta.eyebrow}
+            </p>
             <h2 className="font-display text-3xl font-bold text-navy sm:text-4xl">
-              Put the topic into your next session.
+              {hub.productCta.title}
             </h2>
             <p className="mt-4 text-muted">
-              Read the guide, then use the app when recovery, pain, or schedule
-              changes make the original plan wrong.
+              {hub.productCta.body}
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link
-                href={topic.productHref}
+                href={hub.productCta.href}
                 className="inline-flex h-12 items-center justify-center rounded-lg border border-border px-6 font-medium text-navy transition hover:border-navy"
               >
                 Explore {topic.label.toLowerCase()}
