@@ -3,6 +3,7 @@ import { postModifiedAt, posts } from "./blog/posts";
 import { SITE_URL } from "@/lib/site";
 import { SEO_PAGES_LAST_MODIFIED, seoPages } from "@/lib/seo-pages";
 import { trainingTools } from "@/lib/training-tools";
+import { workoutPlans } from "@/lib/workout-plans";
 import { BLOG_TOPICS } from "./blog/taxonomy";
 
 function toDate(iso: string) {
@@ -44,6 +45,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: siteLastModified,
       changeFrequency: "monthly",
       priority: 0.6,
+    }),
+  );
+  const workoutPlanEntries: MetadataRoute.Sitemap = workoutPlans.map(
+    (plan): MetadataRoute.Sitemap[number] => ({
+      url: `${SITE_URL}/workout-plans/${plan.slug}`,
+      lastModified: siteLastModified,
+      changeFrequency: "monthly",
+      priority: 0.78,
     }),
   );
 
@@ -135,6 +144,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...seoPageEntries,
     ...topicEntries,
     ...toolEntries,
+    ...workoutPlanEntries,
     ...postEntries,
   ];
 

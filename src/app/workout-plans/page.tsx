@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -69,8 +70,8 @@ export default function WorkoutPlansPage() {
             "Printable Strength Plans",
             workoutPlans.map((plan) => ({
               name: plan.title,
-              url: absoluteUrl(plan.pdfPath),
-              description: plan.description,
+              url: absoluteUrl(`/workout-plans/${plan.slug}`),
+              description: plan.landingDescription,
             })),
           ),
           buildFaqPageJsonLd(faqItems),
@@ -201,9 +202,14 @@ export default function WorkoutPlansPage() {
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange">
                       {plan.audience}
                     </p>
-                    <h3 className="font-display mt-3 text-2xl font-semibold text-navy">
-                      {plan.title}
-                    </h3>
+                    <Link
+                      href={`/workout-plans/${plan.slug}`}
+                      className="group mt-3 block"
+                    >
+                      <h3 className="font-display text-2xl font-semibold text-navy transition group-hover:text-orange">
+                        {plan.title}
+                      </h3>
+                    </Link>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {[`${plan.pages} pages`, plan.weeks, plan.equipment].map(
                         (item) => (
@@ -219,13 +225,21 @@ export default function WorkoutPlansPage() {
                     <p className="mt-4 flex-1 text-sm leading-7 text-muted">
                       {plan.description}
                     </p>
-                    <a
-                      href={plan.pdfPath}
-                      download
-                      className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-orange px-6 font-medium text-cream transition hover:opacity-90"
-                    >
-                      Download {plan.shortTitle} PDF
-                    </a>
+                    <div className="mt-6 flex flex-col gap-3">
+                      <Link
+                        href={`/workout-plans/${plan.slug}`}
+                        className="inline-flex h-12 items-center justify-center rounded-lg border border-border bg-surface px-6 text-center font-medium text-navy transition hover:border-orange/50 hover:text-orange"
+                      >
+                        View {plan.shortTitle} plan details
+                      </Link>
+                      <a
+                        href={plan.pdfPath}
+                        download
+                        className="inline-flex h-12 items-center justify-center rounded-lg bg-orange px-6 font-medium text-cream transition hover:opacity-90"
+                      >
+                        Download {plan.shortTitle} PDF
+                      </a>
+                    </div>
                   </div>
                 </article>
               ))}

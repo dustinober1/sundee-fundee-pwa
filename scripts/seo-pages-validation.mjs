@@ -50,6 +50,7 @@ const donate = read("src/app/donate/page.tsx");
 const jsonLd = read("src/components/JsonLd.tsx");
 const blogPostRoute = read("src/app/blog/[slug]/page.tsx");
 const blogTopicRoute = read("src/app/blog/topic/[topic]/page.tsx");
+const workoutPlanRoute = read("src/app/workout-plans/[plan]/page.tsx");
 const science = read("src/app/science/page.tsx");
 const proxy = read("src/proxy.ts");
 const toolsIndexRoute = read("src/app/tools/page.tsx");
@@ -72,11 +73,17 @@ assert.match(toolsIndexRoute, /trainingTools\.map/, "Tools index route should re
 assert.match(toolDetailRoute, /generateStaticParams/, "Tool detail route should statically generate registered tools");
 assert.match(toolDetailRoute, /dynamicParams\s*=\s*false/, "Tool detail route should 404 unknown tool slugs");
 assert.match(toolDetailRoute, /getTrainingTool/, "Tool detail route should load tools from the registry");
+assert.match(workoutPlanRoute, /generateStaticParams/, "Workout plan detail route should statically generate plan pages");
+assert.match(workoutPlanRoute, /dynamicParams\s*=\s*false/, "Workout plan detail route should 404 unknown plan slugs");
+assert.match(workoutPlanRoute, /buildFaqPageJsonLd/, "Workout plan detail route should emit FAQPage schema");
+assert.match(workoutPlanRoute, /buildItemListJsonLd/, "Workout plan detail route should emit ItemList schema");
 assert.match(route, /buildFaqPageJsonLd/, "SEO route should emit FAQPage schema");
 assert.match(route, /buildWebPageJsonLd/, "SEO route should emit page-specific WebPage schema");
 assert.match(route, /buildItemListJsonLd/, "SEO route should emit ItemList schema for hubs");
 assert.match(sitemap, /seoPages/, "Sitemap should include SEO registry pages");
 assert.match(sitemap, /trainingTools/, "Sitemap should include training tool routes");
+assert.match(sitemap, /workoutPlans/, "Sitemap should include workout plan detail routes");
+assert.match(sitemap, /`\$\{SITE_URL\}\/workout-plans\/\$\{plan\.slug\}`/, "Sitemap should include the workout plan detail route family");
 assert.match(sitemap, /`\$\{SITE_URL\}\/tools`/, "Sitemap should include the tools index route");
 for (const path of ["/science", "/roadmap", "/donate"]) {
   assert.match(sitemap, new RegExp(`\\$\\{SITE_URL\\}${path}`), `Sitemap should include ${path}`);
