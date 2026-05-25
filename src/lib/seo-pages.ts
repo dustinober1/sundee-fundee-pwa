@@ -16,6 +16,22 @@ export type SeoPageFaq = {
   answer: string;
 };
 
+export type SeoPageComparisonRow = {
+  feature: string;
+  sundeeFundee: string;
+  typicalAlternative: string;
+};
+
+export type SeoPageWorkflowStep = {
+  title: string;
+  body: string;
+};
+
+export type SeoPageProofBlock = {
+  title: string;
+  body: string;
+};
+
 export type SeoPage = {
   slug: string;
   kind: SeoPageKind;
@@ -26,6 +42,10 @@ export type SeoPage = {
   sections: SeoPageSection[];
   faqs: SeoPageFaq[];
   related: SeoPageLink[];
+  comparisonRows?: SeoPageComparisonRow[];
+  workflowSteps?: SeoPageWorkflowStep[];
+  proofBlocks?: SeoPageProofBlock[];
+  relatedTools?: SeoPageLink[];
   priority: number;
   ogImage?: string;
 };
@@ -124,6 +144,36 @@ const wearableRelated: SeoPageLink[] = [
   },
 ];
 
+const readinessToolLink: SeoPageLink = {
+  href: "/tools/readiness-score-calculator",
+  label: "Readiness Score Calculator",
+  description: "Translate sleep, soreness, stress, and illness into a practical training adjustment.",
+};
+
+const deloadToolLink: SeoPageLink = {
+  href: "/tools/deload-week-planner",
+  label: "Deload Week Planner",
+  description: "Use recovery debt and performance trends to plan a lighter training week.",
+};
+
+const cycleToolLink: SeoPageLink = {
+  href: "/tools/cycle-symptom-workout-modifier",
+  label: "Cycle Symptom Workout Modifier",
+  description: "Turn cramps, fatigue, bloating, or spotting into session-specific strength adjustments.",
+};
+
+const oneRepMaxToolLink: SeoPageLink = {
+  href: "/tools/one-rep-max-readiness-checklist",
+  label: "One-Rep Max Readiness Checklist",
+  description: "Check whether the current block and recovery state support max testing.",
+};
+
+const rpeRirToolLink: SeoPageLink = {
+  href: "/tools/rpe-rir-chart",
+  label: "RPE / RIR Chart",
+  description: "Use a stable effort target reference when load needs to change inside the workout.",
+};
+
 function faq(topic: string): SeoPageFaq[] {
   return [
     {
@@ -188,6 +238,28 @@ function sections(
   ];
 }
 
+function comparisonRows(
+  ...rows: [feature: string, sundeeFundee: string, typicalAlternative: string][]
+): SeoPageComparisonRow[] {
+  return rows.map(([feature, sundeeFundee, typicalAlternative]) => ({
+    feature,
+    sundeeFundee,
+    typicalAlternative,
+  }));
+}
+
+function workflowSteps(
+  ...steps: [title: string, body: string][]
+): SeoPageWorkflowStep[] {
+  return steps.map(([title, body]) => ({ title, body }));
+}
+
+function proofBlocks(
+  ...blocks: [title: string, body: string][]
+): SeoPageProofBlock[] {
+  return blocks.map(([title, body]) => ({ title, body }));
+}
+
 export const seoPages: SeoPage[] = [
   {
     slug: "best-strength-training-app-for-women",
@@ -228,6 +300,48 @@ export const seoPages: SeoPage[] = [
       },
     ],
     faqs: faq("a strength training app for women"),
+    comparisonRows: comparisonRows(
+      [
+        "Daily training decision",
+        "Uses readiness, pain flags, optional cycle context, and training history to decide whether to push, hold, modify, or recover.",
+        "Often defaults to a fixed workout or a generic recommendation without showing how recovery changes the day.",
+      ],
+      [
+        "Women-specific context",
+        "Keeps cycle information optional, private, and connected to the same workout decision as soreness and sleep.",
+        "May ignore cycle context entirely or turn it into rigid phase rules that override lived experience.",
+      ],
+      [
+        "Progress tracking",
+        "Links workout notes, lift history, and conservative substitutions so progress still makes sense after a modified day.",
+        "Tracks sets and reps but loses the context for why a session changed or why progress stalled.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Check the day before you lift",
+        "Review recovery signals, symptoms, and schedule pressure so the app starts from the real training day instead of the calendar alone.",
+      ],
+      [
+        "Choose the session version that fits",
+        "Use the recommendation to keep the main lift, reduce stress, or swap a movement while preserving the larger goal of the block.",
+      ],
+      [
+        "Log what actually happened",
+        "Capture the session outcome, what changed, and how it felt so the next workout learns from real context rather than guesswork.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Recovery-aware by design",
+        "The core product pages in this site repeatedly tie readiness, pain flags, and optional cycle context to the next workout instead of treating them as disconnected metrics.",
+      ],
+      [
+        "Built for private health context",
+        "The copy across the women-focused pages consistently frames cycle data as optional and on-device, which matches the app's privacy-first positioning.",
+      ],
+    ),
+    relatedTools: [readinessToolLink, cycleToolLink],
     related: womenRelated,
     priority: 0.95,
   },
@@ -270,6 +384,48 @@ export const seoPages: SeoPage[] = [
       },
     ],
     faqs: faq("an Apple Health strength training app"),
+    comparisonRows: comparisonRows(
+      [
+        "Apple Health signal use",
+        "Uses Apple Health trends as context for the lifting decision instead of surfacing raw metrics with no action.",
+        "Reads data passively or highlights single metrics without showing how they should alter the workout.",
+      ],
+      [
+        "Recovery interpretation",
+        "Treats HRV, sleep, and resting heart rate as one layer beside soreness, stress, and the warm-up.",
+        "Overweights one wearable signal or assumes the same recovery threshold applies to every athlete.",
+      ],
+      [
+        "Privacy posture",
+        "Frames health data as permissioned, limited, and useful only when it improves training choices.",
+        "Collects lots of data but gives little clarity about why each metric matters to the session.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Pull in the useful signals",
+        "Review HRV, sleep, resting heart rate, and activity trends from Apple Health before deciding how aggressive the session should be.",
+      ],
+      [
+        "Compare the data to how you feel",
+        "Pair wearable data with soreness, stress, and the feel of the warm-up so the app does not force a decision from one number.",
+      ],
+      [
+        "Adjust the lifting plan",
+        "Keep the session intent when recovery is solid, or reduce volume and intensity when the combined signals point to a lower ceiling.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Apple ecosystem fit",
+        "This page family already connects Apple Health, HRV, and readiness topics through internal links, which gives the route a coherent recovery-aware user journey.",
+      ],
+      [
+        "Practical metric framing",
+        "The surrounding wearable pages consistently explain that data is only valuable when it changes a real training choice, not when it becomes a dashboard hobby.",
+      ],
+    ),
+    relatedTools: [readinessToolLink],
     related: wearableRelated,
     priority: 0.92,
   },
@@ -314,6 +470,48 @@ export const seoPages: SeoPage[] = [
       "Use this page to evaluate whether recovery-aware training is the right app category for your lifting style.",
     ),
     faqs: faq("a recovery strength training app"),
+    comparisonRows: comparisonRows(
+      [
+        "What a recovery score does",
+        "Turns recovery context into a clear session recommendation that still preserves the workout's purpose.",
+        "Shows a score or color without explaining what should change in load, volume, or exercise selection.",
+      ],
+      [
+        "Inputs considered",
+        "Blends wearable signals with soreness, stress, pain flags, illness, and recent training history.",
+        "Relies on one metric or ignores subjective feedback that often explains why the session feels off.",
+      ],
+      [
+        "Long-term planning",
+        "Uses repeated low-readiness patterns to prompt lighter sessions or a deload conversation.",
+        "Treats every day in isolation and leaves fatigue management up to memory.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Score the day's recovery context",
+        "Review the signals that matter most before training so you know whether the planned workload still fits the athlete.",
+      ],
+      [
+        "Choose the right stress level",
+        "Hold the heavy day when readiness is there, or shift to technical work, lower volume, or reduced loads when it is not.",
+      ],
+      [
+        "Watch the weekly pattern",
+        "Use the repeated trend to decide whether one lighter day is enough or whether the block needs a deliberate deload week.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Recovery is tied to action",
+        "Across the recovery cluster, the site consistently positions readiness as a way to change the session, not as content-free motivation.",
+      ],
+      [
+        "Fatigue management stays in scope",
+        "The linked deload and readiness resources reinforce that lower-readiness decisions should still serve the longer block instead of becoming random easy days.",
+      ],
+    ),
+    relatedTools: [readinessToolLink, deloadToolLink],
     related: recoveryRelated,
     priority: 0.84,
   },
@@ -334,6 +532,48 @@ export const seoPages: SeoPage[] = [
       "Use this page if you are comparing free strength apps and want the no-subscription option to still be serious enough for long-term lifting.",
     ),
     faqs: faq("a free strength training app for women"),
+    comparisonRows: comparisonRows(
+      [
+        "Free plan value",
+        "Keeps core training decisions, logging, and context visible without hiding the useful parts behind a paywall.",
+        "May allow basic logging for free but reserve adaptive decisions or history behind a subscription upsell.",
+      ],
+      [
+        "Training context",
+        "Still connects readiness, pain flags, and optional cycle context to the next workout even at the free tier.",
+        "Offers a free logbook but little support for deciding what to do when the day changes.",
+      ],
+      [
+        "Long-term sustainability",
+        "Uses donation support messaging rather than pressure-heavy upgrade prompts around every workout.",
+        "Can make the app feel free at first while turning serious use into recurring friction.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Start with the free workflow",
+        "Log the planned session, your current recovery context, and any symptoms that could change the day's training ceiling.",
+      ],
+      [
+        "Use the recommendation without leaving the app",
+        "Let the app suggest whether the session should stay as written, scale back, or change a movement without gating the decision behind a paywall.",
+      ],
+      [
+        "Support what you actually use",
+        "If the free workflow helps, use the donation route as a voluntary way to keep the no-subscription model alive.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Free-positioning is explicit",
+        "The page already links directly to the donation page and describes the no-subscription model, which makes the promise concrete instead of implied.",
+      ],
+      [
+        "Adaptive features stay central",
+        "Even on the free-app route, the content emphasizes readiness and context rather than lowering the bar to a generic exercise list.",
+      ],
+    ),
+    relatedTools: [cycleToolLink],
     related: [
       { href: "/donate", label: "Support the free app", description: "Help keep the app free without subscriptions or ads." },
       { href: "/best-strength-training-app-for-women", label: "Best strength app for women", description: "Compare the wider app category." },
@@ -359,6 +599,48 @@ export const seoPages: SeoPage[] = [
       "Use this guide if you want a training log that supports decisions instead of becoming a separate admin task after the workout.",
     ),
     faqs: faq("a strength training log for women"),
+    comparisonRows: comparisonRows(
+      [
+        "What gets logged",
+        "Captures sets, reps, load, readiness, pain notes, and optional cycle context in one workout record.",
+        "Usually stores exercise numbers well but leaves out the context that explains why the session changed.",
+      ],
+      [
+        "Usefulness of notes",
+        "Keeps notes attached to the exact session so the next workout can build on what happened.",
+        "Allows notes in theory, but they are easy to ignore or too detached from the lift history to shape the next session.",
+      ],
+      [
+        "Decision support",
+        "Treats the log as the memory for future planning, not just as a retrospective archive.",
+        "Acts as a record of completed work without helping you interpret the next workout.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Record the baseline session",
+        "Enter the main lift, accessory work, and current readiness so the numbers are attached to the state you trained in.",
+      ],
+      [
+        "Annotate anything that changed",
+        "Keep pain flags, swaps, and cycle or stress context with the workout so later progress reviews still make sense.",
+      ],
+      [
+        "Use the log to shape the next day",
+        "Review the session history before training again so progression and modifications build from actual evidence instead of memory.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "The log is not separated from planning",
+        "This route already frames logging as part of the training decision, which matches the product's adaptive planning position.",
+      ],
+      [
+        "Useful history matters more than volume of fields",
+        "The copy emphasizes quick entry and retained context, which is the right signal for a log users will actually keep current.",
+      ],
+    ),
+    relatedTools: [readinessToolLink],
     related: [
       { href: "/strength-training-pr-tracker", label: "Strength PR tracker", description: "Connect records to training history." },
       { href: "/free-strength-training-app-for-women", label: "Free strength app", description: "Compare the no-subscription option." },
@@ -384,6 +666,48 @@ export const seoPages: SeoPage[] = [
       "Use this page if wearable recovery data is part of your lifting routine and you want it to become actionable without becoming the coach.",
     ),
     faqs: faq("an HRV strength training app"),
+    comparisonRows: comparisonRows(
+      [
+        "How HRV is treated",
+        "Uses HRV as one readiness input inside a broader strength decision.",
+        "Can act as if one low HRV reading should cancel or rewrite the entire training week.",
+      ],
+      [
+        "Trend awareness",
+        "Looks at HRV patterns beside sleep and soreness rather than overreacting to daily noise.",
+        "Highlights a raw number but leaves the lifter to guess whether it is meaningful today.",
+      ],
+      [
+        "Session adjustment",
+        "Helps choose between normal training, technique work, lower volume, or a more conservative day.",
+        "May label readiness as low without explaining what should happen to the actual workout.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Check the trend, not only the reading",
+        "Review whether HRV is part of a broader recovery dip before you decide the day is compromised.",
+      ],
+      [
+        "Pair HRV with subjective check-ins",
+        "Compare the number to soreness, motivation, sleep, and the warm-up so the recommendation stays grounded.",
+      ],
+      [
+        "Make a conservative lift choice",
+        "Use the combined context to preserve the intent of the session while lowering the training cost when needed.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "HRV is framed as signal, not oracle",
+        "The existing wearable cluster already warns against single-metric thinking, which keeps this page aligned with credible recovery guidance.",
+      ],
+      [
+        "Actionable use beats dashboard obsession",
+        "This route consistently points back to readiness and session planning, which is the clearest way to make HRV matter to lifters.",
+      ],
+    ),
+    relatedTools: [readinessToolLink],
     related: [
       { href: "/blog/when-hrv-is-low-strength-training", label: "When HRV is low", description: "What to change before lifting." },
       { href: "/readiness-score-strength-training", label: "Readiness score", description: "Use recovery context in the daily decision." },
@@ -409,6 +733,48 @@ export const seoPages: SeoPage[] = [
       "Use this comparison when Fitbod-style generation feels too generic and you want a women-focused strength workflow with stronger context.",
     ),
     faqs: faq("a Fitbod alternative for women"),
+    comparisonRows: comparisonRows(
+      [
+        "Workout generation logic",
+        "Starts with the day's readiness and constraints before deciding what workout version fits.",
+        "Commonly emphasizes exercise generation and variety more than recovery-specific decision making.",
+      ],
+      [
+        "Women-specific context",
+        "Makes optional cycle-aware adjustments part of the same daily planning flow as readiness and soreness.",
+        "May offer a broad audience workflow with less room for women's recovery patterns or privacy needs.",
+      ],
+      [
+        "Handling pain or fatigue",
+        "Keeps substitutions and stress reduction tied to the larger plan so changes stay coherent.",
+        "Can swap exercises, but the logic may feel generic when pain flags or fatigue alter the session.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Start from the training goal",
+        "Check whether the day is supposed to build strength, accumulate volume, or preserve the habit before choosing any generated workout.",
+      ],
+      [
+        "Layer in recovery and symptoms",
+        "Use readiness, soreness, and optional cycle context to decide whether the original session still fits or needs a lower-cost version.",
+      ],
+      [
+        "Review the log after the session",
+        "Make sure the app keeps the reason for any swap or reduction visible so future workouts stay consistent with the block.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Alternative positioning is specific",
+        "This page already differentiates itself from generic workout generation by centering recovery-aware planning instead of pure exercise variety.",
+      ],
+      [
+        "Women-focused context stays visible",
+        "The surrounding women-who-lift routes reinforce why optional cycle context and conservative adjustments matter in the comparison.",
+      ],
+    ),
+    relatedTools: [cycleToolLink],
     related: [
       { href: "/strength-training-app-alternatives", label: "Strength app alternatives", description: "Compare logging, planning, and adaptive app types." },
       { href: "/best-strength-training-app-for-women", label: "Best strength app for women", description: "See the broader selection criteria." },
@@ -433,6 +799,48 @@ export const seoPages: SeoPage[] = [
       "Use this page if you like the idea of simple logging but want a strength app that also helps interpret the day in front of you.",
     ),
     faqs: faq("a Hevy alternative for strength training"),
+    comparisonRows: comparisonRows(
+      [
+        "Primary job of the app",
+        "Combines logging with a decision layer that helps interpret whether the session should push, hold, or scale back.",
+        "Often excels as a logger first, with less help when the main question is what version of the workout to do today.",
+      ],
+      [
+        "Recovery context",
+        "Keeps readiness, pain flags, and recent training history visible before the first work set.",
+        "May require the athlete to remember all the surrounding context outside the app.",
+      ],
+      [
+        "Progress review",
+        "Connects the performance record to why changes happened, which makes trends easier to trust.",
+        "Tracks numbers cleanly but can leave modified sessions looking disconnected from the broader plan.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Check whether today's issue is logging or planning",
+        "Decide if you simply need a place to record numbers or if you also need help interpreting a lower-readiness day.",
+      ],
+      [
+        "Use context before you load the bar",
+        "Review training history, soreness, and recovery so the session is adapted before a questionable top set forces the issue.",
+      ],
+      [
+        "Preserve the paper trail",
+        "Log the final session version with the reason for any adjustment so future progression decisions stay grounded.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "The comparison is category-aware",
+        "This route clearly distinguishes logging from adaptive planning, which is the most useful frame for someone comparing Hevy-style tools.",
+      ],
+      [
+        "Decision support is treated as the differentiator",
+        "The copy already points to readiness and planning support as the product difference, so richer proof sections fit the existing message.",
+      ],
+    ),
+    relatedTools: [readinessToolLink],
     related: [
       { href: "/strength-training-log-for-women", label: "Strength training log", description: "Track sessions with context." },
       { href: "/strength-training-pr-tracker", label: "PR tracker", description: "Keep records connected to training decisions." },
@@ -457,6 +865,48 @@ export const seoPages: SeoPage[] = [
       "Use this guide to understand how readiness can support strength training without turning every day into a pass-fail test.",
     ),
     faqs: faq("a readiness score for strength training"),
+    comparisonRows: comparisonRows(
+      [
+        "Role of the score",
+        "Acts as a starting point for load, volume, and exercise decisions in the gym.",
+        "Often becomes a disconnected score that feels interesting but does not guide the workout clearly.",
+      ],
+      [
+        "Inputs behind the recommendation",
+        "Includes both objective recovery data and subjective check-ins that lifters already use intuitively.",
+        "May rely on a narrow metric set and ignore the athlete's actual feel during the warm-up.",
+      ],
+      [
+        "Interpretation style",
+        "Leaves room for judgment while still offering a conservative next step.",
+        "Can imply a pass-fail verdict that makes the athlete feel ruled by the score.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Capture the inputs that move readiness",
+        "Review sleep, soreness, stress, illness, and recent training before you accept the planned workload.",
+      ],
+      [
+        "Translate the score into a session option",
+        "Decide whether the day should stay heavy, become technical, lose some volume, or switch to a recovery-oriented version.",
+      ],
+      [
+        "Re-check during the warm-up",
+        "Use bar speed, pain flags, and perceived effort to confirm the recommendation before the hardest work starts.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "The route keeps readiness connected to lifting",
+        "The page's existing copy already insists that a readiness score is only useful when it changes gym behavior, which is the right credibility signal.",
+      ],
+      [
+        "Judgment remains part of the system",
+        "The surrounding recovery pages repeatedly stress that readiness should guide rather than dominate, which keeps the claim set practical.",
+      ],
+    ),
+    relatedTools: [readinessToolLink],
     related: recoveryRelated,
     priority: 0.78,
   },
@@ -497,6 +947,48 @@ export const seoPages: SeoPage[] = [
       "Use this page to understand how app-based planning can support safer organization around limitations.",
     ),
     faqs: faq("an injury-friendly workout planner"),
+    comparisonRows: comparisonRows(
+      [
+        "How pain changes the session",
+        "Keeps pain flags visible and uses them to adjust exercise selection, volume, or intensity conservatively.",
+        "May offer notes fields but leave the athlete to invent a modification strategy in the moment.",
+      ],
+      [
+        "Scope of advice",
+        "Stays focused on planning and organization rather than pretending to diagnose or treat an injury.",
+        "Can blur the line between workout planning and medical advice, which is not credible or safe.",
+      ],
+      [
+        "Training continuity",
+        "Helps preserve a useful training rhythm by substituting or reducing stress instead of abandoning the entire session.",
+        "Can turn every limitation into a stop sign with little structure for what still fits.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Flag the movement problem early",
+        "Mark the painful pattern, joint, or exercise before training so the plan can start from the real constraint.",
+      ],
+      [
+        "Choose the lowest-cost useful substitute",
+        "Swap the movement or reduce the session stress while keeping the main pattern, intent, or habit where appropriate.",
+      ],
+      [
+        "Record the response to the change",
+        "Keep notes on what helped, what still aggravated symptoms, and when outside professional guidance is needed.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Conservative language is consistent",
+        "This route already states that the app should not promise to fix pain, which is the right foundation for the richer injury-aware section.",
+      ],
+      [
+        "Planning stays separate from treatment",
+        "The linked injury pages reinforce that the app's job is workout organization, not clinical interpretation.",
+      ],
+    ),
+    relatedTools: [readinessToolLink],
     related: injuryRelated,
     priority: 0.78,
   },
@@ -565,6 +1057,48 @@ export const seoPages: SeoPage[] = [
       "Use this page if you want structure without pretending every week is identical.",
     ),
     faqs: faq("a strength training plan for women"),
+    comparisonRows: comparisonRows(
+      [
+        "Structure of the plan",
+        "Keeps the main lift pattern and progression intact while adapting the day when recovery or symptoms demand it.",
+        "Can provide a schedule, but often expects every week to unfold identically regardless of recovery reality.",
+      ],
+      [
+        "Cycle and recovery handling",
+        "Treats optional cycle context and readiness as decision support layered onto the plan.",
+        "May ignore women's recovery context or force rigid phase-based programming rules.",
+      ],
+      [
+        "How progress is judged",
+        "Uses consistency, session quality, and repeatable logging in addition to load increases.",
+        "Can make progress feel like a simple weight jump with little room for context or modified sessions.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Build the weekly skeleton",
+        "Define the main lifts, accessory slots, and recovery rhythm so each week has a repeatable structure.",
+      ],
+      [
+        "Adjust the day's version, not the whole goal",
+        "Use readiness and symptoms to choose whether that session should push, hold, or scale back while keeping the long-term direction intact.",
+      ],
+      [
+        "Review the block before adding load",
+        "Look at the recent session history, not just one workout, before deciding whether progression, repetition, or a lighter week makes more sense.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Programming remains serious",
+        "This page family consistently rejects vague fitness content in favor of real progression, which supports the stronger plan-comparison treatment.",
+      ],
+      [
+        "Flexibility is scoped to the day",
+        "The existing copy already emphasizes adapting the day without abandoning structure, which is the core proof point for this route.",
+      ],
+    ),
+    relatedTools: [rpeRirToolLink, oneRepMaxToolLink],
     related: womenRelated,
     priority: 0.82,
   },
@@ -848,6 +1382,48 @@ export const seoPages: SeoPage[] = [
       "Use this hub if you want practical cycle-aware training with conservative claims and flexible expectations.",
     ),
     faqs: faq("cycle-aware training"),
+    comparisonRows: comparisonRows(
+      [
+        "How cycle context is used",
+        "Treats cycle information as optional context that can sharpen the workout decision when it matches lived experience.",
+        "Often treats cycle phase as a fixed rule set that predicts performance without enough individual nuance.",
+      ],
+      [
+        "Relationship to readiness",
+        "Keeps sleep, soreness, stress, and the warm-up in the same decision model as cycle symptoms.",
+        "May isolate cycle tracking from the broader recovery picture and miss the full reason a day feels off.",
+      ],
+      [
+        "Privacy and control",
+        "Emphasizes private, user-controlled tracking with conservative claims about what the data can do.",
+        "Can push detailed tracking without explaining how it meaningfully improves the workout decision.",
+      ],
+    ),
+    workflowSteps: workflowSteps(
+      [
+        "Track only the cycle context that helps",
+        "Notice symptoms, phase patterns, or energy shifts when they are useful, without forcing exhaustive tracking.",
+      ],
+      [
+        "Compare that context to today's readiness",
+        "Use symptoms as one input beside sleep, soreness, and stress before you decide whether the planned session still fits.",
+      ],
+      [
+        "Adjust the workout conservatively",
+        "Keep training productive by changing volume, exercise selection, or expectations when symptoms meaningfully lower the day's capacity.",
+      ],
+    ),
+    proofBlocks: proofBlocks(
+      [
+        "Rigid cycle claims are explicitly rejected",
+        "This hub already warns against turning cycle-aware training into a phase chart, which gives the richer comparison section a credible backbone.",
+      ],
+      [
+        "Practical day-of use stays central",
+        "The internal links from this hub lead to day-of period training and women-who-lift planning resources, reinforcing that the job is better decisions, not theory alone.",
+      ],
+    ),
+    relatedTools: [cycleToolLink],
     related: [
       { href: "/cycle-based-strength-training", label: "Cycle-based strength training", description: "Use cycle context without rigid rules." },
       { href: "/strength-training-during-period", label: "Training during your period", description: "Flexible workout expectations." },

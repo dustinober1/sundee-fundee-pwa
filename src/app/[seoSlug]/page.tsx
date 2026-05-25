@@ -138,6 +138,104 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
           </div>
         </section>
 
+        {page.comparisonRows?.length ? (
+          <section className="px-6 py-20">
+            <div className="mx-auto max-w-6xl">
+              <div className="max-w-3xl">
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                  Comparison
+                </p>
+                <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
+                  What changes the better choice
+                </h2>
+              </div>
+              <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-white">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-border">
+                    <thead className="bg-surface text-left text-sm font-semibold text-navy">
+                      <tr>
+                        <th className="px-5 py-4">Feature</th>
+                        <th className="px-5 py-4">Sundee Fundee</th>
+                        <th className="px-5 py-4">Typical alternative</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border text-sm leading-7 text-muted">
+                      {page.comparisonRows.map((row) => (
+                        <tr key={row.feature} className="align-top">
+                          <th className="px-5 py-4 text-left font-semibold text-navy">
+                            {row.feature}
+                          </th>
+                          <td className="px-5 py-4">{row.sundeeFundee}</td>
+                          <td className="px-5 py-4">{row.typicalAlternative}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {page.workflowSteps?.length ? (
+          <section className="bg-surface px-6 py-20">
+            <div className="mx-auto max-w-5xl">
+              <div className="max-w-3xl">
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                  Workflow
+                </p>
+                <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
+                  How to use this kind of page before training
+                </h2>
+              </div>
+              <ol className="mt-10 grid gap-5 md:grid-cols-3">
+                {page.workflowSteps.map((step, index) => (
+                  <li
+                    key={step.title}
+                    className="rounded-2xl border border-border bg-white p-6"
+                  >
+                    <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                      Step {index + 1}
+                    </p>
+                    <h3 className="font-display mt-4 text-2xl font-semibold text-navy">
+                      {step.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-7 text-muted">{step.body}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </section>
+        ) : null}
+
+        {page.proofBlocks?.length ? (
+          <section className="px-6 py-20">
+            <div className="mx-auto max-w-5xl">
+              <div className="max-w-3xl">
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                  Why this page is credible
+                </p>
+                <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
+                  Signals that the guidance stays practical
+                </h2>
+              </div>
+              <div className="mt-10 grid gap-5 md:grid-cols-2">
+                {page.proofBlocks.map((block) => (
+                  <article
+                    key={block.title}
+                    className="rounded-2xl border border-border bg-surface p-6"
+                  >
+                    <h3 className="font-display text-2xl font-semibold text-navy">
+                      {block.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-7 text-muted">{block.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         <section className="px-6 py-20">
           <div className="mx-auto max-w-4xl">
             <div className="text-center">
@@ -192,6 +290,29 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
                 </Link>
               ))}
             </div>
+            {page.relatedTools?.length ? (
+              <div className="mt-10">
+                <h3 className="font-display text-2xl font-semibold">
+                  Related tools
+                </h3>
+                <div className="mt-5 grid gap-5 md:grid-cols-3">
+                  {page.relatedTools.map((tool) => (
+                    <Link
+                      key={tool.href}
+                      href={tool.href}
+                      className="rounded-2xl border border-cream/10 bg-white/5 p-6 transition hover:border-gold/60"
+                    >
+                      <h4 className="font-display text-2xl font-semibold">
+                        {tool.label}
+                      </h4>
+                      <p className="mt-3 text-sm leading-7 text-cream/80">
+                        {tool.description}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             <div className="mt-12 max-w-3xl">
               <h2 className="font-display text-3xl font-bold">
                 Try recovery-aware strength training on iPhone.

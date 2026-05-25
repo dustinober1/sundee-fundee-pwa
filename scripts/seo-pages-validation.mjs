@@ -56,14 +56,24 @@ const proxy = read("src/proxy.ts");
 const toolsIndexRoute = read("src/app/tools/page.tsx");
 const toolDetailRoute = read("src/app/tools/[tool]/page.tsx");
 const trainingToolsRegistry = read("src/lib/training-tools.ts");
+const seoPageQualityTest = read("src/lib/seo-pages-quality.test.ts");
 
 for (const slug of expectedSlugs) {
   assert.match(registry, new RegExp(`slug: "${slug}"`), `${slug} missing from SEO registry`);
 }
 
 assert.match(registry, /export const seoPages/, "SEO registry should export seoPages");
+assert.match(registry, /comparisonRows\?: SeoPageComparisonRow\[]/, "SEO registry should support comparison rows");
+assert.match(registry, /workflowSteps\?: SeoPageWorkflowStep\[]/, "SEO registry should support workflow steps");
+assert.match(registry, /proofBlocks\?: SeoPageProofBlock\[]/, "SEO registry should support proof blocks");
+assert.match(registry, /relatedTools\?: SeoPageLink\[]/, "SEO registry should support related tool links");
+assert.match(seoPageQualityTest, /adds rich sections to the priority high-intent SEO pages/, "SEO page quality test should enforce priority page richness");
 assert.match(route, /generateStaticParams/, "SEO route should statically generate registry pages");
 assert.match(route, /dynamicParams\s*=\s*false/, "SEO route should 404 unknown slugs");
+assert.match(route, /page\.comparisonRows\.map/, "SEO route should render comparison rows");
+assert.match(route, /page\.workflowSteps\.map/, "SEO route should render workflow steps");
+assert.match(route, /page\.proofBlocks\.map/, "SEO route should render proof blocks");
+assert.match(route, /page\.relatedTools\.map/, "SEO route should render related tools");
 assert.match(blogPostRoute, /dynamicParams\s*=\s*false/, "Blog post route should 404 unknown slugs");
 assert.match(blogTopicRoute, /dynamicParams\s*=\s*false/, "Blog topic route should 404 unknown topics");
 assert.match(blogTopicRoute, /getTopicHub/, "Blog topic route should render topic hub content");
