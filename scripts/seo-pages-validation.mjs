@@ -50,12 +50,16 @@ const donate = read("src/app/donate/page.tsx");
 const jsonLd = read("src/components/JsonLd.tsx");
 const blogPostRoute = read("src/app/blog/[slug]/page.tsx");
 const blogTopicRoute = read("src/app/blog/topic/[topic]/page.tsx");
+const authorsRoute = read("src/app/authors/[author]/page.tsx");
+const methodologyRoute = read("src/app/methodology/page.tsx");
 const workoutPlanRoute = read("src/app/workout-plans/[plan]/page.tsx");
 const science = read("src/app/science/page.tsx");
 const proxy = read("src/proxy.ts");
 const toolsIndexRoute = read("src/app/tools/page.tsx");
 const toolDetailRoute = read("src/app/tools/[tool]/page.tsx");
 const trainingToolsRegistry = read("src/lib/training-tools.ts");
+const authorsRegistry = read("src/lib/authors.ts");
+const internalLinking = read("src/lib/internal-linking.ts");
 const cycleSymptomModifier = read(
   "src/components/tools/CycleSymptomWorkoutModifier.tsx",
 );
@@ -121,10 +125,32 @@ assert.match(route, /page\.comparisonRows\.map/, "SEO route should render compar
 assert.match(route, /page\.workflowSteps\.map/, "SEO route should render workflow steps");
 assert.match(route, /page\.proofBlocks\.map/, "SEO route should render proof blocks");
 assert.match(route, /page\.relatedTools\.map/, "SEO route should render related tools");
+assert.match(route, /getSeoPageInternalLinks/, "SEO route should wire topic/resource bridge links");
+assert.match(route, /buildEnhancedSoftwareApplicationJsonLd/, "SEO route should emit the enhanced software application schema");
 assert.match(blogPostRoute, /dynamicParams\s*=\s*false/, "Blog post route should 404 unknown slugs");
+assert.match(blogPostRoute, /buildBlogPostingJsonLd/, "Blog post route should emit the shared BlogPosting schema helper");
+assert.match(blogPostRoute, /getBlogPostInternalLinks/, "Blog post route should render deterministic internal links");
+assert.match(blogPostRoute, /getAuthorUrl/, "Blog post route should link author and reviewer metadata to author pages");
+assert.match(blogPostRoute, /Editorial methodology/, "Blog post route should expose the methodology link");
+assert.match(blogPostRoute, /post\.sources\.map/, "Blog post route should render the source list");
+assert.match(blogPostRoute, /Medical boundary/, "Blog post route should render a medical boundary callout");
 assert.match(blogTopicRoute, /dynamicParams\s*=\s*false/, "Blog topic route should 404 unknown topics");
 assert.match(blogTopicRoute, /getTopicHub/, "Blog topic route should render topic hub content");
 assert.match(blogTopicRoute, /relatedTools/, "Blog topic route should link related tools");
+assert.match(blogTopicRoute, /getTopicHubDecisionLinks/, "Blog topic route should link back into product and SEO decision pages");
+assert.match(authorsRegistry, /slug: "sundee-fundee-team"/, "Authors registry should define the Sundee Fundee team profile");
+assert.match(authorsRegistry, /slug: "sundee-fundee-editorial-review"/, "Authors registry should define the editorial review profile");
+assert.match(authorsRegistry, /methodologyHref: "\/methodology"/, "Author profiles should link to the methodology route");
+assert.match(authorsRoute, /generateStaticParams/, "Author route should statically generate known author pages");
+assert.match(authorsRoute, /buildProfilePageJsonLd/, "Author route should emit profile schema");
+assert.match(authorsRoute, /Back to methodology/, "Author route should connect back to methodology");
+assert.match(authorsRoute, /Written by/, "Author route should distinguish written articles");
+assert.match(authorsRoute, /Reviewed by/, "Author route should distinguish reviewed articles");
+assert.match(methodologyRoute, /What shows on article pages/, "Methodology route should explain article trust signals");
+assert.match(methodologyRoute, /View profile →/, "Methodology route should connect to contributor pages");
+assert.match(internalLinking, /getBlogPostInternalLinks/, "Internal linking helper should export blog post links");
+assert.match(internalLinking, /getSeoPageInternalLinks/, "Internal linking helper should export SEO page links");
+assert.match(internalLinking, /getTopicHubDecisionLinks/, "Internal linking helper should export topic hub decision links");
 assert.match(trainingToolsRegistry, /export const trainingTools/, "Training tool registry should export trainingTools");
 assert.match(trainingToolsRegistry, /calculateReadinessRecommendation/, "Training tool registry should export readiness recommendation logic");
 assert.match(trainingToolsRegistry, /calculateEstimatedOneRepMax/, "Training tool registry should export estimated one rep max logic");
@@ -134,7 +160,7 @@ assert.match(toolDetailRoute, /generateStaticParams/, "Tool detail route should 
 assert.match(toolDetailRoute, /dynamicParams\s*=\s*false/, "Tool detail route should 404 unknown tool slugs");
 assert.match(toolDetailRoute, /getTrainingTool/, "Tool detail route should load tools from the registry");
 assert.match(toolDetailRoute, /buildWebPageJsonLd/, "Tool detail route should emit WebPage schema");
-assert.match(toolDetailRoute, /buildSoftwareApplicationJsonLd/, "Tool detail route should emit SoftwareApplication schema");
+assert.match(toolDetailRoute, /buildTrainingToolJsonLd/, "Tool detail route should emit the shared training tool schema");
 assert.equal(
   registeredToolSlugs.length,
   5,
@@ -168,8 +194,11 @@ assert.match(route, /twitter:\s*{[\s\S]*title:\s*page\.title/, "SEO route Twitte
 assert.match(sitemap, /seoPages/, "Sitemap should include SEO registry pages");
 assert.match(sitemap, /trainingTools/, "Sitemap should include training tool routes");
 assert.match(sitemap, /workoutPlans/, "Sitemap should include workout plan detail routes");
+assert.match(sitemap, /authors/, "Sitemap should include author routes");
 assert.match(sitemap, /`\$\{SITE_URL\}\/workout-plans\/\$\{plan\.slug\}`/, "Sitemap should include the workout plan detail route family");
 assert.match(sitemap, /`\$\{SITE_URL\}\/tools`/, "Sitemap should include the tools index route");
+assert.match(sitemap, /`\$\{SITE_URL\}\/methodology`/, "Sitemap should include the methodology route");
+assert.match(sitemap, /getAuthorUrl/, "Sitemap should build author entries from the shared author helper");
 for (const path of ["/science", "/roadmap", "/donate"]) {
   assert.match(sitemap, new RegExp(`\\$\\{SITE_URL\\}${path}`), `Sitemap should include ${path}`);
 }
@@ -178,6 +207,10 @@ assert.doesNotMatch(sitemap, /\/terms/, "Noindex terms page should not be listed
 assert.match(sitemap, /url: `\$\{SITE_URL\}\/science`[\s\S]*?priority: 0\.75/, "Science sitemap priority should reflect the updated trust page");
 assert.match(robots, /disallow:\s*\[[\s\S]*"\/api\/"/, "Robots should keep API routes out of crawl");
 assert.match(seo, /buildSoftwareApplicationJsonLd/, "SoftwareApplication schema helper missing");
+assert.match(seo, /buildEnhancedSoftwareApplicationJsonLd/, "Enhanced software application schema helper missing");
+assert.match(seo, /buildBlogPostingJsonLd/, "BlogPosting schema helper missing");
+assert.match(seo, /buildProfilePageJsonLd/, "ProfilePage schema helper missing");
+assert.match(seo, /buildTrainingToolJsonLd/, "Training tool schema helper missing");
 assert.match(seo, /buildWebPageJsonLd/, "WebPage schema helper missing");
 assert.match(seo, /buildWorkoutPlanJsonLd/, "Workout plan schema helper missing");
 assert.match(seo, /buildFaqPageJsonLd/, "FAQPage schema helper missing");

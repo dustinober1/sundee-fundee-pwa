@@ -4,6 +4,7 @@ import {
   SITE_TITLE,
   SITE_URL,
 } from "@/lib/site";
+import type { AuthorProfile } from "./authors";
 
 export const siteImageUrl = SITE_OG_IMAGE_PATH;
 
@@ -40,6 +41,12 @@ export function buildWebsiteJsonLd() {
 }
 
 export function buildSoftwareApplicationJsonLd() {
+  return buildEnhancedSoftwareApplicationJsonLd();
+}
+
+export function buildEnhancedSoftwareApplicationJsonLd(
+  overrides: Record<string, unknown> = {},
+) {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -56,6 +63,7 @@ export function buildSoftwareApplicationJsonLd() {
     },
     description:
       "Recovery-aware strength training for iPhone, with readiness, injury-aware training choices, cycle-aware context, and progress tracking.",
+    ...overrides,
   };
 }
 
@@ -113,6 +121,136 @@ export function buildWorkoutPlanJsonLd({
     isAccessibleForFree: true,
     encodingFormat: "application/pdf",
   };
+}
+
+export function buildBlogPostingJsonLd({
+  post,
+  url,
+  author,
+  reviewer,
+}: {
+  post: {
+    slug: string;
+    title: string;
+    description: string;
+    publishedAt: string;
+    updatedAt?: string;
+    tags: string[];
+    sources: Array<{ title: string; url: string; publisher: string }>;
+    wordCount: number;
+    articleSection: string;
+  };
+  url: string;
+  author: AuthorProfile;
+  reviewer?: AuthorProfile;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    image: {
+      "@type": "ImageObject",
+      url: absoluteUrl(`/blog/${post.slug}/opengraph-image`),
+      width: 1200,
+      height: 630,
+    },
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
+    author: {
+      "@type": author.schemaType,
+      name: author.name,
+      url: absoluteUrl(`/authors/${author.slug}`),
+      description: author.description,
+    },
+    ...(reviewer
+      ? {
+          reviewedBy: {
+            "@type": reviewer.schemaType,
+            name: reviewer.name,
+            url: absoluteUrl(`/authors/${reviewer.slug}`),
+            description: reviewer.description,
+          },
+        }
+      : {}),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/Logo.jpeg"),
+      },
+    },
+    citation: post.sources.map((source) => ({
+      "@type": "CreativeWork",
+      name: source.title,
+      url: source.url,
+      publisher: source.publisher,
+    })),
+    articleSection: post.articleSection,
+    inLanguage: "en-US",
+    keywords: post.tags.join(", "),
+    wordCount: post.wordCount,
+  };
+}
+
+export function buildProfilePageJsonLd({
+  author,
+  url,
+  relatedArticles,
+}: {
+  author: AuthorProfile;
+  url: string;
+  relatedArticles: Array<{ name: string; url: string }>;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    url,
+    name: `${author.name} | ${SITE_TITLE}`,
+    description: author.description,
+    mainEntity: {
+      "@type": author.schemaType,
+      name: author.name,
+      description: author.description,
+      url,
+      knowsAbout: author.expertise,
+    },
+    mainContentOfPage: {
+      "@type": "ItemList",
+      itemListElement: relatedArticles.map((article, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: article.name,
+        url: article.url,
+      })),
+    },
+  };
+}
+
+export function buildTrainingToolJsonLd({
+  name,
+  description,
+  url,
+  audience,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  audience: string[];
+}) {
+  return buildEnhancedSoftwareApplicationJsonLd({
+    name,
+    description,
+    url,
+    applicationSubCategory: "StrengthTrainingTool",
+    featureList: audience,
+  });
 }
 
 export function buildFaqPageJsonLd(

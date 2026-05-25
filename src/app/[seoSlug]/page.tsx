@@ -5,11 +5,12 @@ import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { getSeoPageInternalLinks } from "@/lib/internal-linking";
 import {
   buildBreadcrumbJsonLd,
+  buildEnhancedSoftwareApplicationJsonLd,
   buildFaqPageJsonLd,
   buildItemListJsonLd,
-  buildSoftwareApplicationJsonLd,
   buildWebPageJsonLd,
 } from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
@@ -73,6 +74,14 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
           })),
         )
       : null;
+  const supportingLinks = getSeoPageInternalLinks(page.slug);
+  const contextLinks = supportingLinks
+    ? [supportingLinks.topicHub, supportingLinks.productPage, supportingLinks.seoPage].filter(
+        (link, index, allLinks) =>
+          link.href !== `/${page.slug}` &&
+          allLinks.findIndex((candidate) => candidate.href === link.href) === index,
+      )
+    : [];
 
   return (
     <>
@@ -88,7 +97,16 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
             url,
           }),
           buildFaqPageJsonLd(page.faqs),
-          buildSoftwareApplicationJsonLd(),
+          buildEnhancedSoftwareApplicationJsonLd({
+            name: `${page.eyebrow} | ${SITE_TITLE}`,
+            description: page.description,
+            url,
+            applicationSubCategory: "StrengthTrainingGuide",
+            featureList: [
+              page.eyebrow,
+              ...(page.relatedTools?.map((tool) => tool.label) ?? []),
+            ],
+          }),
           ...(itemList ? [itemList] : []),
         ]}
       />
@@ -230,6 +248,37 @@ export default async function SeoLandingPage({ params }: { params: Params }) {
                     </h3>
                     <p className="mt-4 text-sm leading-7 text-muted">{block.body}</p>
                   </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {contextLinks.length ? (
+          <section className="px-6 py-20">
+            <div className="mx-auto max-w-6xl">
+              <div className="max-w-3xl">
+                <p className="text-sm font-medium uppercase tracking-[0.3em] text-orange">
+                  Stay on the same topic
+                </p>
+                <h2 className="font-display mt-4 text-4xl font-bold text-navy sm:text-5xl">
+                  Move from this page into the wider training system.
+                </h2>
+              </div>
+              <div className="mt-10 grid gap-5 md:grid-cols-3">
+                {contextLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-2xl border border-border bg-surface p-6 transition hover:border-navy"
+                  >
+                    <h3 className="font-display text-2xl font-semibold text-navy">
+                      {link.label}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-muted">
+                      {link.description}
+                    </p>
+                  </Link>
                 ))}
               </div>
             </div>

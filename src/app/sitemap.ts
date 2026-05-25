@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { postModifiedAt, posts } from "./blog/posts";
+import { authors, getAuthorUrl } from "@/lib/authors";
 import { SITE_URL } from "@/lib/site";
 import { SEO_PAGES_LAST_MODIFIED, seoPages } from "@/lib/seo-pages";
 import { trainingTools } from "@/lib/training-tools";
@@ -53,6 +54,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: siteLastModified,
       changeFrequency: "monthly",
       priority: 0.78,
+    }),
+  );
+  const authorEntries: MetadataRoute.Sitemap = authors.map(
+    (author): MetadataRoute.Sitemap[number] => ({
+      url: `${SITE_URL}${getAuthorUrl(author.slug)}`,
+      lastModified: siteLastModified,
+      changeFrequency: "monthly",
+      priority: 0.55,
     }),
   );
 
@@ -130,6 +139,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: `${SITE_URL}/methodology`,
+      lastModified: siteLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
       url: `${SITE_URL}/roadmap`,
       lastModified: siteLastModified,
       changeFrequency: "monthly" as const,
@@ -145,6 +160,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...topicEntries,
     ...toolEntries,
     ...workoutPlanEntries,
+    ...authorEntries,
     ...postEntries,
   ];
 

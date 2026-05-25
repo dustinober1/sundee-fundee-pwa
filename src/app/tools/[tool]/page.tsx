@@ -12,7 +12,7 @@ import { RpeRirChart } from "@/components/tools/RpeRirChart";
 import {
   absoluteUrl,
   buildBreadcrumbJsonLd,
-  buildSoftwareApplicationJsonLd,
+  buildTrainingToolJsonLd,
   buildWebPageJsonLd,
 } from "@/lib/seo";
 import { SITE_TITLE } from "@/lib/site";
@@ -99,14 +99,12 @@ export default async function TrainingToolPage({ params }: { params: Params }) {
             description: tool.seoDescription,
             url: canonicalUrl,
           }),
-          {
-            ...buildSoftwareApplicationJsonLd(),
+          buildTrainingToolJsonLd({
             name: tool.title,
             description: tool.seoDescription,
             url: canonicalUrl,
-            applicationSubCategory: "StrengthTrainingTool",
-            featureList: tool.audience,
-          },
+            audience: [...tool.audience],
+          }),
         ]}
       />
       <SiteHeader showHomeLink showDownloadButtons />

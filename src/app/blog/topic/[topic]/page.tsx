@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { INTERACTIVE_TYPE_LABELS } from "@/app/blog/discovery";
+import { getTopicHubDecisionLinks } from "@/lib/internal-linking";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd } from "@/lib/seo";
 import { SITE_OG_IMAGE_PATH, SITE_TITLE, SITE_URL } from "@/lib/site";
 import { getTopicHub } from "@/lib/topic-hubs";
@@ -71,6 +72,7 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
   const hub = getTopicHub(topic.slug);
   const topicPosts = getTopicPosts(posts, topic.slug);
   const url = `${SITE_URL}${topic.href}`;
+  const decisionLinks = getTopicHubDecisionLinks(topic.slug);
 
   return (
     <>
@@ -208,6 +210,28 @@ export default async function BlogTopicPage({ params }: { params: Params }) {
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="px-6 pb-12">
+          <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
+            {[decisionLinks.productPage, decisionLinks.seoPage].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-2xl border border-border bg-surface p-6 transition hover:border-navy"
+              >
+                <p className="text-sm font-medium uppercase tracking-[0.2em] text-orange">
+                  Decision support
+                </p>
+                <h2 className="font-display mt-4 text-2xl font-semibold text-navy">
+                  {link.label}
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-muted">
+                  {link.description}
+                </p>
+              </Link>
+            ))}
           </div>
         </section>
 

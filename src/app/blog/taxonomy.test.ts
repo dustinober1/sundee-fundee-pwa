@@ -10,6 +10,14 @@ function post(overrides: Partial<BlogPost> & Pick<BlogPost, "slug" | "tags">): B
     title: slug,
     description: slug,
     author: "Sundee Fundee Team",
+    authorSlug: "sundee-fundee-team",
+    sources: [
+      {
+        title: "Progression Models in Resistance Training for Healthy Adults",
+        url: "https://pubmed.ncbi.nlm.nih.gov/19204579/",
+        publisher: "PubMed / ACSM",
+      },
+    ],
     publishedAt: "2026-05-09",
     readMinutes: 8,
     tags,

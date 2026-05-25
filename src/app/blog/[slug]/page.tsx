@@ -7,13 +7,19 @@ import { JsonLd } from "@/components/JsonLd";
 import { Markdown } from "@/components/Markdown";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { absoluteUrl, buildBreadcrumbJsonLd } from "@/lib/seo";
+import { getAuthor, getAuthorUrl } from "@/lib/authors";
+import { getBlogPostInternalLinks } from "@/lib/internal-linking";
+import {
+  absoluteUrl,
+  buildBlogPostingJsonLd,
+  buildBreadcrumbJsonLd,
+} from "@/lib/seo";
 import { SITE_TITLE, SITE_URL } from "@/lib/site";
 import {
   formatDate,
   getPost,
+  isHealthAdjacentPost,
   posts,
-  postModifiedAt,
   type BlogInteractivePlacement,
   type BlogPost,
 } from "../posts";
@@ -92,9 +98,26 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   const url = `${SITE_URL}/blog/${post.slug}`;
   const topic = getPrimaryTopic(post);
   const relatedPosts = getRelatedPosts(post, posts);
+  const author = getAuthor(post.authorSlug);
+  const reviewer = post.reviewedBy ? getAuthor(post.reviewedBy) : undefined;
+  const internalLinks = getBlogPostInternalLinks(post, posts);
+  const healthAdjacent = isHealthAdjacentPost(post);
   const bodyModules = getModulesForPlacement(post, "before-body");
   const preCtaModules = getModulesForPlacement(post, "before-cta");
   const wordCount = post.body.split(/\s+/).filter(Boolean).length;
+  const primaryLinks = [
+    internalLinks.topicHub,
+    internalLinks.productPage,
+    internalLinks.seoPage,
+  ].filter(
+    (link, index, allLinks) =>
+      link.href !== `/blog/${post.slug}` &&
+      allLinks.findIndex((candidate) => candidate.href === link.href) === index,
+  );
+
+  if (!author) {
+    notFound();
+  }
 
   return (
     <>
@@ -105,41 +128,22 @@ export default async function BlogPostPage({ params }: { params: Params }) {
             { name: "Blog", url: `${SITE_URL}/blog` },
             { name: post.title, url },
           ]),
-          {
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.title,
-            description: post.description,
-            image: {
-              "@type": "ImageObject",
-              url: absoluteUrl(`/blog/${post.slug}/opengraph-image`),
-              width: 1200,
-              height: 630,
+          buildBlogPostingJsonLd({
+            post: {
+              slug: post.slug,
+              title: post.title,
+              description: post.description,
+              publishedAt: post.publishedAt,
+              updatedAt: post.updatedAt,
+              tags: post.tags,
+              sources: post.sources,
+              wordCount,
+              articleSection: topic.label,
             },
-            datePublished: post.publishedAt,
-            dateModified: post.updatedAt ?? post.publishedAt,
-            author: {
-              "@type": "Person",
-              name: post.author,
-            },
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": url,
-            },
-            publisher: {
-              "@type": "Organization",
-              name: SITE_TITLE,
-              url: SITE_URL,
-              logo: {
-                "@type": "ImageObject",
-                url: absoluteUrl("/Logo.jpeg"),
-              },
-            },
-            articleSection: topic.label,
-            inLanguage: "en-US",
-            keywords: post.tags.join(", "),
-            wordCount,
-          },
+            url,
+            author,
+            reviewer,
+          }),
         ]}
       />
       <SiteHeader showHomeLink showDownloadButtons />
@@ -170,6 +174,35 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                   <p className="mt-6 text-xl leading-8 text-muted">
                     {post.description}
                   </p>
+                  <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
+                    <Link
+                      href={getAuthorUrl(author.slug)}
+                      className="font-medium text-navy underline-offset-4 hover:underline"
+                    >
+                      By {author.name}
+                    </Link>
+                    {reviewer && post.reviewedAt ? (
+                      <>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Reviewed by{" "}
+                          <Link
+                            href={getAuthorUrl(reviewer.slug)}
+                            className="font-medium text-navy underline-offset-4 hover:underline"
+                          >
+                            {reviewer.name}
+                          </Link>
+                        </span>
+                      </>
+                    ) : null}
+                    <span aria-hidden="true">·</span>
+                    <Link
+                      href="/methodology"
+                      className="font-medium text-orange underline-offset-4 hover:underline"
+                    >
+                      Editorial methodology
+                    </Link>
+                  </div>
                 </header>
 
                 {bodyModules.map((module, i) => (
@@ -181,6 +214,138 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                 <div className="mt-12">
                   <Markdown content={post.body} />
                 </div>
+
+                <section className="mt-14 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+                  <div className="space-y-6">
+                    <article className="rounded-2xl border border-border bg-surface p-6">
+                      <p className="text-sm font-medium uppercase tracking-[0.2em] text-orange">
+                        Article trust
+                      </p>
+                      <div className="mt-5 space-y-4 text-sm leading-7 text-muted">
+                        <p>
+                          Written by{" "}
+                          <Link
+                            href={getAuthorUrl(author.slug)}
+                            className="font-medium text-navy underline-offset-4 hover:underline"
+                          >
+                            {author.name}
+                          </Link>
+                          . {author.shortBio}
+                        </p>
+                        {reviewer && post.reviewedAt ? (
+                          <p>
+                            Reviewed by{" "}
+                            <Link
+                              href={getAuthorUrl(reviewer.slug)}
+                              className="font-medium text-navy underline-offset-4 hover:underline"
+                            >
+                              {reviewer.name}
+                            </Link>{" "}
+                            on {formatDate(post.reviewedAt)}. See the{" "}
+                            <Link
+                              href="/methodology"
+                              className="font-medium text-orange underline-offset-4 hover:underline"
+                            >
+                              methodology
+                            </Link>{" "}
+                            for the scope and review standard.
+                          </p>
+                        ) : null}
+                      </div>
+                    </article>
+
+                    {healthAdjacent ? (
+                      <article className="rounded-2xl border border-orange/30 bg-orange/5 p-6">
+                        <p className="text-sm font-medium uppercase tracking-[0.2em] text-orange">
+                          Medical boundary
+                        </p>
+                        <p className="mt-4 text-sm leading-7 text-muted">
+                          This article is for training education. It does not
+                          diagnose, treat, or replace care from a qualified
+                          clinician. If symptoms are new, severe, escalating, or
+                          affecting daily life, use the training guidance here
+                          to ask better questions and bring a clinician into the
+                          decision loop.
+                        </p>
+                      </article>
+                    ) : null}
+                  </div>
+
+                  <article className="rounded-2xl border border-border bg-surface p-6">
+                    <p className="text-sm font-medium uppercase tracking-[0.2em] text-orange">
+                      Sources
+                    </p>
+                    <ol className="mt-5 space-y-4">
+                      {post.sources.map((source) => (
+                        <li key={source.url} className="text-sm leading-7 text-muted">
+                          <a
+                            href={source.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="font-medium text-navy underline-offset-4 hover:underline"
+                          >
+                            {source.title}
+                          </a>
+                          <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted">
+                            {source.publisher}
+                          </p>
+                        </li>
+                      ))}
+                    </ol>
+                  </article>
+                </section>
+
+                <section className="mt-14">
+                  <div className="flex flex-wrap items-end justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-medium uppercase tracking-[0.2em] text-orange">
+                        Next useful links
+                      </p>
+                      <h2 className="font-display mt-3 text-3xl font-semibold text-navy">
+                        Keep the same training question moving.
+                      </h2>
+                    </div>
+                    <Link
+                      href={internalLinks.topicHub.href}
+                      className="text-sm font-medium text-orange underline-offset-4 hover:underline"
+                    >
+                      Browse {internalLinks.topicHub.label} →
+                    </Link>
+                  </div>
+                  <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {primaryLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="rounded-2xl border border-border bg-surface p-6 transition hover:border-navy"
+                      >
+                        <h3 className="font-display text-2xl font-semibold text-navy">
+                          {link.label}
+                        </h3>
+                        <p className="mt-3 text-sm leading-7 text-muted">
+                          {link.description}
+                        </p>
+                      </Link>
+                    ))}
+                    {internalLinks.siblingArticles.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="rounded-2xl border border-border bg-white p-6 transition hover:border-navy"
+                      >
+                        <p className="text-sm font-medium uppercase tracking-[0.2em] text-orange">
+                          Related article
+                        </p>
+                        <h3 className="font-display mt-3 text-2xl font-semibold text-navy">
+                          {link.label}
+                        </h3>
+                        <p className="mt-3 text-sm leading-7 text-muted">
+                          {link.description}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
 
                 {preCtaModules.map((module, i) => (
                   <div key={i} className="mt-12">
@@ -220,13 +385,27 @@ export default async function BlogPostPage({ params }: { params: Params }) {
                     <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                       About the author
                     </h2>
-                    <p className="mt-4 text-sm font-medium text-navy">
-                      {post.author}
-                    </p>
+                    <Link
+                      href={getAuthorUrl(author.slug)}
+                      className="mt-4 inline-flex text-sm font-medium text-navy underline-offset-4 hover:underline"
+                    >
+                      {author.name}
+                    </Link>
                     <p className="mt-2 text-sm leading-6 text-muted">
-                      Sundee Fundee contributor specializing in recovery-aware
-                      strength training and injury adaptation.
+                      {author.shortBio}
                     </p>
+                    {reviewer && post.reviewedAt ? (
+                      <p className="mt-3 text-sm leading-6 text-muted">
+                        Reviewed by{" "}
+                        <Link
+                          href={getAuthorUrl(reviewer.slug)}
+                          className="font-medium text-navy underline-offset-4 hover:underline"
+                        >
+                          {reviewer.name}
+                        </Link>{" "}
+                        on {formatDate(post.reviewedAt)}.
+                      </p>
+                    ) : null}
                   </section>
 
                   <section>
