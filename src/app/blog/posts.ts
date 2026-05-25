@@ -277,7 +277,7 @@ function buildTrustMetadata(post: BlogPost): Pick<
     authorSlug: DEFAULT_AUTHOR_SLUG,
     reviewedBy: healthAdjacent ? EDITORIAL_REVIEW_SLUG : undefined,
     reviewedAt: healthAdjacent ? post.updatedAt ?? post.publishedAt : undefined,
-    sources: buildSourcesForPost(post),
+    sources: post.sources?.length ? post.sources : buildSourcesForPost(post),
   };
 }
 

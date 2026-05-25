@@ -246,6 +246,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "home-dumbbell-progressive-overload-women": {
     articleIntent: "protocol",
   },
+  "how-close-to-failure-strength-training-women": {
+    articleIntent: "compare-options",
+  },
   "knee-pain-squat-modifications": {
     articleIntent: "checklist",
   },
