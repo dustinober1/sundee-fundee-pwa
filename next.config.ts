@@ -21,7 +21,11 @@ const nextConfig: NextConfig = {
         headers: [staticAssetCacheHeader],
       },
       {
-        source: "/workout-plans/:path*",
+        source: "/workout-plans/(.*\\.pdf)",
+        headers: [staticAssetCacheHeader],
+      },
+      {
+        source: "/workout-plans/(.*\\.png)",
         headers: [staticAssetCacheHeader],
       },
       {

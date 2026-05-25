@@ -77,6 +77,8 @@ assert.match(workoutPlanRoute, /generateStaticParams/, "Workout plan detail rout
 assert.match(workoutPlanRoute, /dynamicParams\s*=\s*false/, "Workout plan detail route should 404 unknown plan slugs");
 assert.match(workoutPlanRoute, /buildFaqPageJsonLd/, "Workout plan detail route should emit FAQPage schema");
 assert.match(workoutPlanRoute, /buildItemListJsonLd/, "Workout plan detail route should emit ItemList schema");
+assert.match(workoutPlanRoute, /buildWebPageJsonLd/, "Workout plan detail route should emit landing-page WebPage schema");
+assert.match(workoutPlanRoute, /url:\s*absoluteUrl\(plan\.pdfPath\)/, "Workout plan downloadable schema should point at the PDF URL");
 assert.match(route, /buildFaqPageJsonLd/, "SEO route should emit FAQPage schema");
 assert.match(route, /buildWebPageJsonLd/, "SEO route should emit page-specific WebPage schema");
 assert.match(route, /buildItemListJsonLd/, "SEO route should emit ItemList schema for hubs");
@@ -117,5 +119,8 @@ assert.doesNotMatch(blogPostRoute, />Learn more</, "Blog post CTA links should u
 assert.match(proxy, /pathname\.toLowerCase\(\)/, "Proxy should redirect case variants to lowercase paths");
 assert.match(nextConfig, /Cache-Control/, "Static asset cache headers should be configured");
 assert.match(nextConfig, /stale-while-revalidate=604800/, "Static asset cache headers should allow stale revalidation");
+assert.match(nextConfig, /source:\s*"\/workout-plans\/\(\.\*\\\\\.pdf\)"/, "Workout plan PDF assets should keep the long cache header");
+assert.match(nextConfig, /source:\s*"\/workout-plans\/\(\.\*\\\\\.png\)"/, "Workout plan cover images should keep the long cache header");
+assert.doesNotMatch(nextConfig, /source:\s*"\/workout-plans\/:path\*"/, "Workout plan HTML routes should not share the broad asset cache rule");
 
 console.log(`Validated ${expectedSlugs.length} SEO pages and schema integrations.`);

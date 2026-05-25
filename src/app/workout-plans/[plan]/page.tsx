@@ -12,6 +12,7 @@ import {
   buildFaqPageJsonLd,
   buildItemListJsonLd,
   buildWorkoutPlanJsonLd,
+  buildWebPageJsonLd,
 } from "@/lib/seo";
 import { SITE_TITLE } from "@/lib/site";
 import { getWorkoutPlan, workoutPlans } from "@/lib/workout-plans";
@@ -85,10 +86,15 @@ export default async function WorkoutPlanDetailPage({
             { name: "Workout Plans", url: absoluteUrl("/workout-plans") },
             { name: plan.shortTitle, url: canonicalUrl },
           ]),
-          buildWorkoutPlanJsonLd({
+          buildWebPageJsonLd({
             name: plan.landingTitle,
             description: plan.landingDescription,
             url: canonicalUrl,
+          }),
+          buildWorkoutPlanJsonLd({
+            name: plan.landingTitle,
+            description: plan.landingDescription,
+            url: absoluteUrl(plan.pdfPath),
             image: absoluteUrl(plan.coverPath),
           }),
           buildFaqPageJsonLd(plan.faqs),
