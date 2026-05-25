@@ -207,8 +207,14 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "apple-watch-hrv-strength-training": {
     articleIntent: "symptom-audit",
   },
+  "apple-watch-training-load-strength-training": {
+    articleIntent: "metric-explainer",
+  },
   "apple-watch-wrist-temperature-cycle-training": {
     articleIntent: "metric-explainer",
+  },
+  "barbell-strength-plan-for-women": {
+    articleIntent: "compare-options",
   },
   "breathing-bracing-lifting-technique": {
     articleIntent: "protocol",
@@ -224,6 +230,24 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   },
   "electrolytes-strength-training-women": {
     articleIntent: "compare-options",
+  },
+  "elbow-pain-pressing-strength-training": {
+    articleIntent: "checklist",
+  },
+  "four-day-upper-lower-strength-plan-women": {
+    articleIntent: "protocol",
+  },
+  "garmin-body-battery-strength-training": {
+    articleIntent: "metric-explainer",
+  },
+  "hip-pain-squat-deadlift-modifications": {
+    articleIntent: "checklist",
+  },
+  "home-dumbbell-progressive-overload-women": {
+    articleIntent: "protocol",
+  },
+  "knee-pain-squat-modifications": {
+    articleIntent: "checklist",
   },
   "rest-between-sets-for-women-strength-training": {
     articleIntent: "protocol",
@@ -279,8 +303,14 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "missed-workouts-strength-training": {
     articleIntent: "decision-guide",
   },
+  "neck-trap-pain-overhead-press-modifications": {
+    articleIntent: "checklist",
+  },
   "one-rep-max-testing-timing-and-protocol": {
     articleIntent: "timeline",
+  },
+  "oura-ring-strength-training-readiness": {
+    articleIntent: "metric-explainer",
   },
   "ovulation-pain-strength-training": {
     articleIntent: "decision-guide",
@@ -366,6 +396,12 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   },
   "when-hrv-is-low-strength-training": {
     articleIntent: "symptom-audit",
+  },
+  "when-to-increase-weight-strength-training": {
+    articleIntent: "decision-guide",
+  },
+  "whoop-recovery-strength-training": {
+    articleIntent: "compare-options",
   },
   "why-recovery-beats-the-calendar": {
     articleIntent: "decision-guide",
