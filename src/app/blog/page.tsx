@@ -15,9 +15,9 @@ import {
 } from "./taxonomy";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Strength Training Articles for Recovery, Cycle, Pain & Wearables",
   description:
-    "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
+    "Browse recovery-aware strength training articles about readiness, cycle context, pain modifications, wearable data, and flexible programming.",
   alternates: {
     canonical: "/blog",
   },
@@ -25,16 +25,16 @@ export const metadata: Metadata = {
     type: "website",
     url: `${SITE_URL}/blog`,
     siteName: SITE_TITLE,
-    title: "Blog",
+    title: "Strength Training Articles for Recovery, Cycle, Pain & Wearables",
     description:
-      "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
+      "Browse recovery-aware strength training articles about readiness, cycle context, pain modifications, wearable data, and flexible programming.",
     images: [SITE_OG_IMAGE_PATH],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog",
+    title: "Strength Training Articles for Recovery, Cycle, Pain & Wearables",
     description:
-      "Notes on recovery-aware training, injury adaptation, and getting stronger without breaking down.",
+      "Browse recovery-aware strength training articles about readiness, cycle context, pain modifications, wearable data, and flexible programming.",
     images: [SITE_OG_IMAGE_PATH],
   },
 };

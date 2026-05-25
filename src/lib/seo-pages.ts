@@ -37,6 +37,7 @@ export type SeoPage = {
   kind: SeoPageKind;
   eyebrow: string;
   title: string;
+  metaTitle?: string;
   description: string;
   intro: string;
   sections: SeoPageSection[];
