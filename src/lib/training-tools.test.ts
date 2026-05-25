@@ -7,6 +7,10 @@ import {
   trainingTools,
 } from "./training-tools";
 
+function wordCount(value: string) {
+  return value.split(/\s+/).filter(Boolean).length;
+}
+
 describe("training tools", () => {
   it("registers five indexable tools", () => {
     expect(trainingTools.map((tool) => tool.slug)).toEqual([
@@ -23,6 +27,16 @@ describe("training tools", () => {
       expect(tool.description.length).toBeGreaterThan(20);
       expect(tool.intro.length).toBeGreaterThan(80);
       expect(tool.topicSummary.length).toBeGreaterThan(40);
+      const explanatoryWordCount = wordCount(
+        [tool.intro, ...tool.sections.flatMap((section) => section.paragraphs)].join(
+          " ",
+        ),
+      );
+      if (explanatoryWordCount < 600) {
+        throw new Error(
+          `${tool.slug} has ${explanatoryWordCount} explanatory words; expected at least 600`,
+        );
+      }
       expect(getTrainingTool(tool.slug)).toEqual(tool);
     }
   });
