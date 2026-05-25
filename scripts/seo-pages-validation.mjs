@@ -56,6 +56,20 @@ const proxy = read("src/proxy.ts");
 const toolsIndexRoute = read("src/app/tools/page.tsx");
 const toolDetailRoute = read("src/app/tools/[tool]/page.tsx");
 const trainingToolsRegistry = read("src/lib/training-tools.ts");
+const cycleSymptomModifier = read(
+  "src/components/tools/CycleSymptomWorkoutModifier.tsx",
+);
+const registeredToolSlugs = Array.from(
+  trainingToolsRegistry.matchAll(/slug: "([^"]+)"/g),
+  (match) => match[1],
+);
+const toolDetailMappings = new Map([
+  ["readiness-score-calculator", "ReadinessScoreCalculator"],
+  ["deload-week-planner", "DeloadPlanner"],
+  ["one-rep-max-readiness-checklist", "OneRepMaxReadinessChecklist"],
+  ["rpe-rir-chart", "RpeRirChart"],
+  ["cycle-symptom-workout-modifier", "CycleSymptomWorkoutModifier"],
+]);
 
 const highIntentSlugs = [
   "best-strength-training-app-for-women",
@@ -121,7 +135,25 @@ assert.match(toolDetailRoute, /dynamicParams\s*=\s*false/, "Tool detail route sh
 assert.match(toolDetailRoute, /getTrainingTool/, "Tool detail route should load tools from the registry");
 assert.match(toolDetailRoute, /buildWebPageJsonLd/, "Tool detail route should emit WebPage schema");
 assert.match(toolDetailRoute, /buildSoftwareApplicationJsonLd/, "Tool detail route should emit SoftwareApplication schema");
-assert.match(toolDetailRoute, /ReadinessScoreCalculator/, "Tool detail route should render the readiness calculator component");
+assert.equal(
+  registeredToolSlugs.length,
+  5,
+  "Training tools registry should define exactly five tool slugs in this slice",
+);
+for (const slug of registeredToolSlugs) {
+  const componentName = toolDetailMappings.get(slug);
+  assert.ok(componentName, `Missing expected detail-route component mapping for ${slug}`);
+  assert.match(
+    toolDetailRoute,
+    new RegExp(`case "${slug}"[\\s\\S]*<${componentName}`),
+    `Tool detail route should map ${slug} to ${componentName}`,
+  );
+}
+assert.match(
+  cycleSymptomModifier,
+  /spotting/i,
+  "Cycle symptom modifier should support spotting when the route copy promises it",
+);
 assert.match(workoutPlanRoute, /generateStaticParams/, "Workout plan detail route should statically generate plan pages");
 assert.match(workoutPlanRoute, /dynamicParams\s*=\s*false/, "Workout plan detail route should 404 unknown plan slugs");
 assert.match(workoutPlanRoute, /buildFaqPageJsonLd/, "Workout plan detail route should emit FAQPage schema");

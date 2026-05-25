@@ -23,6 +23,11 @@ const symptomRecommendations = {
     adjustment:
       "Lower the arousal level of the session, avoid breath-holding contests, and keep accessories simple.",
   },
+  spotting: {
+    label: "Spotting",
+    adjustment:
+      "Keep the session calm, avoid turning it into a proof day, and favor clean technique work or moderate accessories if heavy bracing feels disruptive.",
+  },
   lowBackTightness: {
     label: "Low-back tightness",
     adjustment:
