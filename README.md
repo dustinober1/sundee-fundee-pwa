@@ -24,6 +24,14 @@ Google Search Console verification can be added with
 `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`; the root layout will emit the matching
 verification meta tag when the value is present.
 
+## SEO operations
+
+Set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` when this environment should emit the
+Search Console verification meta tag. Follow the monthly workflow in
+`docs/seo/search-console-workflow.md` for Search Console exports and page
+refresh work. Validate SEO changes with `npm run test:metadata` and
+`npm run test:seo` before deploy.
+
 ## Commands
 
 ```bash
