@@ -127,7 +127,6 @@ export function buildBlogPostingJsonLd({
   post,
   url,
   author,
-  reviewer,
 }: {
   post: {
     slug: string;
@@ -142,7 +141,6 @@ export function buildBlogPostingJsonLd({
   };
   url: string;
   author: AuthorProfile;
-  reviewer?: AuthorProfile;
 }) {
   return {
     "@context": "https://schema.org",
@@ -163,16 +161,6 @@ export function buildBlogPostingJsonLd({
       url: absoluteUrl(`/authors/${author.slug}`),
       description: author.description,
     },
-    ...(reviewer
-      ? {
-          reviewedBy: {
-            "@type": reviewer.schemaType,
-            name: reviewer.name,
-            url: absoluteUrl(`/authors/${reviewer.slug}`),
-            description: reviewer.description,
-          },
-        }
-      : {}),
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": url,
@@ -190,7 +178,10 @@ export function buildBlogPostingJsonLd({
       "@type": "CreativeWork",
       name: source.title,
       url: source.url,
-      publisher: source.publisher,
+      publisher: {
+        "@type": "Organization",
+        name: source.publisher,
+      },
     })),
     articleSection: post.articleSection,
     inLanguage: "en-US",
@@ -244,13 +235,25 @@ export function buildTrainingToolJsonLd({
   url: string;
   audience: string[];
 }) {
-  return buildEnhancedSoftwareApplicationJsonLd({
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
     name,
     description,
     url,
+    applicationCategory: "UtilitiesApplication",
     applicationSubCategory: "StrengthTrainingTool",
+    operatingSystem: "Any",
+    browserRequirements: "Requires a modern JavaScript-enabled browser",
+    isAccessibleForFree: true,
+    creator: {
+      "@type": "Organization",
+      name: SITE_TITLE,
+      url: SITE_URL,
+    },
     featureList: audience,
-  });
+    image: siteOgImageUrl(),
+  };
 }
 
 export function buildFaqPageJsonLd(

@@ -101,6 +101,34 @@ function getSeoPageBlock(slug) {
   return registry.slice(start, nextStart === -1 ? undefined : nextStart);
 }
 
+function getFunctionBlock(source, functionName) {
+  const start = source.indexOf(`export function ${functionName}`);
+  assert.notEqual(start, -1, `${functionName} missing from SEO helper source`);
+
+  const signatureEnd = source.indexOf(") {", start);
+  assert.notEqual(signatureEnd, -1, `${functionName} signature terminator missing`);
+
+  const bodyStart = signatureEnd + 2;
+
+  let depth = 0;
+  for (let index = bodyStart; index < source.length; index += 1) {
+    const char = source[index];
+    if (char === "{") {
+      depth += 1;
+    } else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        return source.slice(start, index + 1);
+      }
+    }
+  }
+
+  assert.fail(`${functionName} body did not terminate cleanly`);
+}
+
+const blogPostingHelper = getFunctionBlock(seo, "buildBlogPostingJsonLd");
+const trainingToolHelper = getFunctionBlock(seo, "buildTrainingToolJsonLd");
+
 for (const slug of expectedSlugs) {
   assert.match(registry, new RegExp(`slug: "${slug}"`), `${slug} missing from SEO registry`);
 }
@@ -131,6 +159,7 @@ assert.match(blogPostRoute, /dynamicParams\s*=\s*false/, "Blog post route should
 assert.match(blogPostRoute, /buildBlogPostingJsonLd/, "Blog post route should emit the shared BlogPosting schema helper");
 assert.match(blogPostRoute, /getBlogPostInternalLinks/, "Blog post route should render deterministic internal links");
 assert.match(blogPostRoute, /getAuthorUrl/, "Blog post route should link author and reviewer metadata to author pages");
+assert.match(blogPostRoute, /Reviewed by/, "Blog post route should keep the visible review badge");
 assert.match(blogPostRoute, /Editorial methodology/, "Blog post route should expose the methodology link");
 assert.match(blogPostRoute, /post\.sources\.map/, "Blog post route should render the source list");
 assert.match(blogPostRoute, /Medical boundary/, "Blog post route should render a medical boundary callout");
@@ -215,6 +244,32 @@ assert.match(seo, /buildWebPageJsonLd/, "WebPage schema helper missing");
 assert.match(seo, /buildWorkoutPlanJsonLd/, "Workout plan schema helper missing");
 assert.match(seo, /buildFaqPageJsonLd/, "FAQPage schema helper missing");
 assert.match(seo, /buildItemListJsonLd/, "ItemList schema helper missing");
+assert.doesNotMatch(blogPostingHelper, /reviewedBy:/, "BlogPosting schema helper should not emit reviewedBy");
+assert.match(
+  blogPostingHelper,
+  /publisher:\s*\{\s*"@type": "Organization",\s*name: source\.publisher,\s*\}/,
+  "BlogPosting citations should emit schema-compatible publisher organizations",
+);
+assert.match(
+  trainingToolHelper,
+  /"@type": "WebApplication"/,
+  "Training tool schema should identify on-page tools as WebApplication",
+);
+assert.match(
+  trainingToolHelper,
+  /operatingSystem: "Any"/,
+  "Training tool schema should target browser-based tools instead of iOS-only defaults",
+);
+assert.match(
+  trainingToolHelper,
+  /browserRequirements: "Requires a modern JavaScript-enabled browser"/,
+  "Training tool schema should describe browser requirements",
+);
+assert.doesNotMatch(
+  trainingToolHelper,
+  /APP_STORE_URL|offers:|HealthApplication/,
+  "Training tool schema should not inherit native app store defaults",
+);
 assert.match(home, /buildSoftwareApplicationJsonLd/, "Homepage should emit SoftwareApplication schema");
 assert.match(home, /href: "\/science"/, "Homepage should link to the science page");
 assert.match(home, /free-strength-training-app-for-women/, "Homepage should link to new high-intent SEO pages");

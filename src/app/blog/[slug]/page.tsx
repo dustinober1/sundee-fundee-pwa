@@ -142,7 +142,6 @@ export default async function BlogPostPage({ params }: { params: Params }) {
             },
             url,
             author,
-            reviewer,
           }),
         ]}
       />
