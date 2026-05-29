@@ -294,6 +294,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "lower-back-pain-deadlift-modifications": {
     articleIntent: "checklist",
   },
+  "low-ferritin-strength-training-women": {
+    articleIntent: "symptom-audit",
+  },
   "menstrual-cycle-injury-risk-lifting": {
     articleIntent: "compare-options",
   },

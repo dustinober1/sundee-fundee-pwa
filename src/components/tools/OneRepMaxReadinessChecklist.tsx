@@ -93,7 +93,7 @@ export function OneRepMaxReadinessChecklist() {
             Common downgrade
           </p>
           <p className="mt-2 text-sm leading-6 text-muted">
-            If the checklist is mixed, keep the day's intent but turn the max into a
+            If the checklist is mixed, keep the day&apos;s intent but turn the max into a
             heavy single with one or two reps still in reserve.
           </p>
         </div>
