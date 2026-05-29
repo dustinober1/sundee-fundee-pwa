@@ -23,17 +23,17 @@ function loadTsModule(relativePath) {
     fileName: relativePath,
   });
 
-  const module = { exports: {} };
+  const loadedModule = { exports: {} };
   const context = {
-    module,
-    exports: module.exports,
+    module: loadedModule,
+    exports: loadedModule.exports,
     require(specifier) {
       fail(`Unexpected runtime dependency while loading ${relativePath}: ${specifier}`);
     },
   };
 
   vm.runInNewContext(outputText, context, { filename: relativePath });
-  return module.exports;
+  return loadedModule.exports;
 }
 
 function createSource(relativePath, scriptKind) {

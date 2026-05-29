@@ -1,4 +1,3 @@
-import type { SeoPageLink } from "./seo-pages";
 import {
   getPrimaryTopic,
   getRelatedPosts,
