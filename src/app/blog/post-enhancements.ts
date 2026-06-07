@@ -297,6 +297,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "low-ferritin-strength-training-women": {
     articleIntent: "symptom-audit",
   },
+  "luteal-phase-sleep-strength-training": {
+    articleIntent: "decision-guide",
+  },
   "menstrual-cycle-injury-risk-lifting": {
     articleIntent: "compare-options",
   },
