@@ -315,6 +315,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "neck-trap-pain-overhead-press-modifications": {
     articleIntent: "checklist",
   },
+  "night-shift-strength-training-women": {
+    articleIntent: "decision-guide",
+  },
   "one-rep-max-testing-timing-and-protocol": {
     articleIntent: "timeline",
   },
