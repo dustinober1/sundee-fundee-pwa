@@ -234,6 +234,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "elbow-pain-pressing-strength-training": {
     articleIntent: "checklist",
   },
+  "fasted-morning-strength-training-women": {
+    articleIntent: "compare-options",
+  },
   "four-day-upper-lower-strength-plan-women": {
     articleIntent: "protocol",
   },
