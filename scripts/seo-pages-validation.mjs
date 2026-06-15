@@ -54,7 +54,9 @@ const authorsRoute = read("src/app/authors/[author]/page.tsx");
 const methodologyRoute = read("src/app/methodology/page.tsx");
 const workoutPlanRoute = read("src/app/workout-plans/[plan]/page.tsx");
 const science = read("src/app/science/page.tsx");
-const proxy = read("src/proxy.ts");
+const proxy = fs.existsSync(path.join(root, "src/proxy.ts"))
+  ? read("src/proxy.ts")
+  : read("src/middleware.ts");
 const toolsIndexRoute = read("src/app/tools/page.tsx");
 const toolDetailRoute = read("src/app/tools/[tool]/page.tsx");
 const trainingToolsRegistry = read("src/lib/training-tools.ts");

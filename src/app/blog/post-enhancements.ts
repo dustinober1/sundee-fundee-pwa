@@ -216,6 +216,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "barbell-strength-plan-for-women": {
     articleIntent: "compare-options",
   },
+  "breast-tenderness-before-period-strength-training": {
+    articleIntent: "checklist",
+  },
   "breathing-bracing-lifting-technique": {
     articleIntent: "protocol",
   },

@@ -8,7 +8,7 @@ import {
   validateBlogPost,
 } from "./posts";
 
-const TEST_TODAY_ISO = process.env.BLOG_VALIDATION_DATE ?? "2026-06-08";
+const TEST_TODAY_ISO = process.env.BLOG_VALIDATION_DATE ?? "2026-06-15";
 
 const ORGANIC_TRAFFIC_GAP_SLUGS = [
   "garmin-body-battery-strength-training",
