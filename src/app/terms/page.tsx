@@ -128,6 +128,12 @@ export default function TermsPage() {
                   usage, print success, energy costs, labor costs, taxes, fees, or
                   profit.
                 </p>
+                <p>
+                  EyeBreak 20 provides timer-based screen break reminders for
+                  the 20-20-20 habit. It is not medical advice and does not
+                  diagnose, prevent, treat, or cure eye strain, headaches, dry
+                  eyes, or any other condition.
+                </p>
               </div>
             </section>
 

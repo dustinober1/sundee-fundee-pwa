@@ -60,6 +60,16 @@ export default function PrivacyPage() {
                     </span>
                   </li>
                 ))}
+                <li className="flex gap-3">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
+                  <span>
+                    <strong className="text-navy">EyeBreak 20</strong>: The app
+                    does not collect personal data. Timer preferences stay on
+                    your device, local notifications are scheduled on your
+                    device, and optional tips are processed by Apple through
+                    StoreKit.
+                  </span>
+                </li>
               </ul>
             </section>
 
@@ -107,13 +117,15 @@ export default function PrivacyPage() {
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
-                Load That Bar and Sundee 3D Print Cost
+                Load That Bar, Sundee 3D Print Cost, and EyeBreak 20
               </h3>
               <p className="mt-2 leading-relaxed text-muted">
-                Load That Bar and Sundee 3D Print Cost do not collect personal
-                data in the app. Apple may process App Store purchase, download,
-                device, account, and refund information under Apple&apos;s own
-                terms and privacy policies.
+                Load That Bar, Sundee 3D Print Cost, and EyeBreak 20 do not
+                collect personal data in the app. EyeBreak 20 stores timer
+                preferences locally on the device and uses local notifications
+                for break reminders. Apple may process App Store purchase,
+                download, device, account, and refund information under
+                Apple&apos;s own terms and privacy policies.
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">

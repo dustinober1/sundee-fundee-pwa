@@ -127,10 +127,11 @@ export default function EulaPage() {
               <p className="mt-4 leading-relaxed text-muted">
                 Sundee Fundee and Sundee Ruck Tracker provide fitness and
                 training information only. They are not medical devices and do
-                not provide medical advice. Load That Bar and Sundee 3D Print
-                Cost are utility calculators; their outputs depend on the inputs
-                you enter and are not guarantees of safe lifting setup, print
-                success, cost, profit, or tax treatment.
+                not provide medical advice. EyeBreak 20 is a timer-based screen
+                break reminder and is not medical advice. Load That Bar and
+                Sundee 3D Print Cost are utility calculators; their outputs
+                depend on the inputs you enter and are not guarantees of safe
+                lifting setup, print success, cost, profit, or tax treatment.
               </p>
             </section>
 
