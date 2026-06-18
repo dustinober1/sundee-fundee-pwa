@@ -363,6 +363,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "rpe-training-autoregulation-strength": {
     articleIntent: "decision-guide",
   },
+  "seasonal-allergies-strength-training-women": {
+    articleIntent: "decision-guide",
+  },
   "shoulder-pain-bench-press-modifications": {
     articleIntent: "checklist",
   },
