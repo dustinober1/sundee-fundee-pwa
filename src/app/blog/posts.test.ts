@@ -8,7 +8,7 @@ import {
   validateBlogPost,
 } from "./posts";
 
-const TEST_TODAY_ISO = process.env.BLOG_VALIDATION_DATE ?? "2026-06-15";
+const TEST_TODAY_ISO = process.env.BLOG_VALIDATION_DATE ?? "2026-06-17";
 
 const ORGANIC_TRAFFIC_GAP_SLUGS = [
   "garmin-body-battery-strength-training",
@@ -57,12 +57,12 @@ describe("blog content validation", () => {
     const [post] = loadPosts({ todayIso: TEST_TODAY_ISO });
     const invalidPost = {
       ...post,
-      publishedAt: "2026-06-16",
-      updatedAt: "2026-06-16",
+      publishedAt: "2026-06-18",
+      updatedAt: "2026-06-18",
     };
 
     expect(validateBlogPost(invalidPost, TEST_TODAY_ISO)).toContain(
-      `publishedAt 2026-06-16 cannot be after ${TEST_TODAY_ISO}`,
+      `publishedAt 2026-06-18 cannot be after ${TEST_TODAY_ISO}`,
     );
   });
 
