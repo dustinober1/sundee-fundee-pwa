@@ -198,6 +198,9 @@ const defaultChoices = {
 } satisfies Record<BlogArticleIntent, BlogInteractiveModule["choices"]>;
 
 const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
+  "aqi-strength-training-women": {
+    articleIntent: "decision-guide",
+  },
   "apple-health-data-for-strength-training": {
     articleIntent: "compare-options",
   },
