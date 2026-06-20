@@ -10,6 +10,12 @@ import {
 
 const TEST_TODAY_ISO = process.env.BLOG_VALIDATION_DATE ?? "2026-06-18";
 
+function addDays(isoDate: string, days: number) {
+  const value = new Date(`${isoDate}T00:00:00Z`);
+  value.setUTCDate(value.getUTCDate() + days);
+  return value.toISOString().slice(0, 10);
+}
+
 const ORGANIC_TRAFFIC_GAP_SLUGS = [
   "garmin-body-battery-strength-training",
   "whoop-recovery-strength-training",
@@ -55,14 +61,15 @@ describe("blog content validation", () => {
 
   it("rejects a future publish date", () => {
     const [post] = loadPosts({ todayIso: TEST_TODAY_ISO });
+    const futureIso = addDays(TEST_TODAY_ISO, 1);
     const invalidPost = {
       ...post,
-      publishedAt: "2026-06-19",
-      updatedAt: "2026-06-19",
+      publishedAt: futureIso,
+      updatedAt: futureIso,
     };
 
     expect(validateBlogPost(invalidPost, TEST_TODAY_ISO)).toContain(
-      `publishedAt 2026-06-19 cannot be after ${TEST_TODAY_ISO}`,
+      `publishedAt ${futureIso} cannot be after ${TEST_TODAY_ISO}`,
     );
   });
 
