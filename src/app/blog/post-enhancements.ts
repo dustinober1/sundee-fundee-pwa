@@ -427,6 +427,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "weekly-sets-per-muscle-group-women": {
     articleIntent: "decision-guide",
   },
+  "working-out-with-period-diarrhea": {
+    articleIntent: "decision-guide",
+  },
   "when-hrv-is-low-strength-training": {
     articleIntent: "symptom-audit",
   },
