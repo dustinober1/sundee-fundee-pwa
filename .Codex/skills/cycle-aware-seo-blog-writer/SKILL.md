@@ -1,13 +1,13 @@
 ---
 name: cycle-aware-seo-blog-writer
-description: Draft a net-new, 1,200+ word SEO blog article for the Sundee Fundee web repo by analyzing the last 10 published blog JSON files in src/app/blog/content, identifying topical overlap to avoid, selecting a long-tail keyword angle with search intent in mind, enforcing an editorial cadence where every third article focuses on the menstrual cycle or related women's health performance topics, and then writing the article back in the same JSON format, creating and switching to a PR-safe feature branch when needed, committing there, pushing that branch, and opening a pull request.
+description: Draft a net-new, 1,200+ word SEO blog article for the Sundee Fundee web repo by analyzing the last 10 published blog JSON files in src/app/blog/content, identifying topical overlap to avoid, selecting a long-tail keyword angle with search intent in mind, enforcing an editorial cadence where every third article focuses on the menstrual cycle or related women's health performance topics, writing the article back in the same JSON format, adding required blog enhancement metadata, running build/SEO validation, creating and switching to a PR-safe feature branch when needed, committing there, pushing that branch, and opening a pull request.
 ---
 
 # Cycle-Aware SEO Blog Writer
 
 ## Overview
 
-Analyze the latest blog JSON content in `src/app/blog/content/`, determine whether the next article must be cycle-focused, research a differentiated angle, produce a publication-ready article package, write the article in the repo's existing JSON schema, create and switch to a PR-safe feature branch when needed, commit there, push the branch, and open a pull request.
+Analyze the latest blog JSON content in `src/app/blog/content/`, determine whether the next article must be cycle-focused, research a differentiated angle, produce a publication-ready article package, write the article in the repo's existing JSON schema, add the required blog enhancement metadata for the new slug, create and switch to a PR-safe feature branch when needed, commit there, push the branch, and open a pull request.
 
 ## Workflow
 
@@ -18,9 +18,11 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 5. Research a fresh angle and long-tail keyword.
 6. Draft the article using the existing site voice and JSON content shape.
 7. Write the article JSON file in `src/app/blog/content/`.
-8. Commit and push the current branch.
-9. Open a pull request.
-10. Run the final quality gate before returning the result.
+8. Add blog enhancement metadata for the new slug.
+9. Run article, test, SEO, and production build verification.
+10. Commit and push the current branch.
+11. Open a pull request.
+12. Run the final quality gate before returning the result.
 
 ## Preflight
 
@@ -38,7 +40,7 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 ## Discover Recent Content
 
 - Always use `src/app/blog/content/` as the canonical blog content directory.
-- Run `scripts/discover_recent_articles.py --root <repo-root> --limit 10`.
+- Run `scripts/discover_recent_articles.py --root <repo-root> --limit 10`. If the repo root does not include this script, run the bundled skill script at `.Codex/skills/cycle-aware-seo-blog-writer/scripts/discover_recent_articles.py` with `python3`.
 - Review the returned latest 10 JSON articles. Read enough of each article to capture title, publish date, tags, primary topic, audience, primary angle, likely keyword, and repeated themes.
 - Treat the script output as discovery, not truth. If ordering or metadata looks wrong, inspect the files directly and correct the working set.
 - Use one or more recent JSON files as the formatting template for the new article.
@@ -121,15 +123,39 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 ## Write the Article File
 
 - Write the new article into `src/app/blog/content/<slug>.json`.
-- Use `scripts/write_article_json.py` when the standard schema is sufficient.
+- Use `scripts/write_article_json.py` when the standard schema is sufficient. If the repo root does not include this script, run the bundled skill script at `.Codex/skills/cycle-aware-seo-blog-writer/scripts/write_article_json.py` with `python3`.
 - If a nearby article includes required fields the script does not cover, extend the payload to match the repo before writing.
 - After writing, reopen the file and verify valid JSON, correct key names, expected date fields, and body formatting.
+
+## Add Blog Enhancement Metadata
+
+- Every new article slug must have an entry in `src/app/blog/post-enhancements.ts`; otherwise `next build` fails while collecting `/blog` page data.
+- Add the new slug to `postEnhancementsBySlug` with the article intent that matches the draft:
+  - `decision-guide` for green/yellow/red or train/modify/skip decision articles
+  - `compare-options` for option-selection or tradeoff articles
+  - `metric-explainer` for wearable or data-signal articles
+  - `checklist` for pain, modification, or form audit articles
+  - `protocol` for ordered process articles
+  - `symptom-audit` for symptom or recovery-warning articles
+  - `timeline` for staged return, phase, or progression articles
+- Include `src/app/blog/post-enhancements.ts` in the staged changes whenever a new article is added.
+- If tests fail because `BLOG_VALIDATION_DATE` or a hardcoded test date is stale, update the test to use the production `getTodayIso()` helper or set an explicit current validation date; do not weaken future-date validation.
+
+## Verify Locally Before Commit
+
+- Run all of these before committing and before opening the PR:
+  - `npm test`
+  - `npm run build`
+  - `npm run test:metadata`
+  - `npm run test:seo`
+- Also parse all blog JSON files and confirm the new article is at least 1,200 words.
+- If `npm run build` fails with `Missing blog enhancement metadata for <slug>`, add or fix the `postEnhancementsBySlug` entry before proceeding.
 
 ## Commit, Push, and Open the PR
 
 - Use the current branch if it is already a non-default branch.
 - If preflight created a new branch, use that branch for all subsequent git, push, and PR steps.
-- Stage only the new article file and any directly related metadata file you created. Never stage unrelated changes.
+- Stage only the new article file, `src/app/blog/post-enhancements.ts`, and any directly related metadata/test file you changed. Never stage unrelated changes.
 - Create a focused commit message such as `feat(blog): add article on <topic>`.
 - Push the current branch to `origin` first so it exists remotely.
 - Open the PR non-interactively with explicit values rather than relying on prompts or `--fill`.
@@ -141,6 +167,7 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
   - reason the topic is different from recent posts
   - whether the cadence required a cycle-focused article
   - paths changed
+  - verification commands run, including `npm run build`
 - If `gh` auth, remote configuration, or push permissions fail, stop and report the exact blocker.
 
 ## Final Quality Gate
@@ -154,6 +181,11 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
   - headings are descriptive and search-intent aligned
   - JSON is valid and matches the repo schema
   - article file was written to `src/app/blog/content/`
+  - `src/app/blog/post-enhancements.ts` includes the new slug
+  - `npm test` passed
+  - `npm run build` passed
+  - `npm run test:metadata` passed
+  - `npm run test:seo` passed
   - commit succeeded on the intended branch
   - branch was pushed successfully
   - pull request URL or number is available
