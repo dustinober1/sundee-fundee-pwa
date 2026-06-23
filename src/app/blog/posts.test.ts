@@ -3,12 +3,13 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { getAuthor } from "../../lib/authors";
 import {
+  getTodayIso,
   HEALTH_ADJACENT_TAGS,
   loadPosts,
   validateBlogPost,
 } from "./posts";
 
-const TEST_TODAY_ISO = process.env.BLOG_VALIDATION_DATE ?? "2026-06-18";
+const TEST_TODAY_ISO = getTodayIso();
 
 function addDays(isoDate: string, days: number) {
   const value = new Date(`${isoDate}T00:00:00Z`);

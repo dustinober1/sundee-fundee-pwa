@@ -228,6 +228,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "cardio-and-strength-training-for-women": {
     articleIntent: "compare-options",
   },
+  "caffeine-before-strength-training-women": {
+    articleIntent: "decision-guide",
+  },
   "choose-starting-weights-strength-training-women": {
     articleIntent: "protocol",
   },
