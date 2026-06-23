@@ -273,6 +273,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "deload-week-programming-strength-training": {
     articleIntent: "decision-guide",
   },
+  "deload-week-menstrual-cycle-strength-training": {
+    articleIntent: "decision-guide",
+  },
   "deload-week-sleep-soreness-training-history": {
     articleIntent: "decision-guide",
   },
