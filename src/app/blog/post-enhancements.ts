@@ -396,6 +396,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "strength-training-after-drinking-alcohol": {
     articleIntent: "decision-guide",
   },
+  "strength-training-after-eating-big-meal": {
+    articleIntent: "decision-guide",
+  },
   "strength-training-in-the-heat-women": {
     articleIntent: "decision-guide",
   },
