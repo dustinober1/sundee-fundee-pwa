@@ -243,6 +243,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "elbow-pain-pressing-strength-training": {
     articleIntent: "checklist",
   },
+  "endometriosis-strength-training": {
+    articleIntent: "symptom-audit",
+  },
   "fasted-morning-strength-training-women": {
     articleIntent: "compare-options",
   },
