@@ -157,6 +157,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.45,
     },
     {
+      url: `${SITE_URL}/support`,
+      lastModified: siteLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.35,
+    },
+    {
       url: `${SITE_URL}/support/eyebreak20`,
       lastModified: siteLastModified,
       changeFrequency: "monthly" as const,

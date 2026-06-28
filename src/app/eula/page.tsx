@@ -132,6 +132,10 @@ export default function EulaPage() {
                 Sundee 3D Print Cost are utility calculators; their outputs
                 depend on the inputs you enter and are not guarantees of safe
                 lifting setup, print success, cost, profit, or tax treatment.
+                Pressure Wash Quote Maker is a quoting utility; its outputs are
+                estimates based on user-entered business assumptions and are not
+                professional, legal, tax, chemical, safety, or surface
+                compatibility advice.
               </p>
             </section>
 

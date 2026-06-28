@@ -134,6 +134,13 @@ export default function TermsPage() {
                   diagnose, prevent, treat, or cure eye strain, headaches, dry
                   eyes, or any other condition.
                 </p>
+                <p>
+                  Pressure Wash Quote Maker provides job quote estimates based
+                  on user-entered pricing, surface, fee, discount, labor, and
+                  business assumptions. It does not guarantee final pricing,
+                  cost, profit, tax, legal, chemical, safety, or surface
+                  compatibility outcomes.
+                </p>
               </div>
             </section>
 

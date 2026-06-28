@@ -91,7 +91,7 @@ export function SiteHeader({
             alt="Sundee Fundee"
             width={40}
             height={40}
-            className="rounded-full"
+            className="h-10 w-10 rounded-full object-cover"
           />
           <span className="font-display text-xl font-semibold text-navy">
             Sundee Fundee

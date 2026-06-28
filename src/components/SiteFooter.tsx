@@ -33,7 +33,8 @@ const footerSections = [
     title: "Support",
     links: [
       { href: "/apps", label: "Apps" },
-      { href: "/donate", label: "Support" },
+      { href: "/support", label: "Support" },
+      { href: "/donate", label: "Donate" },
       { href: "/roadmap", label: "Roadmap" },
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms" },

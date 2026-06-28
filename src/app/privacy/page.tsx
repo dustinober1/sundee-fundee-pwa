@@ -70,6 +70,17 @@ export default function PrivacyPage() {
                     StoreKit.
                   </span>
                 </li>
+                <li className="flex gap-3">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
+                  <span>
+                    <strong className="text-navy">
+                      Pressure Wash Quote Maker
+                    </strong>
+                    : The app does not collect personal data. Quotes, customer
+                    details you enter, pricing settings, presets, business
+                    details, and terms are stored locally by the app.
+                  </span>
+                </li>
               </ul>
             </section>
 
@@ -117,15 +128,18 @@ export default function PrivacyPage() {
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
-                Load That Bar, Sundee 3D Print Cost, and EyeBreak 20
+                Load That Bar, Sundee 3D Print Cost, EyeBreak 20, and Pressure
+                Wash Quote Maker
               </h3>
               <p className="mt-2 leading-relaxed text-muted">
-                Load That Bar, Sundee 3D Print Cost, and EyeBreak 20 do not
-                collect personal data in the app. EyeBreak 20 stores timer
-                preferences locally on the device and uses local notifications
-                for break reminders. Apple may process App Store purchase,
-                download, device, account, and refund information under
-                Apple&apos;s own terms and privacy policies.
+                Load That Bar, Sundee 3D Print Cost, EyeBreak 20, and Pressure
+                Wash Quote Maker do not collect personal data in the app.
+                EyeBreak 20 stores timer preferences locally on the device and
+                uses local notifications for break reminders. Pressure Wash
+                Quote Maker stores quote and pricing data locally in the app.
+                Apple may process App Store purchase, download, device, account,
+                and refund information under Apple&apos;s own terms and privacy
+                policies.
               </p>
 
               <h3 className="mt-6 font-display text-lg font-semibold text-navy">
