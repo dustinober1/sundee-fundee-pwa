@@ -255,6 +255,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "garmin-body-battery-strength-training": {
     articleIntent: "metric-explainer",
   },
+  "high-resting-heart-rate-before-workout": {
+    articleIntent: "metric-explainer",
+  },
   "hip-pain-squat-deadlift-modifications": {
     articleIntent: "checklist",
   },
