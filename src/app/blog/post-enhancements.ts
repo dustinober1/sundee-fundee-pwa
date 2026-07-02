@@ -369,6 +369,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "strength-training-when-you-have-a-cold": {
     articleIntent: "decision-guide",
   },
+  "strength-training-with-sore-throat": {
+    articleIntent: "decision-guide",
+  },
   "perimenopause-strength-training-programming": {
     articleIntent: "timeline",
   },
