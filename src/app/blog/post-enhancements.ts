@@ -381,6 +381,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "strength-training-with-sore-throat": {
     articleIntent: "decision-guide",
   },
+  "strength-training-with-sunburn": {
+    articleIntent: "decision-guide",
+  },
   "perimenopause-strength-training-programming": {
     articleIntent: "timeline",
   },
