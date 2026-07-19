@@ -472,6 +472,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "top-set-back-off-set-programming": {
     articleIntent: "protocol",
   },
+  "three-day-full-body-strength-training-women": {
+    articleIntent: "protocol",
+  },
   "two-day-strength-training-plan-women": {
     articleIntent: "protocol",
   },
