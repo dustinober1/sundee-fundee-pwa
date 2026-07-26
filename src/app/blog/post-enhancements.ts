@@ -291,6 +291,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "deload-week-sleep-soreness-training-history": {
     articleIntent: "decision-guide",
   },
+  "dizziness-before-period-strength-training": {
+    articleIntent: "symptom-audit",
+  },
   "double-progression-strength-training-women": {
     articleIntent: "protocol",
   },
