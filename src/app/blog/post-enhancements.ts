@@ -512,6 +512,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
     articleIntent: "decision-guide",
     placement: "before-body",
   },
+  "autoregulating-strength-training-menstrual-cycle": {
+    articleIntent: "protocol",
+  },
 };
 
 const promptByIntent: Record<BlogArticleIntent, string> = {
