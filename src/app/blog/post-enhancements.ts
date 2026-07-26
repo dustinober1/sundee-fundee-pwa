@@ -372,6 +372,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "poor-sleep-before-period-strength-training": {
     articleIntent: "protocol",
   },
+  "powerlifting-meet-on-your-period": {
+    articleIntent: "protocol",
+  },
   "pms-cravings-before-strength-training": {
     articleIntent: "protocol",
   },
