@@ -67,6 +67,8 @@ next-env.d.ts
 
 # tool outputs
 .claude/
+!.claude/skills/
+!.claude/skills/**
 .planning/
 .worktrees/
 graphify-out/
