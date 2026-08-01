@@ -27,11 +27,11 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 
 ## Preflight
 
-- Run these commands before writing or staging anything:
-  - `gh auth status`
-  - `git remote get-url origin`
-  - `git branch --show-current`
-- If any command fails, stop immediately and report the exact blocker.
+- Confirm GitHub access before writing or staging anything:
+  - If the `gh` CLI is available, run `gh auth status`.
+  - Otherwise (e.g. in a Claude Code on the web / remote session), confirm GitHub access via the available GitHub MCP tool (for example `mcp__github__get_me`), and confirm the target repo is in scope for this session.
+- Run `git remote get-url origin` and `git branch --show-current`.
+- If any check fails, stop immediately and report the exact blocker.
 - Determine the default branch with `git symbolic-ref refs/remotes/origin/HEAD` or an equivalent non-interactive command.
 - If the current branch is the default branch, automatically create and switch to a new branch before making any content changes.
 - Name the new branch with a deterministic blog prefix such as `blog/<yyyy-mm-dd>-<short-topic>` or `feat/blog-<short-topic>`.
@@ -41,7 +41,7 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 ## Discover Recent Content
 
 - Always use `src/app/blog/content/` as the canonical blog content directory.
-- Run `scripts/discover_recent_articles.py --root <repo-root> --limit 20`. If the repo root does not include this script, run the bundled skill script at `.Codex/skills/cycle-aware-seo-blog-writer/scripts/discover_recent_articles.py` with `python3`.
+- Run `scripts/discover_recent_articles.py --root <repo-root> --limit 20`. If the repo root does not include this script, run the bundled skill script at `.claude/skills/cycle-aware-seo-blog-writer/scripts/discover_recent_articles.py` with `python3`.
 - Review the returned latest 20 JSON articles. Read enough of each article to capture title, publish date, tags, primary topic, audience, primary angle, likely keyword, existing internal links, external source style, and repeated themes.
 - Treat the script output as discovery, not truth. If ordering or metadata looks wrong, inspect the files directly and correct the working set.
 - Use one or more recent JSON files as the formatting template for the new article.
@@ -75,7 +75,7 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 
 ## Research and Keyword Selection
 
-- Use available internet research tooling to verify current facts and identify long-tail keyword opportunities. Prefer primary sources and strong editorial or clinical sources when health claims are involved.
+- Use available internet research tooling (e.g. WebSearch / WebFetch) to verify current facts and identify long-tail keyword opportunities. Prefer primary sources and strong editorial or clinical sources when health claims are involved.
 - Match the keyword to one clear search intent: informational, comparison, or problem-solving.
 - Favor long-tail phrases with realistic specificity over broad head terms.
 - For health, nutrition, injury, cycle, pregnancy, postpartum, perimenopause, supplements, medication, illness, and environmental-safety claims, use current authoritative external references. Prefer peer-reviewed papers, consensus statements, government health pages, medical institution pages, professional organizations, or established sports-nutrition bodies.
@@ -150,7 +150,7 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 ## Write the Article File
 
 - Write the new article into `src/app/blog/content/<slug>.json`.
-- Use `scripts/write_article_json.py` when the standard schema is sufficient. If the repo root does not include this script, run the bundled skill script at `.Codex/skills/cycle-aware-seo-blog-writer/scripts/write_article_json.py` with `python3`.
+- Use `scripts/write_article_json.py` when the standard schema is sufficient. If the repo root does not include this script, run the bundled skill script at `.claude/skills/cycle-aware-seo-blog-writer/scripts/write_article_json.py` with `python3`.
 - If a nearby article includes required fields the script does not cover, extend the payload to match the repo before writing.
 - After writing, reopen the file and verify valid JSON, correct key names, expected date fields, and body formatting.
 - Verify that every internal link resolves to an existing route or article slug in the repo.
@@ -189,10 +189,12 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
 - If preflight created a new branch, use that branch for all subsequent git, push, and PR steps.
 - Stage only the new article file, `src/app/blog/post-enhancements.ts`, and any directly related metadata/test file you changed. Never stage unrelated changes.
 - Create a focused commit message such as `feat(blog): add article on <topic>`.
-- Push the current branch to `origin` first so it exists remotely.
-- Open the PR non-interactively with explicit values rather than relying on prompts or `--fill`.
-- Use `gh pr create --base <base-branch> --head <current-branch> --title <pr-title> --body-file <temp-file>`.
-- Use `--draft` only when the user explicitly wants a draft PR.
+- Push the current branch to `origin` first (`git push -u origin <branch>`) so it exists remotely.
+- Open the PR non-interactively with explicit values:
+  - If the `gh` CLI is available: `gh pr create --base <base-branch> --head <current-branch> --title <pr-title> --body-file <temp-file>`.
+  - Otherwise, use the GitHub MCP tool for creating pull requests (for example `mcp__github__create_pull_request`) with the same base, head, title, and body.
+- Check the repo for a PR template (`.github/pull_request_template.md`, `.github/PULL_REQUEST_TEMPLATE.md`, or similar) and mirror its section headings when one exists.
+- Only open a draft PR if explicitly instructed to.
 - The PR body should include:
   - article title
   - primary keyword
@@ -202,7 +204,7 @@ Analyze the latest blog JSON content in `src/app/blog/content/`, determine wheth
   - external sources used
   - paths changed
   - verification commands run, including `npm run build`
-- If `gh` auth, remote configuration, or push permissions fail, stop and report the exact blocker.
+- If GitHub auth, remote configuration, or push permissions fail, stop and report the exact blocker.
 
 ## Final Quality Gate
 
