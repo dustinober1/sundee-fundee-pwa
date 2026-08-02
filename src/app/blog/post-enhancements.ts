@@ -303,6 +303,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "glp-1-strength-training-keep-muscle": {
     articleIntent: "compare-options",
   },
+  "grip-strength-training-women-who-lift": {
+    articleIntent: "protocol",
+  },
   "heavy-periods-strength-training": {
     articleIntent: "symptom-audit",
   },
