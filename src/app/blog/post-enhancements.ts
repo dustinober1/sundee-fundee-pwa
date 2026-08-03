@@ -336,6 +336,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "menstrual-cycle-injury-risk-lifting": {
     articleIntent: "compare-options",
   },
+  "menstrual-cycle-muscle-soreness-recovery": {
+    articleIntent: "decision-guide",
+  },
   "menstrual-migraine-strength-training": {
     articleIntent: "symptom-audit",
   },
