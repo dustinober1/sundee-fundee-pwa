@@ -484,6 +484,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "strength-training-during-period-modifications": {
     articleIntent: "decision-guide",
   },
+  "sauna-cold-plunge-after-strength-training-women": {
+    articleIntent: "compare-options",
+  },
   "top-set-back-off-set-programming": {
     articleIntent: "protocol",
   },
