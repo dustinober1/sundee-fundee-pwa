@@ -321,6 +321,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "lift-weights-with-period-cramps": {
     articleIntent: "decision-guide",
   },
+  "lifting-after-iud-insertion": {
+    articleIntent: "timeline",
+  },
   "lifting-weights-with-torn-callus": {
     articleIntent: "checklist",
   },
