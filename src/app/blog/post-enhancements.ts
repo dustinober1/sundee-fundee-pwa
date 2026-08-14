@@ -533,6 +533,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "autoregulating-strength-training-menstrual-cycle": {
     articleIntent: "protocol",
   },
+  "wrist-pain-lifting-weights-modifications": {
+    articleIntent: "checklist",
+  },
 };
 
 const promptByIntent: Record<BlogArticleIntent, string> = {
