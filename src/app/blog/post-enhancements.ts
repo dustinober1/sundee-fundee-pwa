@@ -536,6 +536,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "wrist-pain-lifting-weights-modifications": {
     articleIntent: "checklist",
   },
+  "strength-training-during-pregnancy-trimester-guide": {
+    articleIntent: "timeline",
+  },
 };
 
 const promptByIntent: Record<BlogArticleIntent, string> = {
