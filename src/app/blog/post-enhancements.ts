@@ -542,6 +542,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "strength-training-during-pregnancy-trimester-guide": {
     articleIntent: "timeline",
   },
+  "hot-flashes-during-strength-training": {
+    articleIntent: "protocol",
+  },
 };
 
 const promptByIntent: Record<BlogArticleIntent, string> = {
