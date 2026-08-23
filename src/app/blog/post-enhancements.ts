@@ -261,6 +261,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "high-resting-heart-rate-before-workout": {
     articleIntent: "metric-explainer",
   },
+  "hernia-symptoms-lifting-weights": {
+    articleIntent: "checklist",
+  },
   "hip-pain-squat-deadlift-modifications": {
     articleIntent: "checklist",
   },
