@@ -402,6 +402,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "pms-joint-pain-strength-training": {
     articleIntent: "symptom-audit",
   },
+  "pmdd-strength-training": {
+    articleIntent: "symptom-audit",
+  },
   "strength-training-when-you-have-a-cold": {
     articleIntent: "decision-guide",
   },
