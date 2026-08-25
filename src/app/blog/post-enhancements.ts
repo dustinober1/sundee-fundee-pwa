@@ -551,6 +551,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "hot-flashes-during-strength-training": {
     articleIntent: "protocol",
   },
+  "strength-training-for-bone-density": {
+    articleIntent: "protocol",
+  },
 };
 
 const promptByIntent: Record<BlogArticleIntent, string> = {
