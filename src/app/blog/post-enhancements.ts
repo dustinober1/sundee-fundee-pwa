@@ -554,6 +554,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "strength-training-for-bone-density": {
     articleIntent: "protocol",
   },
+  "urinary-leakage-lifting-weights": {
+    articleIntent: "checklist",
+  },
 };
 
 const promptByIntent: Record<BlogArticleIntent, string> = {
