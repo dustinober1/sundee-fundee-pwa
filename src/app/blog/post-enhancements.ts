@@ -339,6 +339,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "luteal-phase-sleep-strength-training": {
     articleIntent: "decision-guide",
   },
+  "magnesium-for-women-who-lift": {
+    articleIntent: "compare-options",
+  },
   "menstrual-cycle-injury-risk-lifting": {
     articleIntent: "compare-options",
   },
