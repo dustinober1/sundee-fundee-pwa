@@ -563,6 +563,9 @@ const postEnhancementsBySlug: Record<string, BlogPostEnhancement> = {
   "urinary-leakage-lifting-weights": {
     articleIntent: "checklist",
   },
+  "achilles-heel-pain-lifting-weights-modifications": {
+    articleIntent: "checklist",
+  },
 };
 
 const promptByIntent: Record<BlogArticleIntent, string> = {
